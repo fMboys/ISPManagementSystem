@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="API/API.csproj" Id="89088586-2feb-4fae-9ceb-c9a992f61714" />
   <Project Path="Core/Core.csproj" Id="8b5c229f-ecb5-4065-9dc9-f74c99a2487e" />
   <Project Path="Infrastructure/Infrastructure.csproj" Id="1e516310-1dcf-4308-b6bb-4a2790a874e4" />
   <Project Path="ISPWinUI/ISPWinUI.csproj" />
