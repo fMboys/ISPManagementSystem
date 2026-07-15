@@ -1,0 +1,14 @@
+export interface ICustomerResponse {
+    customerID: number;
+    customerName: string | null;
+    phoneNumber: number | null;
+    city: string | null;
+    package: string | null;
+    amount: number | null;
+    remainingAmount: number | null;
+    status: string | null;
+    billDate: Date | null;
+    billPaidDate: Date | null;
+    dueBillDate: Date | null;
+    modifiedBy: string | null;
+}

@@ -1,1 +1,12 @@
 <app-nav-bar></app-nav-bar>
+
+<div class="container" style="margin-top: 150px;">
+    <h1> Welcome to {{ title() }} </h1>
+<ul>
+    @for (customer of customers(); track customer.customerID){
+        <li class="list-unstyled">
+        {{ customer.customerName}}
+        </li>
+    }
+</ul>
+</div>

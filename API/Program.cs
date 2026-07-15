@@ -13,6 +13,17 @@ try
 	// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 	builder.Services.AddOpenApi();
 
+    // Add CORS policy to allow requests from Angular UI
+    builder.Services.AddCors(options =>
+	{
+		options.AddPolicy("AngularUI", policy =>
+		{
+			policy.WithOrigins("http://localhost:4200") // No trailing slashs
+            .AllowAnyMethod().AllowAnyHeader()
+			.AllowCredentials(); // Remove this line if you use AllowAnyOrigin()
+		});
+	});
+
 	builder.Services.AddDbContext<ISPDBContext>(options =>
 	{
 		options.UseSqlServer(builder.Configuration.GetConnectionString("ISPDbString"));
@@ -27,7 +38,10 @@ try
 		app.MapScalarApiReference();
 	}
 
-	app.UseHttpsRedirection();
+    // CRITICAL: Place UseCors after UseRouting, but BEFORE UseAuthentication / UseAuthorization
+    app.UseCors("AngularUI");
+
+    app.UseHttpsRedirection();
 
 	app.UseAuthorization();
 
