@@ -1,4 +1,4 @@
-export interface ICustomerResponse {
+export interface ICustomerDto {
     customerID: number;
     customerName: string | null;
     phoneNumber: number | null;

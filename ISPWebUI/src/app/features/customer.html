@@ -1,0 +1,7 @@
+<ul>
+    @for (customer of customers?.value(); track customer.customerID){
+        <li class="list-unstyled">
+        {{ customer.customerName}}
+        </li>
+    }
+</ul>
