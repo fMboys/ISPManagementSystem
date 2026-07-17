@@ -1,16 +1,16 @@
 import { Component, effect, inject, OnInit, signal, Signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavBar } from "./core/nav-bar/nav-bar";
-import { Customer } from "./features/customer";
+import { Home } from "./features/home/home";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavBar, Customer],
+  imports: [RouterOutlet, NavBar, Home],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App implements OnInit {
-  protected readonly title = signal('ISPWebUI');
+  protected readonly title = signal('ISP Management System');
 
   constructor() {}
 
