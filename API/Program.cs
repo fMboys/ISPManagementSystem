@@ -55,7 +55,17 @@ try
 	app.MapGet("/api/Customers/{id:int}", async (int id, ISPDBContext dbContext) =>
 		await dbContext.Customers.FindAsync(id) is Customer customer ? Results.Ok(customer) : Results.NotFound());
 
-	app.Run();
+    // Error handling endpoint for testing purposes
+    app.MapGet("api/error-test", () =>
+    {
+        return Results.Problem(
+            detail: "Something went wrong while processing your request.",
+            statusCode: StatusCodes.Status500InternalServerError,
+            title: "Internal Server Error"
+        );
+    });
+
+    app.Run();
 }
 catch (Exception ex)
 {
