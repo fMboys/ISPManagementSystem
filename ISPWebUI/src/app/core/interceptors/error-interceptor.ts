@@ -30,7 +30,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             break;
           case 500:
             console.error('Error 500: Internal Server Error');
-            router.navigateByUrl('/server-error');
+            const navigationExtras = { state: { error: error.error}};
+            router.navigateByUrl('/server-error', navigationExtras);
             break;
           default:
             console.error(`Error ${error.status}: ${error.message}`);

@@ -12,10 +12,6 @@ export class TestError {
   private httpClient = inject(HttpClient);
   baseUrl = environment.apiUrl;
 
-  // get500Error() {
-  //         return this.httpClient.get<any>(this.baseUrl + 'error-test');
-  //     }
-
   get500Error() {
     this.httpClient.get(this.baseUrl + 'error-test').subscribe({
       next: (response) => {
