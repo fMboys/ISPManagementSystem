@@ -1,7 +1,56 @@
-<ul>
-    @for (customer of customers?.value(); track customer.customerID){
-        <li class="list-unstyled">
-        {{ customer.customerName}}
-        </li>
-    }
-</ul>
+<div class="pb-3 px-5">
+    <!-- <div class="container"> -->
+        <div class="row">
+            <div class="col-12 py-3 mb-1">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="bg-dark">
+                                    <div class="p-1 px-2 text-uppercase" style="font-size:x-small; color: white;">Name</div>
+                                </th>
+                                <th scope="col" class="bg-dark">
+                                    <div class="p-1 px-2 text-uppercase" style="font-size: x-small;color: white;">Package</div>
+                                </th>
+                                <th scope="col" class="bg-dark">
+                                    <div class="p-1 px-2 text-uppercase" style="font-size: x-small;color: white;">Bill Amount</div>
+                                </th>
+                                <th scope="col" class="bg-dark">
+                                    <div class="p-1 px-2 text-uppercase" style="font-size: x-small;color: white;">Bill Date</div>
+                                </th>
+                                <th scope="col" class="bg-dark">
+                                    <div class="p-1 px-2 text-uppercase" style="font-size: x-small;color: white;">Due Date</div>
+                                </th>
+                                <th scope="col" class="bg-dark">
+                                    <div class="p-1 px-2 text-uppercase" style="font-size: x-small;color: white;">Status</div>
+                                </th>
+                                <th scope="col" class="bg-dark">
+                                    <div class="p-1 px-2 text-uppercase" style="font-size: x-small;color: white;">Action</div>
+                                </th>
+                                <th scope="col" class="bg-dark">
+                                    <div class="p-1 px-2 text-uppercase" style="font-size: x-small;color: white;">Pay</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (customer of customers?.value(); track customer.customerID){
+                                <tr>
+                                    <td style="font-size: small;">{{customer.customerName}}</td>
+                                    <td style="font-size: small;">{{customer.package}}</td>
+                                    <td style="font-size: small;">{{customer.amount}}</td>
+                                    <td style="font-size: small;">{{customer.billDate}}</td>
+                                    <td style="font-size: small;">{{customer.dueBillDate}}</td>
+                                    <td style="font-size: small;">{{customer.status}}</td>
+                                    <td class="d-flex gap-1"><div class="btn btn-sm btn-outline-primary">View</div>
+                                        <div class="btn btn-sm btn-outline-warning">Edit</div></td>
+                                    <td style="font-size: small;"><div class="btn btn-sm btn-success">Pay</div></td>
+                                </tr>
+                            }
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>

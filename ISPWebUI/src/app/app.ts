@@ -10,7 +10,6 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
   styleUrl: './app.css'
 })
 export class App implements OnInit {
-  protected readonly title = signal('ISP Management System');
 
   constructor() {}
 

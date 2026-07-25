@@ -1,4 +1,5 @@
 <div class="container">
+    <div class="row"><h2>{{title()}}</h2></div>
     <div class="row">
         <div class="col-md-12">
             <div class="album py-5 bg-body-tertiary">
@@ -19,7 +20,7 @@
                             </div>
                         </div>
                         <div class="col">
-                            <div class="card h-100 shadow-sm">
+                            <div class="card h-100 shadow-sm" role="button" tabindex="1" [routerLink]="['/customers']">
                                 <img src="assets/customer-retention.png" class="card-img-top" alt="Manage Customers">
                                 <div class="card-body">
                                     <p class="card-text">Manage Customers</p>
