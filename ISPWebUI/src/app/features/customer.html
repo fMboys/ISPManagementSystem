@@ -1,4 +1,9 @@
 <div class="pb-3 px-5">
+    <div class="d-flex justify-content-end">
+        <section>
+            <button class="btn btn-primary">Add New Customer</button>
+        </section>
+    </div>
     <!-- <div class="container"> -->
         <div class="row">
             <div class="col-12 py-3 mb-1">
@@ -41,14 +46,19 @@
                                     <td style="font-size: small;">{{customer.billDate}}</td>
                                     <td style="font-size: small;">{{customer.dueBillDate}}</td>
                                     <td style="font-size: small;">{{customer.status}}</td>
-                                    <td class="d-flex gap-1"><div class="btn btn-sm btn-outline-primary">View</div>
-                                        <div class="btn btn-sm btn-outline-warning">Edit</div></td>
+                                    <td class="d-flex gap-1">
+                                        <div class="btn btn-sm btn-outline-primary" (click)="viewCustomer(customer)">View</div>
+                                        <div class="btn btn-sm btn-outline-warning" (click)="editCustomer(customer)">Edit</div></td>
                                     <td style="font-size: small;"><div class="btn btn-sm btn-success">Pay</div></td>
                                 </tr>
                             }
                             
                         </tbody>
                     </table>
+
+                    @if (selectedCustomer(); as c) {
+                        <app-customer-modal [customer]="c" [mode]="modalMode()" (close)="closeModal()" (save)="updateCustomer($event)"/>
+                    }
                 </div>
             </div>
         </div>
