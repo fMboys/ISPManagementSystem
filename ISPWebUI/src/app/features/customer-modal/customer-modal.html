@@ -30,15 +30,16 @@
                     </div>
 
                 } @else {
-                    <form #f="ngForm" (ngSubmit)="onUpdate(f.value)">
+                    <form #f="ngForm" (ngSubmit)="onSave(f)">
                         <div class="row">
                             <div class="col-6 mb-3">
                                 <label for="" class="form-label">Name</label>
                                 <input type="text" class="form-control" name="name" [(ngModel)]="customer().customerName" required>
+                                    <div class="invalid-feedback">Please enter customer name.</div>
                             </div>
                             <div class="col-6 mb-3">
                                 <label for="" class="form-label">Phone Number</label>
-                                <input class="form-control" name="phoneNumber" [(ngModel)]="customer().phoneNumber" required>
+                                <input class="form-control" name="phoneNumber" [(ngModel)]="customer().phoneNumber" required phoneNumber>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Update</button>

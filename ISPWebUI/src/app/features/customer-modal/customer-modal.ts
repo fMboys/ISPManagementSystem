@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { ICustomerDto } from '../../shared/models/customerDto';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-customer-modal',
@@ -15,7 +15,17 @@ export class CustomerModal {
   save = output<ICustomerDto>();  
 
   //TODO: Implement Save/update functionality funtion
-  onUpdate(form : any){
+  onSave(form : NgForm){
+    if (form.invalid) {
+      Object.values(form.controls).forEach(control => control.markAsUntouched());
+      return; // did not emit if the form is not valid
+    }
 
+    const updatedCustomer: ICustomerDto = {
+      ...this.customer(),
+      ...form.value,
+    };
+
+    this.save.emit(updatedCustomer);
   }
 }

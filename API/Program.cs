@@ -1,4 +1,5 @@
 using Core.Entities;
+using Core.Entities.Identity;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -29,6 +30,12 @@ try
 		options.UseSqlServer(builder.Configuration.GetConnectionString("ISPDbString"));
 	});
 
+	//builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+	//{
+	//	options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDbConnection"));
+	//});
+
+
 	var app = builder.Build();
 
 	// Configure the HTTP request pipeline.
@@ -55,7 +62,28 @@ try
 	app.MapGet("/api/Customers/{id:int}", async (int id, ISPDBContext dbContext) =>
 		await dbContext.Customers.FindAsync(id) is Customer customer ? Results.Ok(customer) : Results.NotFound());
 
-    // Error handling endpoint for testing purposes
+	// Update customer
+	app.MapPatch("/api/UpdateCustomer/{id:int}", async (int id, Customer customer, ISPDBContext dbContext) =>
+	{
+		var oCustomer = await dbContext.Customers.FindAsync(id);
+		if (oCustomer == null) { return Results.NotFound(); }
+
+		oCustomer.CustomerName = customer.CustomerName;
+		oCustomer.City = customer.City;
+		oCustomer.PhoneNumber = customer.PhoneNumber;
+		oCustomer.Package = customer.Package;
+		oCustomer.Amount = customer.Amount;
+		oCustomer.BillDate = customer.BillDate;
+		oCustomer.DueBillDate = customer.DueBillDate;
+		oCustomer.BillPaidDate = customer.BillPaidDate;
+		oCustomer.Status = customer.Status;
+
+		await dbContext.SaveChangesAsync();
+		return Results.NoContent();
+
+	});
+	
+	// Error handling endpoint for testing purposes
     app.MapGet("api/error-test", () =>
     {
         return Results.Problem(
