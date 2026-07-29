@@ -15,6 +15,7 @@ export const routes: Routes = [
 //     loadComponent: () => import('./customer-form/customer-form').then(m => m.CustomerFormComponent),
 //   },
     {path: 'customer-modal', loadComponent: () => import('./features/customer-modal/customer-modal').then(e => e.CustomerModal)},
+    {path: 'login', loadComponent: () => import('./features/account/login/login').then(x => x.Login)},
     {path: 'not-found',
         loadComponent: () => import('./core/errorHandler/not-found/not-found').then(e => e.NotFound)
     },
