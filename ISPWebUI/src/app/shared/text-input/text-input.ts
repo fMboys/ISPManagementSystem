@@ -24,10 +24,13 @@ export class TextInput implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     const control = this.controlDir.control;
-    const validators = this.controlDir.validator ? [this.controlDir.validator] : []; // todo debug
+    const validators = this.controlDir.validator ? [this.controlDir.validator] : [];
     const asyncValidators = this.controlDir.asyncValidator ? [this.controlDir.asyncValidator] : []; // This is for API validators to check after request
 
-    control?.setValidators([Validators.required]);
+    const mergedValidators = [...validators, Validators.required, Validators.email];
+
+    control?.setValidators(validators);
+    // control?.setValidators(mergedValidators);
     control?.setAsyncValidators(asyncValidators);
     control?.updateValueAndValidity();
   }

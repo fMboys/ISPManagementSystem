@@ -11,9 +11,9 @@
                 @if (controlDir.control.errors?.['required']) {
                     <span>{{label}} is required</span>
                 }
-                <!-- @if (controlDir.control?.hasError('email')) {
+                @if (controlDir.control?.errors?.['email']) {
                     <span>Invalid email address</span>
-                } -->
+                }
             </div>
           }
         </div>

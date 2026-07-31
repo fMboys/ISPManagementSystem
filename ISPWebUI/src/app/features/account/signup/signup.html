@@ -1,0 +1,15 @@
+
+<p>signup</p>
+<div class="d-flex justify-content-center mt-5">
+  <div class="col-3">
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+      <!-- Reuseable customer text input validator- use this you have a big form with many fields. -->
+        <app-text-input formControlName="name" [label]="'Name'"></app-text-input>
+        <app-text-input formControlName="email" [label]="'Email'" [type]="'email'"></app-text-input>
+        <app-text-input formControlName="password" [label]="'Password'" [type]="'password'"></app-text-input>
+
+      <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
+    </form>
+  </div>
+</div>
