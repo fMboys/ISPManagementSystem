@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.VisualBasic;
 
 namespace ISPWinUI
 {
@@ -59,9 +60,23 @@ namespace ISPWinUI
         {
             try
             {
+                // ignore header / invalid clicks
+                if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+                // ensure "Status" column exists
+                var statusCol = dgvCustomers.Columns["Status"];
+                if (statusCol == null) return;
+
+                var row = dgvCustomers.Rows[e.RowIndex];
+                if (row == null) return;
+
+                var statusCell = row.Cells[statusCol.Index];
+                var value = statusCell?.Value?.ToString() ?? string.Empty;
+
                 string colName = dgvCustomers.Columns[e.ColumnIndex].Name;
+
                 // Example: Get value from DataGridView cell
-                string value = dgvCustomers.Rows[e.RowIndex].Cells["Status"].Value.ToString();
+                //string value = dgvCustomers.Rows[e.RowIndex].Cells["Status"].Value.ToString();
 
                 if (colName == "Paid")
                 {
@@ -143,7 +158,7 @@ namespace ISPWinUI
                 reader = sqlCommand.ExecuteReader();
                 while (reader.Read())
                 {
-                    DateTime billDate = (DateTime)reader["BillDate"];
+                    DateTime billDate = reader["BillDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["BillDate"]);
                     if (DateTime.Now >= billDate && reader["Status"].ToString() == "Paid")
                     {
                         customersToUpdate.Add((int)reader["CustomerID"]);
