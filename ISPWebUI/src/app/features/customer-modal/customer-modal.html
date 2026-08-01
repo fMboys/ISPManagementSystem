@@ -1,0 +1,51 @@
+<div class="modal-backdrop show"></div>
+<div class="modal show d-block" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ mode() === 'edit' ? 'Edit' : 'View'}} Customer</h5>
+                <button type="button" class="btn-close" (click)="close.emit()"></button>
+            </div>
+            <div class="modal-body">
+                @if (mode() === 'view') {
+                    <div class="row">
+                        <div class="col-sm-6"><p><strong>ID:</strong> {{customer().customerID}}</p></div>
+                        <div class="col-sm-6"><p><strong>Customer Name:</strong> {{customer().customerName}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6"><p><strong>Phone Number:</strong> {{customer().phoneNumber}}</p></div>
+                        <div class="col-6"><p><strong>City/Village:</strong> {{customer().city}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6"><p><strong>Package:</strong> {{customer().package}}</p></div>
+                        <div class="col-6"><p><strong>Rate:</strong> {{customer().amount}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6"><p><strong>Bill Date:</strong> {{customer().billDate}}</p></div>
+                        <div class="col-6"><p><strong>Due Date:</strong> {{customer().dueBillDate}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6"><p><strong>Bill Paid Date:</strong> {{customer().billPaidDate}}</p></div>
+                        <div class="col-6"><p><strong>Status:</strong> {{customer().status}}</p></div>
+                    </div>
+
+                } @else {
+                    <form #f="ngForm" (ngSubmit)="onSave(f)">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="name" [(ngModel)]="customer().customerName" required>
+                                    <div class="invalid-feedback">Please enter customer name.</div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="" class="form-label">Phone Number</label>
+                                <input class="form-control" name="phoneNumber" [(ngModel)]="customer().phoneNumber" required phoneNumber>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
