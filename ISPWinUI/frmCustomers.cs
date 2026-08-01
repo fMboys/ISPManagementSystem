@@ -1,15 +1,18 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.VisualBasic;
+using System.Data;
+using System.IO.Packaging;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ISPWinUI
 {
-    public partial class frmCustomers : Form
+    public partial class frmCustomerList : Form
     {
         SqlConnection sqlConnection = new SqlConnection();
         SqlCommand sqlCommand = new SqlCommand();
         DAL dbConnection = new DAL();
         SqlDataReader reader;
-        public frmCustomers()
+        public frmCustomerList()
         {
             InitializeComponent();
             sqlConnection = new SqlConnection(dbConnection.GetConnectionString());
@@ -25,7 +28,7 @@ namespace ISPWinUI
                 dgvCustomers.Rows.Clear();
                 CheckBillStatus();
                 sqlConnection.Open();
-                sqlCommand = new SqlCommand("SELECT * FROM tblCustomers", sqlConnection);
+                sqlCommand = new SqlCommand("SELECT c.CustomerID, c.CustomerName, c.PhoneNumber,c.City, c.Package, c.Amount, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID", sqlConnection);
                 reader = sqlCommand.ExecuteReader();
 
                 while (reader.Read())
@@ -78,20 +81,23 @@ namespace ISPWinUI
                 // Example: Get value from DataGridView cell
                 //string value = dgvCustomers.Rows[e.RowIndex].Cells["Status"].Value.ToString();
 
-                if (colName == "Paid")
+                if (colName == "PayBill")
                 {
                     if (value != "Paid")
                     {
-                        if (MessageBox.Show("Are you sure you want to Paid this customer?", "Customer Paid", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        {
-                            sqlConnection.Open();
-                            sqlCommand = new SqlCommand("UPDATE tblCustomers SET RemainingAmount=0, BillDate=DATEADD(MONTH, 1, BillDate), BillPaidDate=GETDATE(), DueBillDate=DATEADD(DAY, 5, DATEADD(MONTH, 1, BillDate)), Status='Paid' WHERE CustomerID=@CustomerID", sqlConnection);
-                            sqlCommand.Parameters.AddWithValue("@CustomerID", dgvCustomers.Rows[e.RowIndex].Cells[1].Value.ToString());
-                            sqlCommand.ExecuteNonQuery();
-                            sqlConnection.Close();
-                            MessageBox.Show("Customer Paid Successfully!", "Customer Paid", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        BillPayment();
+
+                        //if (MessageBox.Show("Are you sure you want to Paid this customer?", "Customer Paid", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        //{
+                            //sqlConnection.Open();
+
+                            //sqlCommand = new SqlCommand("UPDATE tblBillings SET RemainingAmount=0, BillDate=DATEADD(MONTH, 1, BillDate), BillPaidDate=GETDATE(), DueBillDate=DATEADD(DAY, 5, DATEADD(MONTH, 1, BillDate)), Status='Paid' WHERE CustomerID=@CustomerID", sqlConnection);
+                            //sqlCommand.Parameters.AddWithValue("@CustomerID", dgvCustomers.Rows[e.RowIndex].Cells[1].Value.ToString());
+                            //sqlCommand.ExecuteNonQuery();
+                            //sqlConnection.Close();
+                            //MessageBox.Show("Customer Paid Successfully!", "Customer Paid", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             GetCustomers();
-                        } 
+                        //} 
                     }
                     else
                         MessageBox.Show("Customer has already Paid the bill!", "Bill Paid", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -104,7 +110,7 @@ namespace ISPWinUI
                     if (customerId >= 0)
                     {
                         sqlConnection.Open();
-                        sqlCommand = new SqlCommand("SELECT * FROM tblCustomers WHERE CustomerID=@CustomerID", sqlConnection);
+                        sqlCommand = new SqlCommand("SELECT c.CustomerID, c.CustomerName, c.PhoneNumber,c.City, c.Package, b.Amount, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID WHERE c.CustomerID=@CustomerID", sqlConnection);
                         sqlCommand.Parameters.AddWithValue("@CustomerID", customerId);
                         reader = sqlCommand.ExecuteReader();
                         if (reader.Read())
@@ -146,6 +152,35 @@ namespace ISPWinUI
             }
         }
 
+        private void BillPayment()
+        {
+            try
+            {
+                frmBillPayment billPayment = new frmBillPayment();
+                int customerId = Convert.ToInt32(dgvCustomers.CurrentRow.Cells["CustomerID"].Value);
+                billPayment.lblCustomerID.Text = customerId.ToString();
+                decimal currentBill = Convert.ToDecimal(string.IsNullOrEmpty(dgvCustomers.CurrentRow.Cells["Bill"].Value.ToString()) ? "0" : dgvCustomers.CurrentRow.Cells["Bill"].Value);
+                decimal remainingBill = Convert.ToDecimal(string.IsNullOrEmpty(dgvCustomers.CurrentRow.Cells["RemainingAmount"].Value.ToString()) ? "0" : dgvCustomers.CurrentRow.Cells["RemainingAmount"].Value);
+                
+                billPayment.txtCustomer.Text = dgvCustomers.CurrentRow.Cells["Name"].Value.ToString();
+                billPayment.txtBill.Text = currentBill.ToString();
+                billPayment.txtRemainingBill.Text = remainingBill.ToString();
+                billPayment.txtTotalBill.Text = (currentBill + remainingBill).ToString();
+                billPayment.txtEnterAmount.Text = currentBill.ToString();
+
+                billPayment.ShowDialog();
+                //sqlConnection.Open();
+                //sqlCommand = new SqlCommand("UPDATE tblCustomers SET RemainingAmount=0, BillDate=DATEADD(MONTH, 1, BillDate), BillPaidDate=GETDATE(), DueBillDate=DATEADD(DAY, 5, DATEADD(MONTH, 1, BillDate)), Status='Paid' WHERE CustomerID=@CustomerID", sqlConnection);
+                //sqlCommand.Parameters.AddWithValue("@CustomerID", customerId);
+                //sqlCommand.ExecuteNonQuery();
+                //sqlConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         private void CheckBillStatus()
         {
             try
@@ -154,7 +189,7 @@ namespace ISPWinUI
 
                 // First pass: collect data
                 sqlConnection.Open();
-                sqlCommand = new SqlCommand("SELECT CustomerID, BillDate, Status FROM tblCustomers", sqlConnection);
+                sqlCommand = new SqlCommand("SELECT CustomerID, BillDate, Status FROM tblBillings", sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 while (reader.Read())
                 {
@@ -173,7 +208,7 @@ namespace ISPWinUI
                     sqlConnection.Open();
                     foreach (int customerId in customersToUpdate)
                     {
-                        sqlCommand = new SqlCommand("UPDATE tblCustomers SET Status='Not Paid' WHERE CustomerID=@CustomerID", sqlConnection);
+                        sqlCommand = new SqlCommand("UPDATE tblBillings SET Status='Not Paid' WHERE CustomerID=@CustomerID", sqlConnection);
                         sqlCommand.Parameters.Clear();
                         sqlCommand.Parameters.AddWithValue("@CustomerID", customerId);
                         sqlCommand.ExecuteNonQuery();

@@ -1,6 +1,6 @@
 ﻿namespace ISPWinUI
 {
-    partial class frmCustomers
+    partial class frmCustomerList
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCustomers));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCustomerList));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             pnlCus = new Panel();
             btnCusClose = new PictureBox();
@@ -45,7 +45,7 @@
             DueDate = new DataGridViewTextBoxColumn();
             Status = new DataGridViewTextBoxColumn();
             Edit = new DataGridViewImageColumn();
-            Paid = new DataGridViewImageColumn();
+            PayBill = new DataGridViewImageColumn();
             pnlCus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusClose).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCustomers).BeginInit();
@@ -89,7 +89,7 @@
             dgvCustomers.AllowUserToAddRows = false;
             dgvCustomers.ColumnHeadersHeight = 50;
             dgvCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvCustomers.Columns.AddRange(new DataGridViewColumn[] { CusNo, CustomerID, Name, City, Package, Bill, RemainingAmount, BillDate, DueDate, Status, Edit, Paid });
+            dgvCustomers.Columns.AddRange(new DataGridViewColumn[] { CusNo, CustomerID, Name, City, Package, Bill, RemainingAmount, BillDate, DueDate, Status, Edit, PayBill });
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Window;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
@@ -202,24 +202,24 @@
             // Edit
             // 
             Edit.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            Edit.HeaderText = "Add/Edit";
+            Edit.HeaderText = "View/Edit";
             Edit.Image = (Image)resources.GetObject("Edit.Image");
             Edit.MinimumWidth = 10;
             Edit.Name = "Edit";
             Edit.Resizable = DataGridViewTriState.True;
             Edit.SortMode = DataGridViewColumnSortMode.Automatic;
-            Edit.Width = 151;
+            Edit.Width = 159;
             // 
-            // Paid
+            // PayBill
             // 
-            Paid.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            Paid.HeaderText = "Paid";
-            Paid.Image = (Image)resources.GetObject("Paid.Image");
-            Paid.MinimumWidth = 10;
-            Paid.Name = "Paid";
-            Paid.Width = 64;
+            PayBill.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            PayBill.HeaderText = "Pay";
+            PayBill.Image = (Image)resources.GetObject("PayBill.Image");
+            PayBill.MinimumWidth = 10;
+            PayBill.Name = "PayBill";
+            PayBill.Width = 56;
             // 
-            // frmCustomers
+            // frmCustomerList
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -228,7 +228,7 @@
             Controls.Add(dgvCustomers);
             Controls.Add(pnlCus);
             FormBorderStyle = FormBorderStyle.None;
-            //Name = "frmCustomers";
+            //Name = "frmCustomerList";
             StartPosition = FormStartPosition.CenterScreen;
             pnlCus.ResumeLayout(false);
             pnlCus.PerformLayout();
@@ -254,6 +254,6 @@
         private DataGridViewTextBoxColumn DueDate;
         private DataGridViewTextBoxColumn Status;
         private DataGridViewImageColumn Edit;
-        private DataGridViewImageColumn Paid;
+        private DataGridViewImageColumn PayBill;
     }
 }

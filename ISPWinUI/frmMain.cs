@@ -28,8 +28,9 @@ namespace ISPWinUI
         {
             try
             {
-                frmCustomers frmCustomers = new frmCustomers();
-                frmCustomers.ShowDialog();
+                frmCustomerManager customerManager = new frmCustomerManager();
+                frmCustomerList frmCustomers = new frmCustomerList();
+                customerManager.ShowDialog();
             }
             catch (Exception ex)
             {

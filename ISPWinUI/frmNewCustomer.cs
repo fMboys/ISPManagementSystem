@@ -1,0 +1,185 @@
+﻿using Microsoft.Data.SqlClient;
+using System.Text.RegularExpressions;
+
+namespace ISPWinUI
+{
+    public partial class frmNewCustomer : Form
+    {
+        SqlConnection sqlConnection = new SqlConnection();
+        SqlCommand sqlCommand = new SqlCommand();
+        SqlDataReader reader;
+        DAL dal = new DAL();
+        public frmNewCustomer()
+        {
+            InitializeComponent();
+            BindNumbericKeyPressEventHandlers();
+            sqlConnection = new SqlConnection(dal.GetConnectionString());
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            // add code to save new customer to database
+            try
+            {
+                // Read values from form controls
+                string customerName = txtCustomerName?.Text?.Trim() ?? string.Empty;
+                string phone = txtPhoneNumber?.Text?.Trim() ?? string.Empty;
+                string city = txtCity?.Text?.Trim() ?? string.Empty;
+                string package = !string.IsNullOrEmpty(txtPackage?.Text?.Trim()) ? txtPackage.Text + " Mbps" : string.Empty;
+                decimal rate = decimal.TryParse(txtRate?.Text, out var r) ? r : 0m;
+                DateTime connectionDate = dtpConnectionDate.Value; // add check for null
+                //DateTime dueDate = connectionDate.AddDays(35); // Example: due date is one month after connection date
+                //DateTime lastBillPaidDate = DateTime.Parse("01/01/1900"); // Example: default previous bill date
+
+                if (string.IsNullOrWhiteSpace(customerName))
+                {
+                    MessageBox.Show("Customer name is required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                //var connStr = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"]?.ConnectionString;
+                //if (string.IsNullOrWhiteSpace(connStr))
+                //{
+                //    System.Windows.Forms.MessageBox.Show("Database connection string 'DefaultConnection' not found. Please add it to app.config.", "Configuration", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                //    return;
+                //}
+
+                //using (var conn = new System.Data.SqlClient.SqlConnection(connStr))
+                using (var cmd = sqlConnection.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO tblCustomers (CustomerName, PhoneNumber, City, Package, Amount, ConnectionDate, ModifiedBy)
+                        VALUES (@CustomerName, @PhoneNumber, @City, @Package, @Amount, @ConnectionDate, @ModifiedBy);
+                        SELECT SCOPE_IDENTITY();"; // add it if want to add increamental id and return it in code.
+
+                    cmd.Parameters.AddWithValue("@CustomerName", customerName);
+                    cmd.Parameters.AddWithValue("@PhoneNumber", phone);
+                    cmd.Parameters.AddWithValue("@City", city);
+                    cmd.Parameters.AddWithValue("@Package", package);
+                    cmd.Parameters.AddWithValue("@Amount", rate < 0 ? 0 : rate);
+                    cmd.Parameters.AddWithValue("@Status", "Not Paid");
+                    cmd.Parameters.AddWithValue("@ConnectionDate", string.IsNullOrEmpty(connectionDate.ToString()) ? (object)DBNull.Value : connectionDate);
+                    //cmd.Parameters.AddWithValue("@BillPaidDate", string.IsNullOrEmpty(lastBillPaidDate.ToString()) ? (object)DBNull.Value : lastBillPaidDate);
+                    //cmd.Parameters.AddWithValue("@DueBillDate", string.IsNullOrEmpty(dueDate.ToString()) ? DBNull.Value : dueDate);
+                    cmd.Parameters.AddWithValue("@ModifiedBy", "Admin");
+                    cmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
+
+                    sqlConnection.Open();
+                    cmd.ExecuteNonQuery();
+
+                    //add it if want to add increamental id and return it in code.
+                    //var idObj = cmd.ExecuteScalar();
+                    //int newId = 0;
+                    //if (idObj != null && int.TryParse(idObj.ToString(), out newId))
+                    //{
+                    //    // Optionally store the new customer's id, e.g. this.Tag = newId;
+                    //}
+                }
+
+                MessageBox.Show("Customer saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Close or reset form as appropriate:
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                sqlConnection.Close();
+                MessageBox.Show("Failed to save customer: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCusClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearFrom();
+        }
+
+        private void ClearFrom()
+        {
+            txtCustomerName.Clear();
+            txtPhoneNumber.Clear();
+            txtCity.Clear();
+            txtPackage.Clear();
+            txtRate.Clear();
+            dtpConnectionDate.Value = DateTime.Now;
+        }
+
+        private void BindNumbericKeyPressEventHandlers()
+        {
+            txtPhoneNumber.KeyPress += NumericTextBox_KeyPress;
+            txtPhoneNumber.TextChanged += NumericTextBox_TextChanged;
+
+            txtPackage.KeyPress += NumericTextBox_KeyPress;
+            txtPackage.KeyPress += NumericTextBox_TextChanged;
+
+            txtRate.KeyPress += NumericTextBox_KeyPress;
+            txtRate.KeyPress += NumericTextBox_TextChanged;
+        }
+
+        // 1. Reusable method to block non-numeric typing
+        private void NumericTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox == null) return;
+
+            // Allow digits and control keys (like Backspace)
+            if (char.IsDigit(e.KeyChar) || char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            // Allow a decimal point, but ONLY if the text box doesn't already contain one
+            if (e.KeyChar == '.' && !textBox.Text.Contains("."))
+            {
+                return;
+            }
+
+            // Reject everything else
+            e.Handled = true;
+        }
+
+        // 2. Reusable method to block non-numeric pasting
+        private void NumericTextBox_TextChanged(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            if (textBox == null || string.IsNullOrEmpty(textBox.Text)) return;
+
+            // Allow a solitary decimal point while the user is actively typing
+            if (textBox.Text == ".") return;
+
+            // If the text cannot be successfully parsed as a decimal, clean it up
+            if (!double.TryParse(textBox.Text, out _))
+            {
+                // Remove characters that aren't digits or periods
+                string cleanText = Regex.Replace(textBox.Text, "[^0-9.]", "");
+
+                // Strip out any extra decimal points after the first one
+                int firstDot = cleanText.IndexOf('.');
+                if (firstDot != -1)
+                {
+                    cleanText = cleanText.Substring(0, firstDot + 1) +
+                                cleanText.Substring(firstDot + 1).Replace(".", "");
+                }
+
+                textBox.Text = cleanText;
+                textBox.SelectionStart = textBox.Text.Length; // Keep cursor at the end
+            }
+
+            //TextBox textBox = sender as TextBox;
+
+            //if (textBox != null && Regex.IsMatch(textBox.Text, "[^0-9]"))
+            //{
+            //    // Strip non-digits instantly
+            //    textBox.Text = Regex.Replace(textBox.Text, "[^0-9]", "");
+
+            //    // Retain cursor position at the end
+            //    textBox.SelectionStart = textBox.Text.Length;
+            //}
+        }
+
+    }
+}
