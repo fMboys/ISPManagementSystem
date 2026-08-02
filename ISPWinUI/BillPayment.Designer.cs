@@ -44,6 +44,7 @@
             label5 = new Label();
             btnPayBill = new Button();
             lblCustomerID = new Label();
+            lblConnectionDate = new Label();
             pnlCus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusClose).BeginInit();
             SuspendLayout();
@@ -164,6 +165,7 @@
             txtEnterAmount.Name = "txtEnterAmount";
             txtEnterAmount.Size = new Size(269, 43);
             txtEnterAmount.TabIndex = 12;
+            txtEnterAmount.KeyPress += txtEnterAmount_KeyPress;
             // 
             // label5
             // 
@@ -195,6 +197,16 @@
             lblCustomerID.Name = "lblCustomerID";
             lblCustomerID.Size = new Size(0, 32);
             lblCustomerID.TabIndex = 14;
+            lblCustomerID.Visible = false;
+            // 
+            // lblConnectionDate
+            // 
+            lblConnectionDate.AutoSize = true;
+            lblConnectionDate.Location = new Point(21, 430);
+            lblConnectionDate.Name = "lblConnectionDate";
+            lblConnectionDate.Size = new Size(0, 32);
+            lblConnectionDate.TabIndex = 15;
+            lblConnectionDate.Visible = false;
             // 
             // frmBillPayment
             // 
@@ -202,6 +214,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(601, 514);
             ControlBox = false;
+            Controls.Add(lblConnectionDate);
             Controls.Add(lblCustomerID);
             Controls.Add(btnPayBill);
             Controls.Add(txtEnterAmount);
@@ -217,6 +230,7 @@
             Controls.Add(pnlCus);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "frmBillPayment";
+            StartPosition = FormStartPosition.CenterScreen;
             pnlCus.ResumeLayout(false);
             pnlCus.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusClose).EndInit();
@@ -242,5 +256,6 @@
         public Button btnPayBill;
         private Button button1;
         public Label lblCustomerID;
+        public Label lblConnectionDate;
     }
 }

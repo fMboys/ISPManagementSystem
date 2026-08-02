@@ -18,7 +18,6 @@ namespace ISPWinUI
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // add code to save new customer to database
             try
             {
                 // Read values from form controls
@@ -27,7 +26,7 @@ namespace ISPWinUI
                 string city = txtCity?.Text?.Trim() ?? string.Empty;
                 string package = !string.IsNullOrEmpty(txtPackage?.Text?.Trim()) ? txtPackage.Text + " Mbps" : string.Empty;
                 decimal rate = decimal.TryParse(txtRate?.Text, out var r) ? r : 0m;
-                DateTime connectionDate = dtpConnectionDate.Value; // add check for null
+                DateTime connectionDate = dtpConnectionDate.Value;
                 //DateTime dueDate = connectionDate.AddDays(35); // Example: due date is one month after connection date
                 //DateTime lastBillPaidDate = DateTime.Parse("01/01/1900"); // Example: default previous bill date
 
@@ -168,17 +167,6 @@ namespace ISPWinUI
                 textBox.Text = cleanText;
                 textBox.SelectionStart = textBox.Text.Length; // Keep cursor at the end
             }
-
-            //TextBox textBox = sender as TextBox;
-
-            //if (textBox != null && Regex.IsMatch(textBox.Text, "[^0-9]"))
-            //{
-            //    // Strip non-digits instantly
-            //    textBox.Text = Regex.Replace(textBox.Text, "[^0-9]", "");
-
-            //    // Retain cursor position at the end
-            //    textBox.SelectionStart = textBox.Text.Length;
-            //}
         }
 
     }

@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ISPWinUI
 {
@@ -36,16 +37,25 @@ namespace ISPWinUI
                 {
                     // Read values from form controls
                     int customerId = Convert.ToInt32(lblCustomerID?.Text?.Trim() ?? "0");
+                    DateTime connectionDate = DateTime.Parse(lblConnectionDate?.Text?.Trim() ?? DateTime.Now.ToString());
                     string customerName = txtCustomer?.Text?.Trim() ?? string.Empty;
                     decimal bill = Convert.ToDecimal(txtBill?.Text?.Trim() ?? "0");
                     //decimal remianingBill = Convert.ToDecimal(txtRemainingBill?.Text?.Trim() ?? "0");
                     decimal totalBill = Convert.ToDecimal(txtTotalBill?.Text?.Trim() ?? "0");
                     decimal paidBill = Convert.ToDecimal(txtEnterAmount?.Text?.Trim() ?? "0");
                     decimal remianingBill = totalBill - paidBill;
-                    DateTime billDate = DateTime.Now.AddMonths(1); // add check for null
-                    DateTime dueDate = billDate.AddDays(35); // Example: due date is one month after connection date
+
+                    //DateTime billDate = connectionDate.AddMonths(D); // add check for null
+                    //DateTime dueDate = billDate.AddDays(35); // Example: due date is one month after connection date
                     DateTime lastBillPaidDate = DateTime.Now; // Example: default previous bill date
                     string status = "Paid";
+
+                    while (connectionDate <= lastBillPaidDate)
+                    {
+                        connectionDate = connectionDate.AddMonths(1);
+                    }
+                    DateTime nextBillDate = connectionDate;
+                    DateTime dueDate = nextBillDate.AddDays(35);
 
                     using (var cmd = sqlConnection.CreateCommand())
                     {
@@ -59,7 +69,7 @@ namespace ISPWinUI
                         cmd.Parameters.AddWithValue("@PaidAmount", paidBill < 0 ? 0 : paidBill);
                         cmd.Parameters.AddWithValue("@RemainingAmount", remianingBill);
                         cmd.Parameters.AddWithValue("@Status", status);
-                        cmd.Parameters.AddWithValue("@BillDate", billDate);
+                        cmd.Parameters.AddWithValue("@BillDate", nextBillDate);
                         cmd.Parameters.AddWithValue("@BillPaidDate", string.IsNullOrEmpty(lastBillPaidDate.ToString()) ? (object)DBNull.Value : lastBillPaidDate);
                         cmd.Parameters.AddWithValue("@DueBillDate", string.IsNullOrEmpty(dueDate.ToString()) ? DBNull.Value : dueDate);
                         cmd.Parameters.AddWithValue("@ModifiedBy", "Admin");
@@ -84,6 +94,27 @@ namespace ISPWinUI
                 sqlConnection.Close();
                 MessageBox.Show("Bill payment failed: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void txtEnterAmount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox == null) return;
+
+            // Allow digits and control keys (like Backspace)
+            if (char.IsDigit(e.KeyChar) || char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            // Allow a decimal point, but ONLY if the text box doesn't already contain one
+            if (e.KeyChar == '.' && !textBox.Text.Contains("."))
+            {
+                return;
+            }
+
+            // Reject everything else
+            e.Handled = true;
         }
     }
 }

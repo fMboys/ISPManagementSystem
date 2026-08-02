@@ -29,7 +29,6 @@ namespace ISPWinUI
             try
             {
                 frmCustomerManager customerManager = new frmCustomerManager();
-                frmCustomerList frmCustomers = new frmCustomerList();
                 customerManager.ShowDialog();
             }
             catch (Exception ex)

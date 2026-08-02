@@ -12,6 +12,7 @@ namespace ISPWinUI
         SqlCommand sqlCommand = new SqlCommand();
         DAL dbConnection = new DAL();
         SqlDataReader reader;
+        private DateTime connectionDate;
         public frmCustomerList()
         {
             InitializeComponent();
@@ -26,19 +27,23 @@ namespace ISPWinUI
             {
                 int i = 0;
                 dgvCustomers.Rows.Clear();
-                CheckBillStatus();
+                //CheckBillStatus();
                 sqlConnection.Open();
-                sqlCommand = new SqlCommand("SELECT c.CustomerID, c.CustomerName, c.PhoneNumber,c.City, c.Package, c.Amount, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID", sqlConnection);
+                sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, City, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.City, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
                 reader = sqlCommand.ExecuteReader();
 
                 while (reader.Read())
                 {
                     i += 1;
-                    dgvCustomers.Rows.Add(i, reader["CustomerID"].ToString(), reader["CustomerName"].ToString(), reader["City"].ToString(), reader["Package"].ToString(),
-                        reader["Amount"].ToString(), reader["RemainingAmount"].ToString(),
-                        string.IsNullOrEmpty((reader["BillDate"]).ToString()) ? "" : ((DateTime)reader["BillDate"]).ToString("dd-MM-yyyy"),
-                        string.IsNullOrEmpty((reader["DueBillDate"]).ToString()) ? "" : ((DateTime)reader["DueBillDate"]).ToString("dd-MM-yyyy"),
-                        reader["Status"].ToString());
+                    DateTime billDate = reader["BillDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["BillDate"]);
+                    
+                    dgvCustomers.Rows.Add(i, reader["CustomerID"].ToString(), reader["ConnectionDate"].ToString(), reader["CustomerName"].ToString(), reader["City"].ToString(), reader["Package"].ToString(),
+                    reader["Amount"].ToString(), reader["RemainingAmount"].ToString(),
+                    string.IsNullOrEmpty((reader["BillDate"]).ToString()) ? "" : ((DateTime)reader["BillDate"]).ToString("dd-MM-yyyy"),
+                    string.IsNullOrEmpty((reader["DueBillDate"]).ToString()) ? "" : ((DateTime)reader["DueBillDate"]).ToString("dd-MM-yyyy"),
+                    (DateTime.Now >= billDate && reader["Status"].ToString() == "Paid") ? "Not Paid" : reader["Status"].ToString());
+                    
+                    
                     //if (reader["Status"].ToString() == "Paid")
                     //{
                     //    dgvCustomers.Rows.DefaultCellStyle.BackColor = System.Drawing.Color.LightGreen;
@@ -110,7 +115,7 @@ namespace ISPWinUI
                     if (customerId >= 0)
                     {
                         sqlConnection.Open();
-                        sqlCommand = new SqlCommand("SELECT c.CustomerID, c.CustomerName, c.PhoneNumber,c.City, c.Package, b.Amount, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID WHERE c.CustomerID=@CustomerID", sqlConnection);
+                        sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, City, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.City, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
                         sqlCommand.Parameters.AddWithValue("@CustomerID", customerId);
                         reader = sqlCommand.ExecuteReader();
                         if (reader.Read())
@@ -158,7 +163,9 @@ namespace ISPWinUI
             {
                 frmBillPayment billPayment = new frmBillPayment();
                 int customerId = Convert.ToInt32(dgvCustomers.CurrentRow.Cells["CustomerID"].Value);
+                DateTime connectionDate = Convert.ToDateTime(dgvCustomers.CurrentRow.Cells["connDate"].Value ?? "1900/01/01");
                 billPayment.lblCustomerID.Text = customerId.ToString();
+                billPayment.lblConnectionDate.Text = connectionDate.ToString("dd-MM-yyyy");
                 decimal currentBill = Convert.ToDecimal(string.IsNullOrEmpty(dgvCustomers.CurrentRow.Cells["Bill"].Value.ToString()) ? "0" : dgvCustomers.CurrentRow.Cells["Bill"].Value);
                 decimal remainingBill = Convert.ToDecimal(string.IsNullOrEmpty(dgvCustomers.CurrentRow.Cells["RemainingAmount"].Value.ToString()) ? "0" : dgvCustomers.CurrentRow.Cells["RemainingAmount"].Value);
                 
@@ -169,11 +176,6 @@ namespace ISPWinUI
                 billPayment.txtEnterAmount.Text = currentBill.ToString();
 
                 billPayment.ShowDialog();
-                //sqlConnection.Open();
-                //sqlCommand = new SqlCommand("UPDATE tblCustomers SET RemainingAmount=0, BillDate=DATEADD(MONTH, 1, BillDate), BillPaidDate=GETDATE(), DueBillDate=DATEADD(DAY, 5, DATEADD(MONTH, 1, BillDate)), Status='Paid' WHERE CustomerID=@CustomerID", sqlConnection);
-                //sqlCommand.Parameters.AddWithValue("@CustomerID", customerId);
-                //sqlCommand.ExecuteNonQuery();
-                //sqlConnection.Close();
             }
             catch (Exception ex)
             {
@@ -189,16 +191,21 @@ namespace ISPWinUI
 
                 // First pass: collect data
                 sqlConnection.Open();
-                sqlCommand = new SqlCommand("SELECT CustomerID, BillDate, Status FROM tblBillings", sqlConnection);
+                sqlCommand = new SqlCommand("WITH UniqueCustomerBills AS (SELECT BillID, CustomerID, Amount, Status, BillDate,\r\n        ROW_NUMBER() OVER (PARTITION BY CustomerID ORDER BY BillID DESC) as RowNum\r\n    FROM tblBillings WHERE Status = 'Paid' and BillDate <= getdate())\r\nSELECT BillID, CustomerID, Amount, Status, BillDate FROM UniqueCustomerBills WHERE RowNum = 1;", sqlConnection);
                 reader = sqlCommand.ExecuteReader();
-                while (reader.Read())
+                
+                if (reader.HasRows)
                 {
-                    DateTime billDate = reader["BillDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["BillDate"]);
-                    if (DateTime.Now >= billDate && reader["Status"].ToString() == "Paid")
+                    while (reader.Read())
                     {
-                        customersToUpdate.Add((int)reader["CustomerID"]);
+                        DateTime billDate = reader["BillDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["BillDate"]);
+                        if (DateTime.Now >= billDate && reader["Status"].ToString() == "Paid")
+                        {
+                            customersToUpdate.Add((int)reader["CustomerID"]);
+                        }
                     }
                 }
+                
                 reader.Close();
                 sqlConnection.Close();
 
@@ -206,9 +213,11 @@ namespace ISPWinUI
                 if (customersToUpdate.Count > 0)
                 {
                     sqlConnection.Open();
+                    //TODO: Improve logic to update all records in one shot.
                     foreach (int customerId in customersToUpdate)
                     {
-                        sqlCommand = new SqlCommand("UPDATE tblBillings SET Status='Not Paid' WHERE CustomerID=@CustomerID", sqlConnection);
+                        // Update the status of only one customer recent not paid bill & ignore other paid/not paid bill..
+                        sqlCommand = new SqlCommand("UPDATE tblBillings SET Status = 'Paid', ModifiedBy = 'Admin' WHERE BillID = ( SELECT MAX(BillID) FROM tblBillings WHERE CustomerID = @CustomerID AND Status = 'Not Paid')", sqlConnection);
                         sqlCommand.Parameters.Clear();
                         sqlCommand.Parameters.AddWithValue("@CustomerID", customerId);
                         sqlCommand.ExecuteNonQuery();

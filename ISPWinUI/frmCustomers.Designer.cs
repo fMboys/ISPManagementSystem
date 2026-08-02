@@ -36,6 +36,7 @@
             dgvCustomers = new DataGridView();
             CusNo = new DataGridViewTextBoxColumn();
             CustomerID = new DataGridViewTextBoxColumn();
+            connDate = new DataGridViewTextBoxColumn();
             Name = new DataGridViewTextBoxColumn();
             City = new DataGridViewTextBoxColumn();
             Package = new DataGridViewTextBoxColumn();
@@ -89,7 +90,7 @@
             dgvCustomers.AllowUserToAddRows = false;
             dgvCustomers.ColumnHeadersHeight = 50;
             dgvCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvCustomers.Columns.AddRange(new DataGridViewColumn[] { CusNo, CustomerID, Name, City, Package, Bill, RemainingAmount, BillDate, DueDate, Status, Edit, PayBill });
+            dgvCustomers.Columns.AddRange(new DataGridViewColumn[] { CusNo, CustomerID, connDate, Name, City, Package, Bill, RemainingAmount, BillDate, DueDate, Status, Edit, PayBill });
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Window;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
@@ -125,6 +126,15 @@
             CustomerID.ReadOnly = true;
             CustomerID.Visible = false;
             CustomerID.Width = 200;
+            // 
+            // connDate
+            // 
+            connDate.HeaderText = "connectionDate";
+            connDate.MinimumWidth = 10;
+            connDate.Name = "connDate";
+            connDate.ReadOnly = true;
+            connDate.Visible = false;
+            connDate.Width = 200;
             // 
             // Name
             // 
@@ -245,6 +255,7 @@
         private PictureBox btnCusClose;
         private DataGridViewTextBoxColumn CusNo;
         private DataGridViewTextBoxColumn CustomerID;
+        private DataGridViewTextBoxColumn connDate;
         private DataGridViewTextBoxColumn Name;
         private DataGridViewTextBoxColumn City;
         private DataGridViewTextBoxColumn Package;
