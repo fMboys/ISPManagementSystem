@@ -75,12 +75,13 @@ namespace ISPWinUI
                         cmd.Parameters.AddWithValue("@ModifiedBy", "Admin");
 
                         sqlConnection.Open();
-                        var idObj = cmd.ExecuteScalar();
-                        int newId = 0;
-                        if (idObj != null && int.TryParse(idObj.ToString(), out newId))
-                        {
-                            // Optionally store the new customer's id, e.g. this.Tag = newId;
-                        }
+                        cmd.ExecuteNonQuery();
+                        //var idObj = cmd.ExecuteScalar();
+                        //int newId = 0;
+                        //if (idObj != null && int.TryParse(idObj.ToString(), out newId))
+                        //{
+                        //    // Optionally store the new customer's id, e.g. this.Tag = newId;
+                        //}
                     }
 
                     MessageBox.Show("Bill Payment successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

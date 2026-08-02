@@ -58,15 +58,15 @@
             pnlCus.ForeColor = Color.White;
             pnlCus.Location = new Point(0, 0);
             pnlCus.Name = "pnlCus";
-            pnlCus.Size = new Size(601, 74);
+            pnlCus.Size = new Size(601, 65);
             pnlCus.TabIndex = 2;
             // 
             // btnCusClose
             // 
             btnCusClose.Image = (Image)resources.GetObject("btnCusClose.Image");
-            btnCusClose.Location = new Point(535, 9);
+            btnCusClose.Location = new Point(545, 9);
             btnCusClose.Name = "btnCusClose";
-            btnCusClose.Size = new Size(60, 57);
+            btnCusClose.Size = new Size(48, 48);
             btnCusClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnCusClose.TabIndex = 1;
             btnCusClose.TabStop = false;
@@ -76,7 +76,7 @@
             // 
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblName.Location = new Point(170, 11);
+            lblName.Location = new Point(221, 7);
             lblName.Name = "lblName";
             lblName.Size = new Size(231, 50);
             lblName.TabIndex = 0;

@@ -66,15 +66,15 @@
             pnlCus.ForeColor = Color.White;
             pnlCus.Location = new Point(0, 0);
             pnlCus.Name = "pnlCus";
-            pnlCus.Size = new Size(1381, 74);
+            pnlCus.Size = new Size(1381, 65);
             pnlCus.TabIndex = 2;
             // 
             // btnUpdateCClose
             // 
             btnUpdateCClose.Image = (Image)resources.GetObject("btnUpdateCClose.Image");
-            btnUpdateCClose.Location = new Point(1311, 8);
+            btnUpdateCClose.Location = new Point(1323, 8);
             btnUpdateCClose.Name = "btnUpdateCClose";
-            btnUpdateCClose.Size = new Size(60, 57);
+            btnUpdateCClose.Size = new Size(48, 48);
             btnUpdateCClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnUpdateCClose.TabIndex = 1;
             btnUpdateCClose.TabStop = false;
@@ -84,7 +84,7 @@
             // 
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblName.Location = new Point(530, 11);
+            lblName.Location = new Point(530, 7);
             lblName.Name = "lblName";
             lblName.Size = new Size(310, 50);
             lblName.TabIndex = 0;
@@ -140,11 +140,11 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(691, 227);
+            label6.Location = new Point(673, 227);
             label6.Name = "label6";
-            label6.Size = new Size(151, 32);
+            label6.Size = new Size(220, 32);
             label6.TabIndex = 8;
-            label6.Text = "Due Amount";
+            label6.Text = "Remaining Amount";
             label6.TextAlign = ContentAlignment.TopCenter;
             // 
             // label7
@@ -161,14 +161,14 @@
             label8.AutoSize = true;
             label8.Location = new Point(12, 335);
             label8.Name = "label8";
-            label8.Size = new Size(103, 32);
+            label8.Size = new Size(160, 32);
             label8.TabIndex = 10;
-            label8.Text = "Bill Date";
+            label8.Text = "Next Bill Date";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(465, 335);
+            label9.Location = new Point(501, 335);
             label9.Name = "label9";
             label9.Size = new Size(115, 32);
             label9.TabIndex = 11;
@@ -209,7 +209,7 @@
             // 
             // txtDueAmount
             // 
-            txtDueAmount.Location = new Point(848, 223);
+            txtDueAmount.Location = new Point(917, 224);
             txtDueAmount.Name = "txtDueAmount";
             txtDueAmount.ReadOnly = true;
             txtDueAmount.Size = new Size(150, 39);
@@ -226,7 +226,7 @@
             // dtpBillDate
             // 
             dtpBillDate.Format = DateTimePickerFormat.Short;
-            dtpBillDate.Location = new Point(121, 330);
+            dtpBillDate.Location = new Point(203, 330);
             dtpBillDate.Name = "dtpBillDate";
             dtpBillDate.Size = new Size(222, 39);
             dtpBillDate.TabIndex = 22;
@@ -234,7 +234,7 @@
             // dtpDueBillDate
             // 
             dtpDueBillDate.Format = DateTimePickerFormat.Short;
-            dtpDueBillDate.Location = new Point(586, 328);
+            dtpDueBillDate.Location = new Point(640, 330);
             dtpDueBillDate.Name = "dtpDueBillDate";
             dtpDueBillDate.Size = new Size(233, 39);
             dtpDueBillDate.TabIndex = 23;
@@ -276,7 +276,7 @@
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.GhostWhite;
-            ClientSize = new Size(1381, 543);
+            ClientSize = new Size(1381, 407);
             ControlBox = false;
             Controls.Add(txtCity);
             Controls.Add(txtPhoneNumber);

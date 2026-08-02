@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCustomerList));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pnlCus = new Panel();
             btnCusClose = new PictureBox();
             lblName = new Label();
@@ -61,15 +62,15 @@
             pnlCus.ForeColor = Color.White;
             pnlCus.Location = new Point(0, 0);
             pnlCus.Name = "pnlCus";
-            pnlCus.Size = new Size(1455, 74);
+            pnlCus.Size = new Size(1455, 65);
             pnlCus.TabIndex = 1;
             // 
             // btnCusClose
             // 
             btnCusClose.Image = (Image)resources.GetObject("btnCusClose.Image");
-            btnCusClose.Location = new Point(1387, 9);
+            btnCusClose.Location = new Point(1397, 9);
             btnCusClose.Name = "btnCusClose";
-            btnCusClose.Size = new Size(60, 57);
+            btnCusClose.Size = new Size(48, 48);
             btnCusClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnCusClose.TabIndex = 1;
             btnCusClose.TabStop = false;
@@ -88,24 +89,32 @@
             // dgvCustomers
             // 
             dgvCustomers.AllowUserToAddRows = false;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCustomers.ColumnHeadersHeight = 50;
             dgvCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvCustomers.Columns.AddRange(new DataGridViewColumn[] { CusNo, CustomerID, connDate, Name, City, Package, Bill, RemainingAmount, BillDate, DueDate, Status, Edit, PayBill });
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = Color.LemonChiffon;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.InfoText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            dgvCustomers.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = Color.LemonChiffon;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.InfoText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvCustomers.DefaultCellStyle = dataGridViewCellStyle2;
             dgvCustomers.Dock = DockStyle.Fill;
-            dgvCustomers.Location = new Point(0, 74);
+            dgvCustomers.Location = new Point(0, 65);
             dgvCustomers.Name = "dgvCustomers";
             dgvCustomers.RowHeadersVisible = false;
             dgvCustomers.RowHeadersWidth = 82;
             dgvCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCustomers.Size = new Size(1455, 785);
+            dgvCustomers.Size = new Size(1455, 794);
             dgvCustomers.TabIndex = 2;
             dgvCustomers.CellContentClick += dgvCustomers_CellContentClick;
             // 

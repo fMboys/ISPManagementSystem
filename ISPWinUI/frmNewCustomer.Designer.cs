@@ -59,15 +59,15 @@
             pnlCus.ForeColor = Color.White;
             pnlCus.Location = new Point(0, 0);
             pnlCus.Name = "pnlCus";
-            pnlCus.Size = new Size(962, 74);
+            pnlCus.Size = new Size(962, 65);
             pnlCus.TabIndex = 3;
             // 
             // btnCusClose
             // 
             btnCusClose.Image = (Image)resources.GetObject("btnCusClose.Image");
-            btnCusClose.Location = new Point(891, 8);
+            btnCusClose.Location = new Point(904, 7);
             btnCusClose.Name = "btnCusClose";
-            btnCusClose.Size = new Size(65, 57);
+            btnCusClose.Size = new Size(48, 48);
             btnCusClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnCusClose.TabIndex = 1;
             btnCusClose.TabStop = false;
@@ -77,7 +77,7 @@
             // 
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblName.Location = new Point(13, 11);
+            lblName.Location = new Point(8, 7);
             lblName.Name = "lblName";
             lblName.Size = new Size(264, 50);
             lblName.TabIndex = 0;
@@ -190,7 +190,7 @@
             btnClear.BackColor = Color.FromArgb(255, 193, 7);
             btnClear.Cursor = Cursors.Hand;
             btnClear.FlatStyle = FlatStyle.Popup;
-            btnClear.Location = new Point(582, 361);
+            btnClear.Location = new Point(579, 361);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(175, 55);
             btnClear.TabIndex = 17;

@@ -47,15 +47,15 @@
             pnlCus.ForeColor = Color.White;
             pnlCus.Location = new Point(0, 0);
             pnlCus.Name = "pnlCus";
-            pnlCus.Size = new Size(895, 74);
+            pnlCus.Size = new Size(846, 65);
             pnlCus.TabIndex = 2;
             // 
             // btnCusClose
             // 
             btnCusClose.Image = (Image)resources.GetObject("btnCusClose.Image");
-            btnCusClose.Location = new Point(827, 8);
+            btnCusClose.Location = new Point(790, 9);
             btnCusClose.Name = "btnCusClose";
-            btnCusClose.Size = new Size(60, 57);
+            btnCusClose.Size = new Size(48, 48);
             btnCusClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnCusClose.TabIndex = 1;
             btnCusClose.TabStop = false;
@@ -65,7 +65,7 @@
             // 
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblName.Location = new Point(3, 11);
+            lblName.Location = new Point(5, 7);
             lblName.Name = "lblName";
             lblName.Size = new Size(345, 50);
             lblName.TabIndex = 0;
@@ -77,9 +77,9 @@
             btnCustomerList.FlatStyle = FlatStyle.Popup;
             btnCustomerList.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCustomerList.ForeColor = SystemColors.Window;
-            btnCustomerList.Location = new Point(450, 80);
+            btnCustomerList.Location = new Point(446, 111);
             btnCustomerList.Name = "btnCustomerList";
-            btnCustomerList.Size = new Size(433, 358);
+            btnCustomerList.Size = new Size(350, 297);
             btnCustomerList.TabIndex = 3;
             btnCustomerList.Text = "Customers List";
             btnCustomerList.UseVisualStyleBackColor = false;
@@ -91,9 +91,9 @@
             btnAddCustomer.FlatStyle = FlatStyle.Popup;
             btnAddCustomer.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAddCustomer.ForeColor = SystemColors.Window;
-            btnAddCustomer.Location = new Point(12, 80);
+            btnAddCustomer.Location = new Point(50, 111);
             btnAddCustomer.Name = "btnAddCustomer";
-            btnAddCustomer.Size = new Size(432, 358);
+            btnAddCustomer.Size = new Size(350, 297);
             btnAddCustomer.TabIndex = 4;
             btnAddCustomer.Text = "Add New Customer";
             btnAddCustomer.UseVisualStyleBackColor = false;
@@ -104,7 +104,7 @@
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Snow;
-            ClientSize = new Size(895, 448);
+            ClientSize = new Size(846, 448);
             ControlBox = false;
             Controls.Add(btnAddCustomer);
             Controls.Add(btnCustomerList);

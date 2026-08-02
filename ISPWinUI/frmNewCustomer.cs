@@ -47,16 +47,16 @@ namespace ISPWinUI
                 using (var cmd = sqlConnection.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO tblCustomers (CustomerName, PhoneNumber, City, Package, Amount, ConnectionDate, ModifiedBy)
-                        VALUES (@CustomerName, @PhoneNumber, @City, @Package, @Amount, @ConnectionDate, @ModifiedBy);
-                        SELECT SCOPE_IDENTITY();"; // add it if want to add increamental id and return it in code.
+                        INSERT INTO tblCustomers (CustomerName, PhoneNumber, City, Package, Amount, ConnectionDate, ModifiedBy, CreatedDate)
+                        VALUES (@CustomerName, @PhoneNumber, @City, @Package, @Amount, @ConnectionDate, @ModifiedBy, @CreatedDate);";
+                        //SELECT SCOPE_IDENTITY();"; // add it if want to add increamental id and return it in code.
 
                     cmd.Parameters.AddWithValue("@CustomerName", customerName);
                     cmd.Parameters.AddWithValue("@PhoneNumber", phone);
                     cmd.Parameters.AddWithValue("@City", city);
                     cmd.Parameters.AddWithValue("@Package", package);
                     cmd.Parameters.AddWithValue("@Amount", rate < 0 ? 0 : rate);
-                    cmd.Parameters.AddWithValue("@Status", "Not Paid");
+                    //cmd.Parameters.AddWithValue("@Status", "Not Paid");
                     cmd.Parameters.AddWithValue("@ConnectionDate", string.IsNullOrEmpty(connectionDate.ToString()) ? (object)DBNull.Value : connectionDate);
                     //cmd.Parameters.AddWithValue("@BillPaidDate", string.IsNullOrEmpty(lastBillPaidDate.ToString()) ? (object)DBNull.Value : lastBillPaidDate);
                     //cmd.Parameters.AddWithValue("@DueBillDate", string.IsNullOrEmpty(dueDate.ToString()) ? DBNull.Value : dueDate);
