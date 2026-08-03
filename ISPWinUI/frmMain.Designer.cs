@@ -43,7 +43,7 @@
             // 
             // pnlMain
             // 
-            pnlMain.BackColor = SystemColors.ActiveCaptionText;
+            pnlMain.BackColor = Color.FromArgb(26, 26, 26);
             pnlMain.Controls.Add(lblName);
             pnlMain.Dock = DockStyle.Top;
             pnlMain.ForeColor = Color.White;
@@ -64,7 +64,7 @@
             // 
             // btnCustomers
             // 
-            btnCustomers.BackColor = Color.MidnightBlue;
+            btnCustomers.BackColor = Color.CornflowerBlue;
             btnCustomers.Cursor = Cursors.Hand;
             btnCustomers.FlatStyle = FlatStyle.Popup;
             btnCustomers.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -82,7 +82,7 @@
             // 
             // btnClose
             // 
-            btnClose.BackColor = Color.Crimson;
+            btnClose.BackColor = Color.FromArgb(255, 51, 51);
             btnClose.Cursor = Cursors.Hand;
             btnClose.FlatStyle = FlatStyle.Popup;
             btnClose.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);

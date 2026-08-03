@@ -51,7 +51,7 @@
             // 
             // pnlCus
             // 
-            pnlCus.BackColor = SystemColors.ActiveCaptionText;
+            pnlCus.BackColor = Color.FromArgb(26, 26, 26);
             pnlCus.Controls.Add(btnCusClose);
             pnlCus.Controls.Add(lblName);
             pnlCus.Dock = DockStyle.Top;
@@ -76,7 +76,7 @@
             // 
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblName.Location = new Point(221, 7);
+            lblName.Location = new Point(207, 7);
             lblName.Name = "lblName";
             lblName.Size = new Size(231, 50);
             lblName.TabIndex = 0;

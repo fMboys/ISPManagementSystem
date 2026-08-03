@@ -59,7 +59,7 @@
             // 
             // pnlCus
             // 
-            pnlCus.BackColor = SystemColors.ActiveCaptionText;
+            pnlCus.BackColor = Color.FromArgb(26, 26, 26);
             pnlCus.Controls.Add(btnUpdateCClose);
             pnlCus.Controls.Add(lblName);
             pnlCus.Dock = DockStyle.Top;
