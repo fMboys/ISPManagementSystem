@@ -128,7 +128,7 @@
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.GhostWhite;
+            BackColor = Color.White;
             ClientSize = new Size(718, 557);
             ControlBox = false;
             Controls.Add(pbImageWelcome);

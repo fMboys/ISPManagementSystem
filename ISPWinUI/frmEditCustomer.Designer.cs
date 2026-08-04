@@ -74,7 +74,7 @@
             btnUpdateCClose.Image = (Image)resources.GetObject("btnUpdateCClose.Image");
             btnUpdateCClose.Location = new Point(1323, 8);
             btnUpdateCClose.Name = "btnUpdateCClose";
-            btnUpdateCClose.Size = new Size(48, 48);
+            btnUpdateCClose.Size = new Size(50, 50);
             btnUpdateCClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnUpdateCClose.TabIndex = 1;
             btnUpdateCClose.TabStop = false;
@@ -197,7 +197,7 @@
             txtPackage.Name = "txtPackage";
             txtPackage.ReadOnly = true;
             txtPackage.Size = new Size(150, 39);
-            txtPackage.TabIndex = 18;
+            txtPackage.TabIndex = 4;
             // 
             // txtAmount
             // 
@@ -205,7 +205,7 @@
             txtAmount.Name = "txtAmount";
             txtAmount.ReadOnly = true;
             txtAmount.Size = new Size(150, 39);
-            txtAmount.TabIndex = 19;
+            txtAmount.TabIndex = 5;
             // 
             // txtDueAmount
             // 
@@ -213,7 +213,7 @@
             txtDueAmount.Name = "txtDueAmount";
             txtDueAmount.ReadOnly = true;
             txtDueAmount.Size = new Size(150, 39);
-            txtDueAmount.TabIndex = 20;
+            txtDueAmount.TabIndex = 6;
             // 
             // txtStatus
             // 
@@ -221,7 +221,7 @@
             txtStatus.Name = "txtStatus";
             txtStatus.ReadOnly = true;
             txtStatus.Size = new Size(150, 39);
-            txtStatus.TabIndex = 21;
+            txtStatus.TabIndex = 7;
             // 
             // dtpBillDate
             // 
@@ -229,7 +229,7 @@
             dtpBillDate.Location = new Point(203, 330);
             dtpBillDate.Name = "dtpBillDate";
             dtpBillDate.Size = new Size(222, 39);
-            dtpBillDate.TabIndex = 22;
+            dtpBillDate.TabIndex = 8;
             // 
             // dtpDueBillDate
             // 
@@ -237,7 +237,7 @@
             dtpDueBillDate.Location = new Point(640, 330);
             dtpDueBillDate.Name = "dtpDueBillDate";
             dtpDueBillDate.Size = new Size(233, 39);
-            dtpDueBillDate.TabIndex = 23;
+            dtpDueBillDate.TabIndex = 9;
             // 
             // dtpBillPaidDate
             // 
@@ -245,7 +245,7 @@
             dtpBillPaidDate.Location = new Point(1112, 330);
             dtpBillPaidDate.Name = "dtpBillPaidDate";
             dtpBillPaidDate.Size = new Size(236, 39);
-            dtpBillPaidDate.TabIndex = 24;
+            dtpBillPaidDate.TabIndex = 10;
             // 
             // txtCustomerName
             // 
@@ -253,7 +253,7 @@
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.ReadOnly = true;
             txtCustomerName.Size = new Size(250, 39);
-            txtCustomerName.TabIndex = 25;
+            txtCustomerName.TabIndex = 1;
             // 
             // txtPhoneNumber
             // 
@@ -261,7 +261,7 @@
             txtPhoneNumber.Name = "txtPhoneNumber";
             txtPhoneNumber.ReadOnly = true;
             txtPhoneNumber.Size = new Size(250, 39);
-            txtPhoneNumber.TabIndex = 26;
+            txtPhoneNumber.TabIndex = 2;
             // 
             // txtCity
             // 
@@ -269,13 +269,13 @@
             txtCity.Name = "txtCity";
             txtCity.ReadOnly = true;
             txtCity.Size = new Size(250, 39);
-            txtCity.TabIndex = 27;
+            txtCity.TabIndex = 3;
             // 
             // frmEditCustomer
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.GhostWhite;
+            BackColor = Color.White;
             ClientSize = new Size(1381, 407);
             ControlBox = false;
             Controls.Add(txtCity);

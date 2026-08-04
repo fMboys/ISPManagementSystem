@@ -53,9 +53,9 @@
             // btnCusClose
             // 
             btnCusClose.Image = (Image)resources.GetObject("btnCusClose.Image");
-            btnCusClose.Location = new Point(790, 9);
+            btnCusClose.Location = new Point(789, 7);
             btnCusClose.Name = "btnCusClose";
-            btnCusClose.Size = new Size(48, 48);
+            btnCusClose.Size = new Size(50, 50);
             btnCusClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnCusClose.TabIndex = 1;
             btnCusClose.TabStop = false;
@@ -74,6 +74,7 @@
             // btnCustomerList
             // 
             btnCustomerList.BackColor = Color.SeaGreen;
+            btnCustomerList.Cursor = Cursors.Hand;
             btnCustomerList.FlatStyle = FlatStyle.Popup;
             btnCustomerList.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCustomerList.ForeColor = SystemColors.Window;
@@ -88,6 +89,7 @@
             // btnAddCustomer
             // 
             btnAddCustomer.BackColor = Color.RoyalBlue;
+            btnAddCustomer.Cursor = Cursors.Hand;
             btnAddCustomer.FlatStyle = FlatStyle.Popup;
             btnAddCustomer.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAddCustomer.ForeColor = SystemColors.Window;
@@ -103,7 +105,7 @@
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Snow;
+            BackColor = Color.White;
             ClientSize = new Size(846, 448);
             ControlBox = false;
             Controls.Add(btnAddCustomer);

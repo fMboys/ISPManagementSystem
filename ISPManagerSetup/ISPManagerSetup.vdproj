@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8BBCD871926B48868A1212F57E8A5B87"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C082E1387F864363BC79F5377225B4FD"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -43,6 +49,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -59,6 +73,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -90,6 +112,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8BBCD871926B48868A1212F57E8A5B87"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\Downloads\\connected-with-internet.ico"
+            "TargetName" = "8:connected-with-internet.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_B4BBCDE4534B4AAE8D13823D0AE38AB4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C082E1387F864363BC79F5377225B4FD"
             {
             "SourcePath" = "8:..\\..\\..\\..\\Downloads\\wifi-router.ico"
@@ -298,7 +340,7 @@
             "Target" = "8:_86B5F90FA888499FB1AED8D66FCA8B0C"
             "Folder" = "8:_4A0A440E7D5A42DF92CB3DF849CEC652"
             "WorkingFolder" = "8:_B4BBCDE4534B4AAE8D13823D0AE38AB4"
-            "Icon" = "8:_C082E1387F864363BC79F5377225B4FD"
+            "Icon" = "8:_8BBCD871926B48868A1212F57E8A5B87"
             "Feature" = "8:"
             }
         }
@@ -702,7 +744,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_86B5F90FA888499FB1AED8D66FCA8B0C"
             {
-            "SourcePath" = "8:..\\ISPWinUI\\obj\\Release\\net10.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\ISPWinUI\\obj\\Debug\\net10.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4BBCDE4534B4AAE8D13823D0AE38AB4"

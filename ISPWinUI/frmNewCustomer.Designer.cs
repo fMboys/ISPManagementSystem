@@ -65,9 +65,9 @@
             // btnCusClose
             // 
             btnCusClose.Image = (Image)resources.GetObject("btnCusClose.Image");
-            btnCusClose.Location = new Point(904, 7);
+            btnCusClose.Location = new Point(905, 7);
             btnCusClose.Name = "btnCusClose";
-            btnCusClose.Size = new Size(48, 48);
+            btnCusClose.Size = new Size(50, 50);
             btnCusClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnCusClose.TabIndex = 1;
             btnCusClose.TabStop = false;
@@ -210,6 +210,7 @@
             // 
             AutoScaleDimensions = new SizeF(14F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(962, 428);
             ControlBox = false;
             Controls.Add(dtpConnectionDate);

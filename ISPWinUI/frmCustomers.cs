@@ -12,7 +12,6 @@ namespace ISPWinUI
         SqlCommand sqlCommand = new SqlCommand();
         DAL dbConnection = new DAL();
         SqlDataReader reader;
-        private DateTime connectionDate;
         public frmCustomerList()
         {
             InitializeComponent();
@@ -136,8 +135,8 @@ namespace ISPWinUI
                             else
                             {
                                 // Assuming 'dataGridView' is your DataGridView and e is DataGridViewCellEventArgs
-                                frmEditCustomer.txtStatus.BackColor = System.Drawing.Color.Crimson;
-                                dgvCustomers.Rows[e.RowIndex].Cells[6].Style.BackColor = System.Drawing.Color.Crimson;
+                                frmEditCustomer.txtStatus.BackColor = ColorTranslator.FromHtml("#ff6666");
+                                dgvCustomers.Rows[e.RowIndex].Cells[6].Style.BackColor = ColorTranslator.FromHtml("#ff6666");
                             }
                             frmEditCustomer.dtpBillDate.Text = string.IsNullOrEmpty(reader["BillDate"].ToString()) ? "01/01/1900" : reader["BillDate"].ToString();
                             frmEditCustomer.dtpDueBillDate.Text = string.IsNullOrEmpty(reader["DueBillDate"].ToString()) ? "01/01/1900" : reader["DueBillDate"].ToString();
@@ -166,7 +165,7 @@ namespace ISPWinUI
                 int customerId = Convert.ToInt32(dgvCustomers.CurrentRow.Cells["CustomerID"].Value);
                 var connDateValue = dgvCustomers.CurrentRow.Cells["connDate"]?.Value;
                 if (connDateValue != null && connDateValue.ToString().Trim() != "") {
-                    billPayment.lblConnectionDate.Text = connectionDate.ToString("dd-MM-yyyy");
+                    billPayment.lblConnectionDate.Text = connDateValue.ToString();
                 }
                 else
                 {
