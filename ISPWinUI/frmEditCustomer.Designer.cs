@@ -52,7 +52,7 @@
             dtpBillPaidDate = new DateTimePicker();
             txtCustomerName = new TextBox();
             txtPhoneNumber = new TextBox();
-            txtCity = new TextBox();
+            txtAddress = new TextBox();
             pnlCus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnUpdateCClose).BeginInit();
             SuspendLayout();
@@ -103,7 +103,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(428, 110);
+            label2.Location = new Point(414, 110);
             label2.Name = "label2";
             label2.Size = new Size(177, 32);
             label2.TabIndex = 4;
@@ -112,11 +112,11 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(955, 110);
+            label3.Location = new Point(893, 110);
             label3.Name = "label3";
-            label3.Size = new Size(136, 32);
+            label3.Size = new Size(98, 32);
             label3.TabIndex = 5;
-            label3.Text = "City/Village";
+            label3.Text = "Address";
             label3.TextAlign = ContentAlignment.TopCenter;
             // 
             // label4
@@ -257,19 +257,20 @@
             // 
             // txtPhoneNumber
             // 
-            txtPhoneNumber.Location = new Point(611, 107);
+            txtPhoneNumber.Location = new Point(597, 107);
             txtPhoneNumber.Name = "txtPhoneNumber";
             txtPhoneNumber.ReadOnly = true;
-            txtPhoneNumber.Size = new Size(250, 39);
+            txtPhoneNumber.Size = new Size(243, 39);
             txtPhoneNumber.TabIndex = 2;
             // 
-            // txtCity
+            // txtAddress
             // 
-            txtCity.Location = new Point(1098, 107);
-            txtCity.Name = "txtCity";
-            txtCity.ReadOnly = true;
-            txtCity.Size = new Size(250, 39);
-            txtCity.TabIndex = 3;
+            txtAddress.Location = new Point(997, 107);
+            txtAddress.Multiline = true;
+            txtAddress.Name = "txtAddress";
+            txtAddress.ReadOnly = true;
+            txtAddress.Size = new Size(351, 73);
+            txtAddress.TabIndex = 3;
             // 
             // frmEditCustomer
             // 
@@ -278,7 +279,7 @@
             BackColor = Color.White;
             ClientSize = new Size(1381, 407);
             ControlBox = false;
-            Controls.Add(txtCity);
+            Controls.Add(txtAddress);
             Controls.Add(txtPhoneNumber);
             Controls.Add(txtCustomerName);
             Controls.Add(dtpBillPaidDate);
@@ -329,7 +330,7 @@
         private Label label12;
         private TextBox textBox3;
         public TextBox txtPhoneNumber;
-        public TextBox txtCity;
+        public TextBox txtAddress;
         public TextBox txtPackage;
         public TextBox txtAmount;
         public TextBox txtDueAmount;

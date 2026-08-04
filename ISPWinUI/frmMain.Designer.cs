@@ -64,11 +64,11 @@
             // 
             // btnCustomers
             // 
-            btnCustomers.BackColor = Color.CornflowerBlue;
+            btnCustomers.BackColor = Color.Tan;
             btnCustomers.Cursor = Cursors.Hand;
             btnCustomers.FlatStyle = FlatStyle.Popup;
             btnCustomers.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCustomers.ForeColor = Color.White;
+            btnCustomers.ForeColor = SystemColors.MenuText;
             btnCustomers.Image = (Image)resources.GetObject("btnCustomers.Image");
             btnCustomers.ImageAlign = ContentAlignment.MiddleLeft;
             btnCustomers.Location = new Point(12, 292);

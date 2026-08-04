@@ -36,7 +36,7 @@
             txtCustomerName = new TextBox();
             txtPhoneNumber = new TextBox();
             label2 = new Label();
-            txtCity = new TextBox();
+            txtAddress = new TextBox();
             label3 = new Label();
             txtPackage = new TextBox();
             label4 = new Label();
@@ -97,14 +97,14 @@
             txtCustomerName.Location = new Point(222, 101);
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.Size = new Size(215, 39);
-            txtCustomerName.TabIndex = 5;
+            txtCustomerName.TabIndex = 1;
             // 
             // txtPhoneNumber
             // 
             txtPhoneNumber.Location = new Point(723, 103);
             txtPhoneNumber.Name = "txtPhoneNumber";
             txtPhoneNumber.Size = new Size(215, 39);
-            txtPhoneNumber.TabIndex = 7;
+            txtPhoneNumber.TabIndex = 2;
             // 
             // label2
             // 
@@ -115,33 +115,34 @@
             label2.TabIndex = 6;
             label2.Text = "Phone Number";
             // 
-            // txtCity
+            // txtAddress
             // 
-            txtCity.Location = new Point(222, 181);
-            txtCity.Name = "txtCity";
-            txtCity.Size = new Size(215, 39);
-            txtCity.TabIndex = 9;
+            txtAddress.Location = new Point(222, 258);
+            txtAddress.Multiline = true;
+            txtAddress.Name = "txtAddress";
+            txtAddress.Size = new Size(215, 71);
+            txtAddress.TabIndex = 5;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(13, 183);
+            label3.Location = new Point(13, 262);
             label3.Name = "label3";
-            label3.Size = new Size(139, 32);
+            label3.Size = new Size(100, 32);
             label3.TabIndex = 8;
-            label3.Text = "City/Village";
+            label3.Text = "Address";
             // 
             // txtPackage
             // 
-            txtPackage.Location = new Point(723, 185);
+            txtPackage.Location = new Point(222, 185);
             txtPackage.Name = "txtPackage";
             txtPackage.Size = new Size(215, 39);
-            txtPackage.TabIndex = 11;
+            txtPackage.TabIndex = 3;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(514, 185);
+            label4.Location = new Point(13, 188);
             label4.Name = "label4";
             label4.Size = new Size(104, 32);
             label4.TabIndex = 10;
@@ -149,15 +150,15 @@
             // 
             // txtRate
             // 
-            txtRate.Location = new Point(222, 258);
+            txtRate.Location = new Point(723, 185);
             txtRate.Name = "txtRate";
             txtRate.Size = new Size(215, 39);
-            txtRate.TabIndex = 13;
+            txtRate.TabIndex = 4;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(13, 260);
+            label5.Location = new Point(514, 188);
             label5.Name = "label5";
             label5.Size = new Size(64, 32);
             label5.TabIndex = 12;
@@ -177,10 +178,11 @@
             btnSave.BackColor = Color.FromArgb(25, 135, 84);
             btnSave.Cursor = Cursors.Hand;
             btnSave.FlatStyle = FlatStyle.Popup;
+            btnSave.ForeColor = SystemColors.ControlText;
             btnSave.Location = new Point(763, 361);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(175, 55);
-            btnSave.TabIndex = 16;
+            btnSave.TabIndex = 7;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Click += btnSave_Click;
@@ -193,7 +195,7 @@
             btnClear.Location = new Point(579, 361);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(175, 55);
-            btnClear.TabIndex = 17;
+            btnClear.TabIndex = 8;
             btnClear.Text = "Clear";
             btnClear.UseVisualStyleBackColor = false;
             btnClear.Click += btnClear_Click;
@@ -201,10 +203,10 @@
             // dtpConnectionDate
             // 
             dtpConnectionDate.Format = DateTimePickerFormat.Short;
-            dtpConnectionDate.Location = new Point(717, 258);
+            dtpConnectionDate.Location = new Point(723, 258);
             dtpConnectionDate.Name = "dtpConnectionDate";
-            dtpConnectionDate.Size = new Size(221, 39);
-            dtpConnectionDate.TabIndex = 18;
+            dtpConnectionDate.Size = new Size(215, 39);
+            dtpConnectionDate.TabIndex = 6;
             // 
             // frmNewCustomer
             // 
@@ -221,7 +223,7 @@
             Controls.Add(label5);
             Controls.Add(txtPackage);
             Controls.Add(label4);
-            Controls.Add(txtCity);
+            Controls.Add(txtAddress);
             Controls.Add(label3);
             Controls.Add(txtPhoneNumber);
             Controls.Add(label2);
@@ -248,7 +250,7 @@
         private TextBox txtCustomerName;
         private TextBox txtPhoneNumber;
         private Label label2;
-        private TextBox txtCity;
+        private TextBox txtAddress;
         private Label label3;
         private TextBox txtPackage;
         private Label label4;

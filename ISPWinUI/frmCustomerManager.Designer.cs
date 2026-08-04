@@ -73,7 +73,7 @@
             // 
             // btnCustomerList
             // 
-            btnCustomerList.BackColor = Color.SeaGreen;
+            btnCustomerList.BackColor = Color.DarkSeaGreen;
             btnCustomerList.Cursor = Cursors.Hand;
             btnCustomerList.FlatStyle = FlatStyle.Popup;
             btnCustomerList.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -82,13 +82,13 @@
             btnCustomerList.Name = "btnCustomerList";
             btnCustomerList.Size = new Size(350, 297);
             btnCustomerList.TabIndex = 3;
-            btnCustomerList.Text = "Customers List";
+            btnCustomerList.Text = "Customer Billing";
             btnCustomerList.UseVisualStyleBackColor = false;
             btnCustomerList.Click += btnCustomerList_Click;
             // 
             // btnAddCustomer
             // 
-            btnAddCustomer.BackColor = Color.RoyalBlue;
+            btnAddCustomer.BackColor = Color.SlateBlue;
             btnAddCustomer.Cursor = Cursors.Hand;
             btnAddCustomer.FlatStyle = FlatStyle.Popup;
             btnAddCustomer.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);

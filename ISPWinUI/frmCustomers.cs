@@ -28,7 +28,7 @@ namespace ISPWinUI
                 dgvCustomers.Rows.Clear();
                 //CheckBillStatus();
                 sqlConnection.Open();
-                sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, City, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.City, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
+                sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, Address, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.Address, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
                 reader = sqlCommand.ExecuteReader();
 
                 while (reader.Read())
@@ -36,7 +36,7 @@ namespace ISPWinUI
                     i += 1;
                     DateTime billDate = reader["BillDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["BillDate"]);
                     
-                    dgvCustomers.Rows.Add(i, reader["CustomerID"].ToString(), reader["ConnectionDate"].ToString(), reader["CustomerName"].ToString(), reader["City"].ToString(), reader["Package"].ToString(),
+                    dgvCustomers.Rows.Add(i, reader["CustomerID"].ToString(), reader["ConnectionDate"].ToString(), reader["CustomerName"].ToString(), reader["Address"].ToString(), reader["Package"].ToString(),
                     reader["Amount"].ToString(), reader["RemainingAmount"].ToString(),
                     string.IsNullOrEmpty((reader["BillDate"]).ToString()) ? "" : ((DateTime)reader["BillDate"]).ToString("dd-MM-yyyy"),
                     string.IsNullOrEmpty((reader["DueBillDate"]).ToString()) ? "" : ((DateTime)reader["DueBillDate"]).ToString("dd-MM-yyyy"),
@@ -114,14 +114,14 @@ namespace ISPWinUI
                     if (customerId >= 0)
                     {
                         sqlConnection.Open();
-                        sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, City, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.City, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID WHERE c.CustomerID = @CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
+                        sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, Address, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.Address, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID WHERE c.CustomerID = @CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
                         sqlCommand.Parameters.AddWithValue("@CustomerID", customerId);
                         reader = sqlCommand.ExecuteReader();
                         if (reader.Read())
                         {
                             frmEditCustomer.txtCustomerName.Text = reader["CustomerName"].ToString();
                             frmEditCustomer.txtPhoneNumber.Text = reader["PhoneNumber"].ToString();
-                            frmEditCustomer.txtCity.Text = reader["City"].ToString();
+                            frmEditCustomer.txtAddress.Text = reader["Address"].ToString();
                             frmEditCustomer.txtPackage.Text = reader["Package"].ToString();
                             frmEditCustomer.txtAmount.Text = reader["Amount"].ToString();
                             frmEditCustomer.txtDueAmount.Text = string.IsNullOrEmpty(reader["RemainingAmount"].ToString()) ? "0" : reader["RemainingAmount"].ToString();

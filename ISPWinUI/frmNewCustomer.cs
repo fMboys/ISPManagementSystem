@@ -23,7 +23,7 @@ namespace ISPWinUI
                 // Read values from form controls
                 string customerName = txtCustomerName?.Text?.Trim() ?? string.Empty;
                 string phone = txtPhoneNumber?.Text?.Trim() ?? string.Empty;
-                string city = txtCity?.Text?.Trim() ?? string.Empty;
+                string address = txtAddress?.Text?.Trim() ?? string.Empty;
                 string package = !string.IsNullOrEmpty(txtPackage?.Text?.Trim()) ? txtPackage.Text + " Mbps" : string.Empty;
                 decimal rate = decimal.TryParse(txtRate?.Text, out var r) ? r : 0m;
                 DateTime connectionDate = dtpConnectionDate.Value;
@@ -47,13 +47,13 @@ namespace ISPWinUI
                 using (var cmd = sqlConnection.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO tblCustomers (CustomerName, PhoneNumber, City, Package, Amount, ConnectionDate, ModifiedBy, CreatedDate)
-                        VALUES (@CustomerName, @PhoneNumber, @City, @Package, @Amount, @ConnectionDate, @ModifiedBy, @CreatedDate);";
+                        INSERT INTO tblCustomers (CustomerName, PhoneNumber, Address, Package, Amount, ConnectionDate, ModifiedBy, CreatedDate)
+                        VALUES (@CustomerName, @PhoneNumber, @Address, @Package, @Amount, @ConnectionDate, @ModifiedBy, @CreatedDate);";
                         //SELECT SCOPE_IDENTITY();"; // add it if want to add increamental id and return it in code.
 
                     cmd.Parameters.AddWithValue("@CustomerName", customerName);
                     cmd.Parameters.AddWithValue("@PhoneNumber", phone);
-                    cmd.Parameters.AddWithValue("@City", city);
+                    cmd.Parameters.AddWithValue("@Address", address);
                     cmd.Parameters.AddWithValue("@Package", package);
                     cmd.Parameters.AddWithValue("@Amount", rate < 0 ? 0 : rate);
                     //cmd.Parameters.AddWithValue("@Status", "Not Paid");
@@ -100,7 +100,7 @@ namespace ISPWinUI
         {
             txtCustomerName.Clear();
             txtPhoneNumber.Clear();
-            txtCity.Clear();
+            txtAddress.Clear();
             txtPackage.Clear();
             txtRate.Clear();
             dtpConnectionDate.Value = DateTime.Now;

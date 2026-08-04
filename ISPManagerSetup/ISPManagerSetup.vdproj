@@ -80,6 +80,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -209,7 +217,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ISPManager"
         "ProductCode" = "8:{C1953859-CD52-431C-9838-A1742E118DD5}"
-        "PackageCode" = "8:{3710B31A-5DBD-4FA7-B7A7-5375F3F1D058}"
+        "PackageCode" = "8:{30DF8641-0EFD-4B10-A8A9-34643682E35E}"
         "UpgradeCode" = "8:{59C74EEF-805A-41EE-BB46-331822BE50A1}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -226,7 +234,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_8BBCD871926B48868A1212F57E8A5B87"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -744,7 +752,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_86B5F90FA888499FB1AED8D66FCA8B0C"
             {
-            "SourcePath" = "8:..\\ISPWinUI\\obj\\Debug\\net10.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\ISPWinUI\\obj\\Release\\net10.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4BBCDE4534B4AAE8D13823D0AE38AB4"

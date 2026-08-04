@@ -39,7 +39,7 @@
             CustomerID = new DataGridViewTextBoxColumn();
             connDate = new DataGridViewTextBoxColumn();
             Name = new DataGridViewTextBoxColumn();
-            City = new DataGridViewTextBoxColumn();
+            Address = new DataGridViewTextBoxColumn();
             Package = new DataGridViewTextBoxColumn();
             Bill = new DataGridViewTextBoxColumn();
             RemainingAmount = new DataGridViewTextBoxColumn();
@@ -99,7 +99,7 @@
             dgvCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCustomers.ColumnHeadersHeight = 50;
             dgvCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvCustomers.Columns.AddRange(new DataGridViewColumn[] { CusNo, CustomerID, connDate, Name, City, Package, Bill, RemainingAmount, BillDate, DueDate, Status, Edit, PayBill });
+            dgvCustomers.Columns.AddRange(new DataGridViewColumn[] { CusNo, CustomerID, connDate, Name, Address, Package, Bill, RemainingAmount, BillDate, DueDate, Status, Edit, PayBill });
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
@@ -154,13 +154,13 @@
             Name.ReadOnly = true;
             Name.ToolTipText = "Customer Name";
             // 
-            // City
+            // Address
             // 
-            City.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            City.HeaderText = "City/Village";
-            City.MinimumWidth = 10;
-            City.Name = "City";
-            City.ReadOnly = true;
+            Address.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Address.HeaderText = "Address";
+            Address.MinimumWidth = 10;
+            Address.Name = "Address";
+            Address.ReadOnly = true;
             // 
             // Package
             // 
@@ -247,6 +247,7 @@
             Controls.Add(dgvCustomers);
             Controls.Add(pnlCus);
             FormBorderStyle = FormBorderStyle.None;
+            //Name = "frmCustomerList";
             StartPosition = FormStartPosition.CenterScreen;
             pnlCus.ResumeLayout(false);
             pnlCus.PerformLayout();
@@ -265,7 +266,7 @@
         private DataGridViewTextBoxColumn CustomerID;
         private DataGridViewTextBoxColumn connDate;
         private DataGridViewTextBoxColumn Name;
-        private DataGridViewTextBoxColumn City;
+        private DataGridViewTextBoxColumn Address;
         private DataGridViewTextBoxColumn Package;
         private DataGridViewTextBoxColumn Bill;
         private DataGridViewTextBoxColumn RemainingAmount;
