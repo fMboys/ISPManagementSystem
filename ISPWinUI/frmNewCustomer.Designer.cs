@@ -102,6 +102,7 @@
             // txtPhoneNumber
             // 
             txtPhoneNumber.Location = new Point(723, 103);
+            txtPhoneNumber.MaxLength = 11;
             txtPhoneNumber.Name = "txtPhoneNumber";
             txtPhoneNumber.Size = new Size(215, 39);
             txtPhoneNumber.TabIndex = 2;

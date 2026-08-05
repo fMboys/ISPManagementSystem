@@ -136,6 +136,8 @@ namespace ISPWinUI
                 return;
             }
 
+            
+
             // Reject everything else
             e.Handled = true;
         }
@@ -166,6 +168,13 @@ namespace ISPWinUI
 
                 textBox.Text = cleanText;
                 textBox.SelectionStart = textBox.Text.Length; // Keep cursor at the end
+
+                //if (textBox.Name == "txtPhoneNumber")
+                //{
+                //    // Allow 11 digits for phone number
+                //    // else show warning label message
+
+                //}
             }
         }
 
