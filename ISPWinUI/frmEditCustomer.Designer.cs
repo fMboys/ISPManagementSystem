@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditCustomer));
-            pnlCus = new Panel();
-            btnUpdateCClose = new PictureBox();
             lblName = new Label();
             label1 = new Label();
             label2 = new Label();
@@ -53,38 +51,20 @@
             txtCustomerName = new TextBox();
             txtPhoneNumber = new TextBox();
             txtAddress = new TextBox();
-            pnlCus.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)btnUpdateCClose).BeginInit();
+            panel1 = new Panel();
+            btnCusClose = new PictureBox();
+            panel2 = new Panel();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)btnCusClose).BeginInit();
+            panel2.SuspendLayout();
             SuspendLayout();
-            // 
-            // pnlCus
-            // 
-            pnlCus.BackColor = Color.FromArgb(26, 26, 26);
-            pnlCus.Controls.Add(btnUpdateCClose);
-            pnlCus.Controls.Add(lblName);
-            pnlCus.Dock = DockStyle.Top;
-            pnlCus.ForeColor = Color.White;
-            pnlCus.Location = new Point(0, 0);
-            pnlCus.Name = "pnlCus";
-            pnlCus.Size = new Size(1381, 65);
-            pnlCus.TabIndex = 2;
-            // 
-            // btnUpdateCClose
-            // 
-            btnUpdateCClose.Image = (Image)resources.GetObject("btnUpdateCClose.Image");
-            btnUpdateCClose.Location = new Point(1323, 8);
-            btnUpdateCClose.Name = "btnUpdateCClose";
-            btnUpdateCClose.Size = new Size(50, 50);
-            btnUpdateCClose.SizeMode = PictureBoxSizeMode.Zoom;
-            btnUpdateCClose.TabIndex = 1;
-            btnUpdateCClose.TabStop = false;
-            btnUpdateCClose.Click += btnUpdateCClose_Click;
             // 
             // lblName
             // 
+            lblName.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblName.Location = new Point(530, 7);
+            lblName.Location = new Point(571, 9);
             lblName.Name = "lblName";
             lblName.Size = new Size(310, 50);
             lblName.TabIndex = 0;
@@ -94,7 +74,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 110);
+            label1.Location = new Point(20, 52);
             label1.Name = "label1";
             label1.Size = new Size(78, 32);
             label1.TabIndex = 3;
@@ -103,7 +83,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(414, 110);
+            label2.Location = new Point(422, 52);
             label2.Name = "label2";
             label2.Size = new Size(177, 32);
             label2.TabIndex = 4;
@@ -112,7 +92,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(893, 110);
+            label3.Location = new Point(901, 52);
             label3.Name = "label3";
             label3.Size = new Size(98, 32);
             label3.TabIndex = 5;
@@ -122,7 +102,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(12, 227);
+            label4.Location = new Point(20, 169);
             label4.Name = "label4";
             label4.Size = new Size(100, 32);
             label4.TabIndex = 6;
@@ -131,7 +111,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(349, 227);
+            label5.Location = new Point(357, 169);
             label5.Name = "label5";
             label5.Size = new Size(100, 32);
             label5.TabIndex = 7;
@@ -140,7 +120,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(673, 227);
+            label6.Location = new Point(681, 169);
             label6.Name = "label6";
             label6.Size = new Size(220, 32);
             label6.TabIndex = 8;
@@ -150,7 +130,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(1098, 226);
+            label7.Location = new Point(1106, 168);
             label7.Name = "label7";
             label7.Size = new Size(78, 32);
             label7.TabIndex = 9;
@@ -159,7 +139,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(12, 335);
+            label8.Location = new Point(20, 277);
             label8.Name = "label8";
             label8.Size = new Size(160, 32);
             label8.TabIndex = 10;
@@ -168,7 +148,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(501, 335);
+            label9.Location = new Point(509, 277);
             label9.Name = "label9";
             label9.Size = new Size(115, 32);
             label9.TabIndex = 11;
@@ -177,7 +157,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(952, 335);
+            label10.Location = new Point(960, 277);
             label10.Name = "label10";
             label10.Size = new Size(154, 32);
             label10.TabIndex = 12;
@@ -193,7 +173,7 @@
             // 
             // txtPackage
             // 
-            txtPackage.Location = new Point(118, 223);
+            txtPackage.Location = new Point(126, 165);
             txtPackage.Name = "txtPackage";
             txtPackage.ReadOnly = true;
             txtPackage.Size = new Size(150, 39);
@@ -201,7 +181,7 @@
             // 
             // txtAmount
             // 
-            txtAmount.Location = new Point(455, 223);
+            txtAmount.Location = new Point(463, 165);
             txtAmount.Name = "txtAmount";
             txtAmount.ReadOnly = true;
             txtAmount.Size = new Size(150, 39);
@@ -209,7 +189,7 @@
             // 
             // txtDueAmount
             // 
-            txtDueAmount.Location = new Point(917, 224);
+            txtDueAmount.Location = new Point(925, 166);
             txtDueAmount.Name = "txtDueAmount";
             txtDueAmount.ReadOnly = true;
             txtDueAmount.Size = new Size(150, 39);
@@ -217,7 +197,7 @@
             // 
             // txtStatus
             // 
-            txtStatus.Location = new Point(1198, 224);
+            txtStatus.Location = new Point(1206, 166);
             txtStatus.Name = "txtStatus";
             txtStatus.ReadOnly = true;
             txtStatus.Size = new Size(150, 39);
@@ -226,7 +206,7 @@
             // dtpBillDate
             // 
             dtpBillDate.Format = DateTimePickerFormat.Short;
-            dtpBillDate.Location = new Point(203, 330);
+            dtpBillDate.Location = new Point(211, 272);
             dtpBillDate.Name = "dtpBillDate";
             dtpBillDate.Size = new Size(222, 39);
             dtpBillDate.TabIndex = 8;
@@ -234,7 +214,7 @@
             // dtpDueBillDate
             // 
             dtpDueBillDate.Format = DateTimePickerFormat.Short;
-            dtpDueBillDate.Location = new Point(640, 330);
+            dtpDueBillDate.Location = new Point(648, 272);
             dtpDueBillDate.Name = "dtpDueBillDate";
             dtpDueBillDate.Size = new Size(233, 39);
             dtpDueBillDate.TabIndex = 9;
@@ -242,14 +222,14 @@
             // dtpBillPaidDate
             // 
             dtpBillPaidDate.Format = DateTimePickerFormat.Short;
-            dtpBillPaidDate.Location = new Point(1112, 330);
+            dtpBillPaidDate.Location = new Point(1120, 272);
             dtpBillPaidDate.Name = "dtpBillPaidDate";
             dtpBillPaidDate.Size = new Size(236, 39);
             dtpBillPaidDate.TabIndex = 10;
             // 
             // txtCustomerName
             // 
-            txtCustomerName.Location = new Point(118, 107);
+            txtCustomerName.Location = new Point(126, 49);
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.ReadOnly = true;
             txtCustomerName.Size = new Size(250, 39);
@@ -257,7 +237,7 @@
             // 
             // txtPhoneNumber
             // 
-            txtPhoneNumber.Location = new Point(597, 107);
+            txtPhoneNumber.Location = new Point(605, 49);
             txtPhoneNumber.Name = "txtPhoneNumber";
             txtPhoneNumber.ReadOnly = true;
             txtPhoneNumber.Size = new Size(243, 39);
@@ -265,56 +245,88 @@
             // 
             // txtAddress
             // 
-            txtAddress.Location = new Point(997, 107);
+            txtAddress.Location = new Point(1005, 49);
             txtAddress.Multiline = true;
             txtAddress.Name = "txtAddress";
             txtAddress.ReadOnly = true;
             txtAddress.Size = new Size(351, 73);
             txtAddress.TabIndex = 3;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(26, 26, 26);
+            panel1.Controls.Add(btnCusClose);
+            panel1.Controls.Add(lblName);
+            panel1.Dock = DockStyle.Top;
+            panel1.ForeColor = Color.White;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1381, 65);
+            panel1.TabIndex = 15;
+            // 
+            // btnCusClose
+            // 
+            btnCusClose.Dock = DockStyle.Right;
+            btnCusClose.Image = (Image)resources.GetObject("btnCusClose.Image");
+            btnCusClose.Location = new Point(1331, 0);
+            btnCusClose.Name = "btnCusClose";
+            btnCusClose.Size = new Size(50, 65);
+            btnCusClose.SizeMode = PictureBoxSizeMode.Zoom;
+            btnCusClose.TabIndex = 1;
+            btnCusClose.TabStop = false;
+            btnCusClose.Click += btnCusClose_Click;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(dtpBillDate);
+            panel2.Controls.Add(label1);
+            panel2.Controls.Add(txtAddress);
+            panel2.Controls.Add(label2);
+            panel2.Controls.Add(txtPhoneNumber);
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(txtCustomerName);
+            panel2.Controls.Add(label4);
+            panel2.Controls.Add(dtpBillPaidDate);
+            panel2.Controls.Add(label5);
+            panel2.Controls.Add(dtpDueBillDate);
+            panel2.Controls.Add(label6);
+            panel2.Controls.Add(label7);
+            panel2.Controls.Add(txtStatus);
+            panel2.Controls.Add(label8);
+            panel2.Controls.Add(txtDueAmount);
+            panel2.Controls.Add(label9);
+            panel2.Controls.Add(txtAmount);
+            panel2.Controls.Add(label10);
+            panel2.Controls.Add(txtPackage);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 65);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1381, 353);
+            panel2.TabIndex = 16;
+            // 
             // frmEditCustomer
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1381, 407);
+            ClientSize = new Size(1381, 418);
             ControlBox = false;
-            Controls.Add(txtAddress);
-            Controls.Add(txtPhoneNumber);
-            Controls.Add(txtCustomerName);
-            Controls.Add(dtpBillPaidDate);
-            Controls.Add(dtpDueBillDate);
-            Controls.Add(dtpBillDate);
-            Controls.Add(txtStatus);
-            Controls.Add(txtDueAmount);
-            Controls.Add(txtAmount);
-            Controls.Add(txtPackage);
+            Controls.Add(panel2);
+            Controls.Add(panel1);
             Controls.Add(label12);
-            Controls.Add(label10);
-            Controls.Add(label9);
-            Controls.Add(label8);
-            Controls.Add(label7);
-            Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(pnlCus);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "frmEditCustomer";
             StartPosition = FormStartPosition.CenterScreen;
-            pnlCus.ResumeLayout(false);
-            pnlCus.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)btnUpdateCClose).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)btnCusClose).EndInit();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Panel pnlCus;
-        private PictureBox btnUpdateCClose;
         private Label lblName;
         private Label label1;
         private Label label2;
@@ -339,5 +351,8 @@
         public DateTimePicker dtpDueBillDate;
         public DateTimePicker dtpBillPaidDate;
         public TextBox txtCustomerName;
+        private Panel panel1;
+        private PictureBox btnCusClose;
+        private Panel panel2;
     }
 }

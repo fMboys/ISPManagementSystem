@@ -46,8 +46,12 @@
             btnSave = new Button();
             btnClear = new Button();
             dtpConnectionDate = new DateTimePicker();
+            pnlNCusHeader = new Panel();
+            pnlNCusfrm = new Panel();
             pnlCus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusClose).BeginInit();
+            pnlNCusHeader.SuspendLayout();
+            pnlNCusfrm.SuspendLayout();
             SuspendLayout();
             // 
             // pnlCus
@@ -55,7 +59,7 @@
             pnlCus.BackColor = Color.FromArgb(26, 26, 26);
             pnlCus.Controls.Add(btnCusClose);
             pnlCus.Controls.Add(lblName);
-            pnlCus.Dock = DockStyle.Top;
+            pnlCus.Dock = DockStyle.Fill;
             pnlCus.ForeColor = Color.White;
             pnlCus.Location = new Point(0, 0);
             pnlCus.Name = "pnlCus";
@@ -64,10 +68,11 @@
             // 
             // btnCusClose
             // 
+            btnCusClose.Dock = DockStyle.Right;
             btnCusClose.Image = (Image)resources.GetObject("btnCusClose.Image");
-            btnCusClose.Location = new Point(905, 7);
+            btnCusClose.Location = new Point(912, 0);
             btnCusClose.Name = "btnCusClose";
-            btnCusClose.Size = new Size(50, 50);
+            btnCusClose.Size = new Size(50, 65);
             btnCusClose.SizeMode = PictureBoxSizeMode.Zoom;
             btnCusClose.TabIndex = 1;
             btnCusClose.TabStop = false;
@@ -75,18 +80,20 @@
             // 
             // lblName
             // 
+            lblName.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblName.Location = new Point(8, 7);
+            lblName.Location = new Point(3, 7);
             lblName.Name = "lblName";
-            lblName.Size = new Size(264, 50);
+            lblName.Size = new Size(350, 50);
             lblName.TabIndex = 0;
-            lblName.Text = "Add Customer";
+            lblName.Text = "Add New Customer";
+            lblName.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(13, 103);
+            label1.Location = new Point(12, 23);
             label1.Name = "label1";
             label1.Size = new Size(201, 32);
             label1.TabIndex = 4;
@@ -94,14 +101,15 @@
             // 
             // txtCustomerName
             // 
-            txtCustomerName.Location = new Point(222, 101);
+            txtCustomerName.Location = new Point(221, 21);
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.Size = new Size(215, 39);
             txtCustomerName.TabIndex = 1;
             // 
             // txtPhoneNumber
             // 
-            txtPhoneNumber.Location = new Point(723, 103);
+            txtPhoneNumber.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtPhoneNumber.Location = new Point(722, 23);
             txtPhoneNumber.MaxLength = 11;
             txtPhoneNumber.Name = "txtPhoneNumber";
             txtPhoneNumber.Size = new Size(215, 39);
@@ -109,8 +117,9 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new Point(514, 105);
+            label2.Location = new Point(513, 25);
             label2.Name = "label2";
             label2.Size = new Size(179, 32);
             label2.TabIndex = 6;
@@ -118,7 +127,8 @@
             // 
             // txtAddress
             // 
-            txtAddress.Location = new Point(222, 258);
+            txtAddress.Anchor = AnchorStyles.Left;
+            txtAddress.Location = new Point(221, 170);
             txtAddress.Multiline = true;
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(215, 71);
@@ -126,8 +136,9 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Left;
             label3.AutoSize = true;
-            label3.Location = new Point(13, 262);
+            label3.Location = new Point(12, 165);
             label3.Name = "label3";
             label3.Size = new Size(100, 32);
             label3.TabIndex = 8;
@@ -135,15 +146,17 @@
             // 
             // txtPackage
             // 
-            txtPackage.Location = new Point(222, 185);
+            txtPackage.Anchor = AnchorStyles.Left;
+            txtPackage.Location = new Point(221, 97);
             txtPackage.Name = "txtPackage";
             txtPackage.Size = new Size(215, 39);
             txtPackage.TabIndex = 3;
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Left;
             label4.AutoSize = true;
-            label4.Location = new Point(13, 188);
+            label4.Location = new Point(12, 91);
             label4.Name = "label4";
             label4.Size = new Size(104, 32);
             label4.TabIndex = 10;
@@ -151,15 +164,17 @@
             // 
             // txtRate
             // 
-            txtRate.Location = new Point(723, 185);
+            txtRate.Anchor = AnchorStyles.Right;
+            txtRate.Location = new Point(722, 97);
             txtRate.Name = "txtRate";
             txtRate.Size = new Size(215, 39);
             txtRate.TabIndex = 4;
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.Right;
             label5.AutoSize = true;
-            label5.Location = new Point(514, 188);
+            label5.Location = new Point(513, 100);
             label5.Name = "label5";
             label5.Size = new Size(64, 32);
             label5.TabIndex = 12;
@@ -167,8 +182,9 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.Right;
             label6.AutoSize = true;
-            label6.Location = new Point(514, 262);
+            label6.Location = new Point(513, 174);
             label6.Name = "label6";
             label6.Size = new Size(197, 32);
             label6.TabIndex = 14;
@@ -176,11 +192,12 @@
             // 
             // btnSave
             // 
+            btnSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnSave.BackColor = Color.FromArgb(25, 135, 84);
             btnSave.Cursor = Cursors.Hand;
             btnSave.FlatStyle = FlatStyle.Popup;
             btnSave.ForeColor = SystemColors.ControlText;
-            btnSave.Location = new Point(763, 361);
+            btnSave.Location = new Point(762, 272);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(175, 55);
             btnSave.TabIndex = 7;
@@ -190,10 +207,11 @@
             // 
             // btnClear
             // 
+            btnClear.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnClear.BackColor = Color.FromArgb(255, 193, 7);
             btnClear.Cursor = Cursors.Hand;
             btnClear.FlatStyle = FlatStyle.Popup;
-            btnClear.Location = new Point(579, 361);
+            btnClear.Location = new Point(578, 272);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(175, 55);
             btnClear.TabIndex = 8;
@@ -203,34 +221,53 @@
             // 
             // dtpConnectionDate
             // 
+            dtpConnectionDate.Anchor = AnchorStyles.Right;
             dtpConnectionDate.Format = DateTimePickerFormat.Short;
-            dtpConnectionDate.Location = new Point(723, 258);
+            dtpConnectionDate.Location = new Point(722, 170);
             dtpConnectionDate.Name = "dtpConnectionDate";
             dtpConnectionDate.Size = new Size(215, 39);
             dtpConnectionDate.TabIndex = 6;
+            // 
+            // pnlNCusHeader
+            // 
+            pnlNCusHeader.Controls.Add(pnlCus);
+            pnlNCusHeader.Dock = DockStyle.Top;
+            pnlNCusHeader.Location = new Point(0, 0);
+            pnlNCusHeader.Name = "pnlNCusHeader";
+            pnlNCusHeader.Size = new Size(962, 65);
+            pnlNCusHeader.TabIndex = 15;
+            // 
+            // pnlNCusfrm
+            // 
+            pnlNCusfrm.Controls.Add(txtCustomerName);
+            pnlNCusfrm.Controls.Add(label1);
+            pnlNCusfrm.Controls.Add(dtpConnectionDate);
+            pnlNCusfrm.Controls.Add(label2);
+            pnlNCusfrm.Controls.Add(btnClear);
+            pnlNCusfrm.Controls.Add(txtPhoneNumber);
+            pnlNCusfrm.Controls.Add(btnSave);
+            pnlNCusfrm.Controls.Add(label3);
+            pnlNCusfrm.Controls.Add(label6);
+            pnlNCusfrm.Controls.Add(txtAddress);
+            pnlNCusfrm.Controls.Add(txtRate);
+            pnlNCusfrm.Controls.Add(label4);
+            pnlNCusfrm.Controls.Add(label5);
+            pnlNCusfrm.Controls.Add(txtPackage);
+            pnlNCusfrm.Dock = DockStyle.Fill;
+            pnlNCusfrm.Location = new Point(0, 65);
+            pnlNCusfrm.Name = "pnlNCusfrm";
+            pnlNCusfrm.Size = new Size(962, 352);
+            pnlNCusfrm.TabIndex = 16;
             // 
             // frmNewCustomer
             // 
             AutoScaleDimensions = new SizeF(14F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(962, 428);
+            ClientSize = new Size(962, 417);
             ControlBox = false;
-            Controls.Add(dtpConnectionDate);
-            Controls.Add(btnClear);
-            Controls.Add(btnSave);
-            Controls.Add(label6);
-            Controls.Add(txtRate);
-            Controls.Add(label5);
-            Controls.Add(txtPackage);
-            Controls.Add(label4);
-            Controls.Add(txtAddress);
-            Controls.Add(label3);
-            Controls.Add(txtPhoneNumber);
-            Controls.Add(label2);
-            Controls.Add(txtCustomerName);
-            Controls.Add(label1);
-            Controls.Add(pnlCus);
+            Controls.Add(pnlNCusfrm);
+            Controls.Add(pnlNCusHeader);
             Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "frmNewCustomer";
@@ -238,8 +275,10 @@
             pnlCus.ResumeLayout(false);
             pnlCus.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusClose).EndInit();
+            pnlNCusHeader.ResumeLayout(false);
+            pnlNCusfrm.ResumeLayout(false);
+            pnlNCusfrm.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -261,5 +300,7 @@
         private Button btnSave;
         private Button btnClear;
         private DateTimePicker dtpConnectionDate;
+        private Panel pnlNCusHeader;
+        private Panel pnlNCusfrm;
     }
 }

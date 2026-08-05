@@ -19,5 +19,10 @@ namespace ISPWinUI
         {
             this.Close();
         }
+
+        private void btnCusClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

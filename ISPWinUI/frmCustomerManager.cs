@@ -34,7 +34,7 @@ namespace ISPWinUI
             }
         }
 
-        private void btnCusClose_Click(object sender, EventArgs e)
+        private void pbClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }

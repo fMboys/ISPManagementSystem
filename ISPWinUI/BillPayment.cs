@@ -23,10 +23,6 @@ namespace ISPWinUI
             sqlConnection = new SqlConnection(dbConnection.GetConnectionString());
         }
 
-        private void btnCusClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
         private void btnPayBill_Click(object sender, EventArgs e)
         {
@@ -55,7 +51,7 @@ namespace ISPWinUI
                         connectionDate = connectionDate.AddMonths(1);
                     }
                     DateTime nextBillDate = connectionDate;
-                    DateTime dueDate = nextBillDate.AddDays(35);
+                    DateTime dueDate = nextBillDate.AddDays(5);
 
                     using (var cmd = sqlConnection.CreateCommand())
                     {
@@ -116,6 +112,16 @@ namespace ISPWinUI
 
             // Reject everything else
             e.Handled = true;
+        }
+
+        private void frmBillPayment_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCusClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

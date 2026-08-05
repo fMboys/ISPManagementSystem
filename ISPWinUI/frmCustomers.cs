@@ -176,7 +176,7 @@ namespace ISPWinUI
                 decimal currentBill = Convert.ToDecimal(string.IsNullOrEmpty(dgvCustomers.CurrentRow.Cells["Bill"].Value.ToString()) ? "0" : dgvCustomers.CurrentRow.Cells["Bill"].Value);
                 decimal remainingBill = Convert.ToDecimal(string.IsNullOrEmpty(dgvCustomers.CurrentRow.Cells["RemainingAmount"].Value.ToString()) ? "0" : dgvCustomers.CurrentRow.Cells["RemainingAmount"].Value);
                 
-                billPayment.txtCustomer.Text = dgvCustomers.CurrentRow.Cells["Name"].Value.ToString();
+                billPayment.txtCustomer.Text = dgvCustomers.CurrentRow.Cells["CustomerName"].Value.ToString();
                 billPayment.txtBill.Text = currentBill.ToString();
                 billPayment.txtRemainingBill.Text = remainingBill.ToString();
                 billPayment.txtTotalBill.Text = (currentBill + remainingBill).ToString();

@@ -36,9 +36,15 @@
             pbWelcome = new PictureBox();
             lblWelcome = new Label();
             pbImageWelcome = new PictureBox();
+            pnlMainscreen = new Panel();
+            pnlMainLogo = new Panel();
+            panel2 = new Panel();
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbWelcome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbImageWelcome).BeginInit();
+            pnlMainscreen.SuspendLayout();
+            pnlMainLogo.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // pnlMain
@@ -49,14 +55,14 @@
             pnlMain.ForeColor = Color.White;
             pnlMain.Location = new Point(0, 0);
             pnlMain.Name = "pnlMain";
-            pnlMain.Size = new Size(718, 65);
+            pnlMain.Size = new Size(718, 68);
             pnlMain.TabIndex = 0;
             // 
             // lblName
             // 
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblName.Location = new Point(109, 7);
+            lblName.Location = new Point(109, 3);
             lblName.Name = "lblName";
             lblName.Size = new Size(505, 50);
             lblName.TabIndex = 0;
@@ -64,6 +70,7 @@
             // 
             // btnCustomers
             // 
+            btnCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             btnCustomers.BackColor = Color.Tan;
             btnCustomers.Cursor = Cursors.Hand;
             btnCustomers.FlatStyle = FlatStyle.Popup;
@@ -71,9 +78,9 @@
             btnCustomers.ForeColor = SystemColors.MenuText;
             btnCustomers.Image = (Image)resources.GetObject("btnCustomers.Image");
             btnCustomers.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCustomers.Location = new Point(12, 292);
+            btnCustomers.Location = new Point(12, 256);
             btnCustomers.Name = "btnCustomers";
-            btnCustomers.Size = new Size(694, 138);
+            btnCustomers.Size = new Size(694, 125);
             btnCustomers.TabIndex = 1;
             btnCustomers.Text = "     Manage Customers";
             btnCustomers.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -82,11 +89,12 @@
             // 
             // btnClose
             // 
+            btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             btnClose.BackColor = Color.FromArgb(255, 51, 51);
             btnClose.Cursor = Cursors.Hand;
             btnClose.FlatStyle = FlatStyle.Popup;
             btnClose.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnClose.Location = new Point(12, 487);
+            btnClose.Location = new Point(12, 475);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(694, 58);
             btnClose.TabIndex = 2;
@@ -96,19 +104,21 @@
             // 
             // pbWelcome
             // 
+            pbWelcome.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pbWelcome.Image = (Image)resources.GetObject("pbWelcome.Image");
-            pbWelcome.Location = new Point(12, 76);
+            pbWelcome.Location = new Point(3, 3);
             pbWelcome.Name = "pbWelcome";
-            pbWelcome.Size = new Size(222, 170);
+            pbWelcome.Size = new Size(246, 170);
             pbWelcome.SizeMode = PictureBoxSizeMode.StretchImage;
             pbWelcome.TabIndex = 3;
             pbWelcome.TabStop = false;
             // 
             // lblWelcome
             // 
+            lblWelcome.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblWelcome.AutoSize = true;
             lblWelcome.Font = new Font("Gadugi", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblWelcome.Location = new Point(240, 132);
+            lblWelcome.Location = new Point(231, 50);
             lblWelcome.Name = "lblWelcome";
             lblWelcome.Size = new Size(331, 57);
             lblWelcome.TabIndex = 4;
@@ -116,27 +126,56 @@
             // 
             // pbImageWelcome
             // 
+            pbImageWelcome.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pbImageWelcome.Image = (Image)resources.GetObject("pbImageWelcome.Image");
-            pbImageWelcome.Location = new Point(570, 96);
+            pbImageWelcome.Location = new Point(555, 22);
             pbImageWelcome.Name = "pbImageWelcome";
-            pbImageWelcome.Size = new Size(136, 138);
+            pbImageWelcome.Size = new Size(160, 138);
             pbImageWelcome.SizeMode = PictureBoxSizeMode.StretchImage;
             pbImageWelcome.TabIndex = 5;
             pbImageWelcome.TabStop = false;
             // 
+            // pnlMainscreen
+            // 
+            pnlMainscreen.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pnlMainscreen.Controls.Add(pnlMainLogo);
+            pnlMainscreen.Controls.Add(btnClose);
+            pnlMainscreen.Controls.Add(btnCustomers);
+            pnlMainscreen.Location = new Point(0, 60);
+            pnlMainscreen.Name = "pnlMainscreen";
+            pnlMainscreen.Size = new Size(718, 545);
+            pnlMainscreen.TabIndex = 6;
+            // 
+            // pnlMainLogo
+            // 
+            pnlMainLogo.Controls.Add(pbWelcome);
+            pnlMainLogo.Controls.Add(pbImageWelcome);
+            pnlMainLogo.Controls.Add(lblWelcome);
+            pnlMainLogo.Dock = DockStyle.Top;
+            pnlMainLogo.Location = new Point(0, 0);
+            pnlMainLogo.Name = "pnlMainLogo";
+            pnlMainLogo.Size = new Size(718, 181);
+            pnlMainLogo.TabIndex = 6;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(pnlMain);
+            panel2.Dock = DockStyle.Top;
+            panel2.Location = new Point(0, 0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(718, 60);
+            panel2.TabIndex = 7;
+            // 
             // frmMain
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(192F, 192F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoSize = true;
             BackColor = Color.White;
-            ClientSize = new Size(718, 557);
+            ClientSize = new Size(718, 605);
             ControlBox = false;
-            Controls.Add(pbImageWelcome);
-            Controls.Add(lblWelcome);
-            Controls.Add(pbWelcome);
-            Controls.Add(btnClose);
-            Controls.Add(btnCustomers);
-            Controls.Add(pnlMain);
+            Controls.Add(panel2);
+            Controls.Add(pnlMainscreen);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "frmMain";
             StartPosition = FormStartPosition.CenterScreen;
@@ -145,8 +184,11 @@
             pnlMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbWelcome).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbImageWelcome).EndInit();
+            pnlMainscreen.ResumeLayout(false);
+            pnlMainLogo.ResumeLayout(false);
+            pnlMainLogo.PerformLayout();
+            panel2.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -158,5 +200,8 @@
         private PictureBox pbWelcome;
         private Label lblWelcome;
         private PictureBox pbImageWelcome;
+        private Panel pnlMainscreen;
+        private Panel panel2;
+        private Panel pnlMainLogo;
     }
 }
