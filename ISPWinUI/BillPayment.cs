@@ -55,35 +55,45 @@ namespace ISPWinUI
 
                     using (var cmd = sqlConnection.CreateCommand())
                     {
-                        cmd.CommandText = @"
+                        try
+                        {
+                            cmd.CommandText = @"
                         INSERT INTO tblBillings (CustomerID, Amount, PaidAmount, RemainingAmount, Status, BillDate, BillPaidDate, DueBillDate, ModifiedBy)
                         VALUES (@CustomerID, @Amount, @PaidAmount, @RemainingAmount, @Status, @BillDate, @BillPaidDate, @DueBillDate, @ModifiedBy);";
-                        //    SELECT SCOPE_IDENTITY();"; // add it if want to add increamental id and return it in code.
+                            //    SELECT SCOPE_IDENTITY();"; // add it if want to add increamental id and return it in code.
 
-                        cmd.Parameters.AddWithValue("@CustomerID", customerId);
-                        cmd.Parameters.AddWithValue("@Amount", bill < 0 ? 0 : bill);
-                        cmd.Parameters.AddWithValue("@PaidAmount", paidBill < 0 ? 0 : paidBill);
-                        cmd.Parameters.AddWithValue("@RemainingAmount", remianingBill);
-                        cmd.Parameters.AddWithValue("@Status", status);
-                        cmd.Parameters.AddWithValue("@BillDate", nextBillDate);
-                        cmd.Parameters.AddWithValue("@BillPaidDate", string.IsNullOrEmpty(lastBillPaidDate.ToString()) ? (object)DBNull.Value : lastBillPaidDate);
-                        cmd.Parameters.AddWithValue("@DueBillDate", string.IsNullOrEmpty(dueDate.ToString()) ? DBNull.Value : dueDate);
-                        cmd.Parameters.AddWithValue("@ModifiedBy", "Admin");
+                            cmd.Parameters.AddWithValue("@CustomerID", customerId);
+                            cmd.Parameters.AddWithValue("@Amount", bill < 0 ? 0 : bill);
+                            cmd.Parameters.AddWithValue("@PaidAmount", paidBill < 0 ? 0 : paidBill);
+                            cmd.Parameters.AddWithValue("@RemainingAmount", remianingBill);
+                            cmd.Parameters.AddWithValue("@Status", status);
+                            cmd.Parameters.AddWithValue("@BillDate", nextBillDate);
+                            cmd.Parameters.AddWithValue("@BillPaidDate", string.IsNullOrEmpty(lastBillPaidDate.ToString()) ? (object)DBNull.Value : lastBillPaidDate);
+                            cmd.Parameters.AddWithValue("@DueBillDate", string.IsNullOrEmpty(dueDate.ToString()) ? DBNull.Value : dueDate);
+                            cmd.Parameters.AddWithValue("@ModifiedBy", "Admin");
 
-                        sqlConnection.Open();
-                        cmd.ExecuteNonQuery();
-                        //var idObj = cmd.ExecuteScalar();
-                        //int newId = 0;
-                        //if (idObj != null && int.TryParse(idObj.ToString(), out newId))
-                        //{
-                        //    // Optionally store the new customer's id, e.g. this.Tag = newId;
-                        //}
+                            sqlConnection.Open();
+                            cmd.ExecuteNonQuery();
+                            this.Close();
+                            WinUILoggerService.Info($"Bill paid successfully for CustomerID: {customerId}.");
+                            //var idObj = cmd.ExecuteScalar();
+                            //int newId = 0;
+                            //if (idObj != null && int.TryParse(idObj.ToString(), out newId))
+                            //{
+                            //    // Optionally store the new customer's id, e.g. this.Tag = newId;
+                            //}
+                        }
+                        catch (SqlException ex)
+                        {
+                            this.Close();
+                            WinUILoggerService.Error(ex, ex.Message);
+                            MessageBox.Show(ex.Message);
+                        }
                     }
 
-                    MessageBox.Show("Bill Payment successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Bill is Paid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     // Close or reset form as appropriate:
                     this.DialogResult = DialogResult.OK;
-                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -95,23 +105,31 @@ namespace ISPWinUI
 
         private void txtEnterAmount_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            if (textBox == null) return;
-
-            // Allow digits and control keys (like Backspace)
-            if (char.IsDigit(e.KeyChar) || char.IsControl(e.KeyChar))
+            try
             {
-                return;
-            }
+                TextBox textBox = sender as TextBox;
+                if (textBox == null) return;
 
-            // Allow a decimal point, but ONLY if the text box doesn't already contain one
-            if (e.KeyChar == '.' && !textBox.Text.Contains("."))
+                // Allow digits and control keys (like Backspace)
+                if (char.IsDigit(e.KeyChar) || char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Allow a decimal point, but ONLY if the text box doesn't already contain one
+                if (e.KeyChar == '.' && !textBox.Text.Contains("."))
+                {
+                    return;
+                }
+
+                // Reject everything else
+                e.Handled = true;
+            }
+            catch (Exception ex)
             {
-                return;
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
             }
-
-            // Reject everything else
-            e.Handled = true;
         }
 
         private void frmBillPayment_Load(object sender, EventArgs e)

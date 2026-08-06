@@ -33,13 +33,14 @@ namespace ISPWinUI
             }
             catch (Exception ex)
             {
-
-                throw;
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            WinUILoggerService.Info("=============== Application is closed ===============");
             this.Close();
         }
     }

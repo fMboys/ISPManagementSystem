@@ -58,8 +58,8 @@ namespace ISPWinUI
             }
             catch (Exception ex)
             {
-
-                throw;
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -90,18 +90,7 @@ namespace ISPWinUI
                     if (value != "Paid")
                     {
                         BillPayment();
-
-                        //if (MessageBox.Show("Are you sure you want to Paid this customer?", "Customer Paid", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        //{
-                            //sqlConnection.Open();
-
-                            //sqlCommand = new SqlCommand("UPDATE tblBillings SET RemainingAmount=0, BillDate=DATEADD(MONTH, 1, BillDate), BillPaidDate=GETDATE(), DueBillDate=DATEADD(DAY, 5, DATEADD(MONTH, 1, BillDate)), Status='Paid' WHERE CustomerID=@CustomerID", sqlConnection);
-                            //sqlCommand.Parameters.AddWithValue("@CustomerID", dgvCustomers.Rows[e.RowIndex].Cells[1].Value.ToString());
-                            //sqlCommand.ExecuteNonQuery();
-                            //sqlConnection.Close();
-                            //MessageBox.Show("Customer Paid Successfully!", "Customer Paid", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            GetCustomers();
-                        //} 
+                        GetCustomers();
                     }
                     else
                         MessageBox.Show("Customer has already Paid the bill!", "Bill Paid", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -113,38 +102,46 @@ namespace ISPWinUI
                     
                     if (customerId >= 0)
                     {
-                        sqlConnection.Open();
-                        sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, Address, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.Address, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID WHERE c.CustomerID = @CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
-                        sqlCommand.Parameters.AddWithValue("@CustomerID", customerId);
-                        reader = sqlCommand.ExecuteReader();
-                        if (reader.Read())
+                        try
                         {
-                            frmEditCustomer.txtCustomerName.Text = reader["CustomerName"].ToString();
-                            frmEditCustomer.txtPhoneNumber.Text = reader["PhoneNumber"].ToString();
-                            frmEditCustomer.txtAddress.Text = reader["Address"].ToString();
-                            frmEditCustomer.txtPackage.Text = reader["Package"].ToString();
-                            frmEditCustomer.txtAmount.Text = reader["Amount"].ToString();
-                            frmEditCustomer.txtDueAmount.Text = string.IsNullOrEmpty(reader["RemainingAmount"].ToString()) ? "0" : reader["RemainingAmount"].ToString();
-                            frmEditCustomer.txtStatus.Text = string.IsNullOrEmpty(reader["Status"].ToString()) ? "Not Paid" : reader["Status"].ToString();
-                            
-                            if (frmEditCustomer.txtStatus.Text == "Paid")
+                            sqlConnection.Open();
+                            sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, Address, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.Address, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID WHERE c.CustomerID = @CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
+                            sqlCommand.Parameters.AddWithValue("@CustomerID", customerId);
+                            reader = sqlCommand.ExecuteReader();
+                            if (reader.Read())
                             {
-                                dgvCustomers.Rows[e.RowIndex].Cells[6].Style.BackColor = System.Drawing.Color.LightGreen;
-                                frmEditCustomer.txtStatus.BackColor = System.Drawing.Color.LightGreen;
+                                frmEditCustomer.txtCustomerName.Text = reader["CustomerName"].ToString();
+                                frmEditCustomer.txtPhoneNumber.Text = reader["PhoneNumber"].ToString();
+                                frmEditCustomer.txtAddress.Text = reader["Address"].ToString();
+                                frmEditCustomer.txtPackage.Text = reader["Package"].ToString();
+                                frmEditCustomer.txtAmount.Text = reader["Amount"].ToString();
+                                frmEditCustomer.txtDueAmount.Text = string.IsNullOrEmpty(reader["RemainingAmount"].ToString()) ? "0" : reader["RemainingAmount"].ToString();
+                                frmEditCustomer.txtStatus.Text = string.IsNullOrEmpty(reader["Status"].ToString()) ? "Not Paid" : reader["Status"].ToString();
+
+                                if (frmEditCustomer.txtStatus.Text == "Paid")
+                                {
+                                    dgvCustomers.Rows[e.RowIndex].Cells[6].Style.BackColor = System.Drawing.Color.LightGreen;
+                                    frmEditCustomer.txtStatus.BackColor = System.Drawing.Color.LightGreen;
+                                }
+                                else
+                                {
+                                    // Assuming 'dataGridView' is your DataGridView and e is DataGridViewCellEventArgs
+                                    frmEditCustomer.txtStatus.BackColor = ColorTranslator.FromHtml("#ff6666");
+                                    dgvCustomers.Rows[e.RowIndex].Cells[6].Style.BackColor = ColorTranslator.FromHtml("#ff6666");
+                                }
+                                frmEditCustomer.dtpBillDate.Text = string.IsNullOrEmpty(reader["BillDate"].ToString()) ? "01/01/1900" : reader["BillDate"].ToString();
+                                frmEditCustomer.dtpDueBillDate.Text = string.IsNullOrEmpty(reader["DueBillDate"].ToString()) ? "01/01/1900" : reader["DueBillDate"].ToString();
+                                frmEditCustomer.dtpBillPaidDate.Text = string.IsNullOrEmpty(reader["BillPaidDate"].ToString()) ? "01/01/1900" : reader["BillPaidDate"].ToString();
+
                             }
-                            else
-                            {
-                                // Assuming 'dataGridView' is your DataGridView and e is DataGridViewCellEventArgs
-                                frmEditCustomer.txtStatus.BackColor = ColorTranslator.FromHtml("#ff6666");
-                                dgvCustomers.Rows[e.RowIndex].Cells[6].Style.BackColor = ColorTranslator.FromHtml("#ff6666");
-                            }
-                            frmEditCustomer.dtpBillDate.Text = string.IsNullOrEmpty(reader["BillDate"].ToString()) ? "01/01/1900" : reader["BillDate"].ToString();
-                            frmEditCustomer.dtpDueBillDate.Text = string.IsNullOrEmpty(reader["DueBillDate"].ToString()) ? "01/01/1900" : reader["DueBillDate"].ToString();
-                            frmEditCustomer.dtpBillPaidDate.Text = string.IsNullOrEmpty(reader["BillPaidDate"].ToString()) ? "01/01/1900" : reader["BillPaidDate"].ToString();
-                            
+                            reader.Close();
+                            sqlConnection.Close();
                         }
-                        reader.Close();
-                        sqlConnection.Close();
+                        catch (SqlException ex)
+                        {
+                            WinUILoggerService.Error(ex, ex.Message);
+                            MessageBox.Show(ex.Message);
+                        }
                     }
 
                     frmEditCustomer.ShowDialog();
@@ -152,8 +149,8 @@ namespace ISPWinUI
             }
             catch (Exception ex)
             {
-
-                throw;
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -186,7 +183,8 @@ namespace ISPWinUI
             }
             catch (Exception ex)
             {
-                throw;
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 

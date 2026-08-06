@@ -27,9 +27,7 @@ namespace ISPWinUI
                 string package = !string.IsNullOrEmpty(txtPackage?.Text?.Trim()) ? txtPackage.Text + " Mbps" : string.Empty;
                 decimal rate = decimal.TryParse(txtRate?.Text, out var r) ? r : 0m;
                 DateTime connectionDate = dtpConnectionDate.Value;
-                //DateTime dueDate = connectionDate.AddDays(35); // Example: due date is one month after connection date
-                //DateTime lastBillPaidDate = DateTime.Parse("01/01/1900"); // Example: default previous bill date
-
+               
                 if (string.IsNullOrWhiteSpace(customerName))
                 {
                     MessageBox.Show("Customer name is required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -46,39 +44,44 @@ namespace ISPWinUI
                 //using (var conn = new System.Data.SqlClient.SqlConnection(connStr))
                 using (var cmd = sqlConnection.CreateCommand())
                 {
-                    cmd.CommandText = @"
+                    try
+                    {
+                        cmd.CommandText = @"
                         INSERT INTO tblCustomers (CustomerName, PhoneNumber, Address, Package, Amount, ConnectionDate, ModifiedBy, CreatedDate)
                         VALUES (@CustomerName, @PhoneNumber, @Address, @Package, @Amount, @ConnectionDate, @ModifiedBy, @CreatedDate);";
                         //SELECT SCOPE_IDENTITY();"; // add it if want to add increamental id and return it in code.
 
-                    cmd.Parameters.AddWithValue("@CustomerName", customerName);
-                    cmd.Parameters.AddWithValue("@PhoneNumber", phone);
-                    cmd.Parameters.AddWithValue("@Address", address);
-                    cmd.Parameters.AddWithValue("@Package", package);
-                    cmd.Parameters.AddWithValue("@Amount", rate < 0 ? 0 : rate);
-                    //cmd.Parameters.AddWithValue("@Status", "Not Paid");
-                    cmd.Parameters.AddWithValue("@ConnectionDate", string.IsNullOrEmpty(connectionDate.ToString()) ? (object)DBNull.Value : connectionDate);
-                    //cmd.Parameters.AddWithValue("@BillPaidDate", string.IsNullOrEmpty(lastBillPaidDate.ToString()) ? (object)DBNull.Value : lastBillPaidDate);
-                    //cmd.Parameters.AddWithValue("@DueBillDate", string.IsNullOrEmpty(dueDate.ToString()) ? DBNull.Value : dueDate);
-                    cmd.Parameters.AddWithValue("@ModifiedBy", "Admin");
-                    cmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@CustomerName", customerName);
+                        cmd.Parameters.AddWithValue("@PhoneNumber", phone);
+                        cmd.Parameters.AddWithValue("@Address", address);
+                        cmd.Parameters.AddWithValue("@Package", package);
+                        cmd.Parameters.AddWithValue("@Amount", rate < 0 ? 0 : rate);
+                        cmd.Parameters.AddWithValue("@ConnectionDate", string.IsNullOrEmpty(connectionDate.ToString()) ? (object)DBNull.Value : connectionDate);
+                        cmd.Parameters.AddWithValue("@ModifiedBy", "Admin");
+                        cmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
 
-                    sqlConnection.Open();
-                    cmd.ExecuteNonQuery();
+                        sqlConnection.Open();
+                        cmd.ExecuteNonQuery();
 
-                    //add it if want to add increamental id and return it in code.
-                    //var idObj = cmd.ExecuteScalar();
-                    //int newId = 0;
-                    //if (idObj != null && int.TryParse(idObj.ToString(), out newId))
-                    //{
-                    //    // Optionally store the new customer's id, e.g. this.Tag = newId;
-                    //}
+                        //add it if want to add increamental id and return it in code.
+                        //var idObj = cmd.ExecuteScalar();
+                        //int newId = 0;
+                        //if (idObj != null && int.TryParse(idObj.ToString(), out newId))
+                        //{
+                        //    // Optionally store the new customer's id, e.g. this.Tag = newId;
+                        //}
+                    }
+                    catch (SqlException ex)
+                    {
+                        this.Close();
+                        WinUILoggerService.Error(ex, ex.Message);
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-
+                WinUILoggerService.Info($"New customer ({customerName}) created successfully.");
                 MessageBox.Show("Customer saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 // Close or reset form as appropriate:
                 this.DialogResult = DialogResult.OK;
-                this.Close();
             }
             catch (Exception ex)
             {
@@ -98,83 +101,115 @@ namespace ISPWinUI
 
         private void ClearFrom()
         {
-            txtCustomerName.Clear();
-            txtPhoneNumber.Clear();
-            txtAddress.Clear();
-            txtPackage.Clear();
-            txtRate.Clear();
-            dtpConnectionDate.Value = DateTime.Now;
+            try
+            {
+                txtCustomerName.Clear();
+                txtPhoneNumber.Clear();
+                txtAddress.Clear();
+                txtPackage.Clear();
+                txtRate.Clear();
+                dtpConnectionDate.Value = DateTime.Now;
+            }
+            catch (Exception ex)
+            {
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void BindNumbericKeyPressEventHandlers()
         {
-            txtPhoneNumber.KeyPress += NumericTextBox_KeyPress;
-            txtPhoneNumber.TextChanged += NumericTextBox_TextChanged;
+            try
+            {
+                txtPhoneNumber.KeyPress += NumericTextBox_KeyPress;
+                txtPhoneNumber.TextChanged += NumericTextBox_TextChanged;
 
-            txtPackage.KeyPress += NumericTextBox_KeyPress;
-            txtPackage.KeyPress += NumericTextBox_TextChanged;
+                txtPackage.KeyPress += NumericTextBox_KeyPress;
+                txtPackage.KeyPress += NumericTextBox_TextChanged;
 
-            txtRate.KeyPress += NumericTextBox_KeyPress;
-            txtRate.KeyPress += NumericTextBox_TextChanged;
+                txtRate.KeyPress += NumericTextBox_KeyPress;
+                txtRate.KeyPress += NumericTextBox_TextChanged;
+            }
+            catch (Exception ex)
+            {
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
+            }
         }
 
         // 1. Reusable method to block non-numeric typing
         private void NumericTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            if (textBox == null) return;
-
-            // Allow digits and control keys (like Backspace)
-            if (char.IsDigit(e.KeyChar) || char.IsControl(e.KeyChar))
+            try
             {
-                return;
-            }
+                TextBox textBox = sender as TextBox;
+                if (textBox == null) return;
 
-            // Allow a decimal point, but ONLY if the text box doesn't already contain one
-            if (e.KeyChar == '.' && !textBox.Text.Contains("."))
+                // Allow digits and control keys (like Backspace)
+                if (char.IsDigit(e.KeyChar) || char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Allow a decimal point, but ONLY if the text box doesn't already contain one
+                if (e.KeyChar == '.' && !textBox.Text.Contains("."))
+                {
+                    return;
+                }
+
+
+
+                // Reject everything else
+                e.Handled = true;
+            }
+            catch (Exception ex)
             {
-                return;
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
             }
-
-            
-
-            // Reject everything else
-            e.Handled = true;
         }
 
         // 2. Reusable method to block non-numeric pasting
         private void NumericTextBox_TextChanged(object sender, EventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-
-            if (textBox == null || string.IsNullOrEmpty(textBox.Text)) return;
-
-            // Allow a solitary decimal point while the user is actively typing
-            if (textBox.Text == ".") return;
-
-            // If the text cannot be successfully parsed as a decimal, clean it up
-            if (!double.TryParse(textBox.Text, out _))
+            try
             {
-                // Remove characters that aren't digits or periods
-                string cleanText = Regex.Replace(textBox.Text, "[^0-9.]", "");
+                TextBox textBox = sender as TextBox;
 
-                // Strip out any extra decimal points after the first one
-                int firstDot = cleanText.IndexOf('.');
-                if (firstDot != -1)
+                if (textBox == null || string.IsNullOrEmpty(textBox.Text)) return;
+
+                // Allow a solitary decimal point while the user is actively typing
+                if (textBox.Text == ".") return;
+
+                // If the text cannot be successfully parsed as a decimal, clean it up
+                if (!double.TryParse(textBox.Text, out _))
                 {
-                    cleanText = cleanText.Substring(0, firstDot + 1) +
-                                cleanText.Substring(firstDot + 1).Replace(".", "");
+                    // Remove characters that aren't digits or periods
+                    string cleanText = Regex.Replace(textBox.Text, "[^0-9.]", "");
+
+                    // Strip out any extra decimal points after the first one
+                    int firstDot = cleanText.IndexOf('.');
+                    if (firstDot != -1)
+                    {
+                        cleanText = cleanText.Substring(0, firstDot + 1) +
+                                    cleanText.Substring(firstDot + 1).Replace(".", "");
+                    }
+
+                    textBox.Text = cleanText;
+                    textBox.SelectionStart = textBox.Text.Length; // Keep cursor at the end
+
+                    //if (textBox.Name == "txtPhoneNumber")
+                    //{
+                    //    // Allow 11 digits for phone number
+                    //    // else show warning label message
+
+                    //}
                 }
-
-                textBox.Text = cleanText;
-                textBox.SelectionStart = textBox.Text.Length; // Keep cursor at the end
-
-                //if (textBox.Name == "txtPhoneNumber")
-                //{
-                //    // Allow 11 digits for phone number
-                //    // else show warning label message
-
-                //}
+            }
+            catch (Exception ex)
+            {
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 

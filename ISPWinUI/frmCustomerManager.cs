@@ -17,8 +17,16 @@ namespace ISPWinUI
 
         private void btnAddCustomer_Click(object sender, EventArgs e)
         {
-            frmNewCustomer frmNewCustomer = new frmNewCustomer();
-            frmNewCustomer.ShowDialog();
+            try
+            {
+                frmNewCustomer frmNewCustomer = new frmNewCustomer();
+                frmNewCustomer.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnCustomerList_Click(object sender, EventArgs e)
@@ -28,9 +36,10 @@ namespace ISPWinUI
                 frmCustomerList frmCustomers = new frmCustomerList();
                 frmCustomers.ShowDialog();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
