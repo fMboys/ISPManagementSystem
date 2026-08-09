@@ -34,10 +34,24 @@ namespace ISPWinUI
 
             try
             {
-                // To customize application configuration such as set high DPI settings or default font,
-                // see https://aka.ms/applicationconfiguration.
-                ApplicationConfiguration.Initialize();
-                Application.Run(new frmMain());
+                DateTime trialPeriod = DateTime.Now.AddDays(30);
+
+                if (DateTime.Now <= trialPeriod)
+                {
+                    trialPeriod = trialPeriod.AddDays(-7);
+                    if (DateTime.Now > trialPeriod)
+                        MessageBox.Show($"The trial period will expire in {(DateTime.Now - trialPeriod).Days} day(s). Please contact support.", "Trial Period Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // To customize application configuration such as set high DPI settings or default font,
+                    // see https://aka.ms/applicationconfiguration.
+                    ApplicationConfiguration.Initialize();
+                    Application.Run(new frmMain());
+                }
+                else
+                {
+                    MessageBox.Show("The trial period has ended. Please contact support to obtain a license.", "Trial Period Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Application.Exit();
+                }
+                
             }
             catch (Exception ex)
             {

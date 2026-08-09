@@ -39,12 +39,14 @@
             pnlMainscreen = new Panel();
             pnlMainLogo = new Panel();
             panel2 = new Panel();
+            panel1 = new Panel();
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbWelcome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbImageWelcome).BeginInit();
             pnlMainscreen.SuspendLayout();
             pnlMainLogo.SuspendLayout();
             panel2.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // pnlMain
@@ -78,9 +80,9 @@
             btnCustomers.ForeColor = SystemColors.MenuText;
             btnCustomers.Image = (Image)resources.GetObject("btnCustomers.Image");
             btnCustomers.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCustomers.Location = new Point(12, 256);
+            btnCustomers.Location = new Point(12, 32);
             btnCustomers.Name = "btnCustomers";
-            btnCustomers.Size = new Size(694, 125);
+            btnCustomers.Size = new Size(694, 139);
             btnCustomers.TabIndex = 1;
             btnCustomers.Text = "     Manage Customers";
             btnCustomers.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -94,7 +96,7 @@
             btnClose.Cursor = Cursors.Hand;
             btnClose.FlatStyle = FlatStyle.Popup;
             btnClose.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnClose.Location = new Point(12, 475);
+            btnClose.Location = new Point(12, 293);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(694, 58);
             btnClose.TabIndex = 2;
@@ -138,9 +140,8 @@
             // pnlMainscreen
             // 
             pnlMainscreen.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pnlMainscreen.Controls.Add(panel1);
             pnlMainscreen.Controls.Add(pnlMainLogo);
-            pnlMainscreen.Controls.Add(btnClose);
-            pnlMainscreen.Controls.Add(btnCustomers);
             pnlMainscreen.Location = new Point(0, 60);
             pnlMainscreen.Name = "pnlMainscreen";
             pnlMainscreen.Size = new Size(718, 545);
@@ -166,6 +167,16 @@
             panel2.Size = new Size(718, 60);
             panel2.TabIndex = 7;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(btnCustomers);
+            panel1.Controls.Add(btnClose);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 182);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(718, 363);
+            panel1.TabIndex = 7;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(192F, 192F);
@@ -188,6 +199,7 @@
             pnlMainLogo.ResumeLayout(false);
             pnlMainLogo.PerformLayout();
             panel2.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -203,5 +215,6 @@
         private Panel pnlMainscreen;
         private Panel panel2;
         private Panel pnlMainLogo;
+        private Panel panel1;
     }
 }
