@@ -70,6 +70,11 @@ namespace ISPWinUI
                         //{
                         //    // Optionally store the new customer's id, e.g. this.Tag = newId;
                         //}
+                        WinUILoggerService.Info($"New customer ({customerName}) created successfully.");
+                        MessageBox.Show("Customer saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // Close or reset form as appropriate:
+                        this.DialogResult = DialogResult.OK;
+
                     }
                     catch (SqlException ex)
                     {
@@ -78,10 +83,6 @@ namespace ISPWinUI
                         MessageBox.Show(ex.Message);
                     }
                 }
-                WinUILoggerService.Info($"New customer ({customerName}) created successfully.");
-                MessageBox.Show("Customer saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                // Close or reset form as appropriate:
-                this.DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {

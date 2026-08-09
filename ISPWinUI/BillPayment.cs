@@ -82,6 +82,10 @@ namespace ISPWinUI
                             //{
                             //    // Optionally store the new customer's id, e.g. this.Tag = newId;
                             //}
+
+                            MessageBox.Show("Bill is Paid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            // Close or reset form as appropriate:
+                            this.DialogResult = DialogResult.OK;
                         }
                         catch (SqlException ex)
                         {
@@ -91,9 +95,6 @@ namespace ISPWinUI
                         }
                     }
 
-                    MessageBox.Show("Bill is Paid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // Close or reset form as appropriate:
-                    this.DialogResult = DialogResult.OK;
                 }
             }
             catch (Exception ex)

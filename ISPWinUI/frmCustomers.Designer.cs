@@ -249,23 +249,23 @@
             // 
             // Edit
             // 
-            Edit.FillWeight = 45F;
+            Edit.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Edit.FillWeight = 30F;
             Edit.HeaderText = "View";
             Edit.Image = (Image)resources.GetObject("Edit.Image");
-            Edit.MinimumWidth = 45;
+            Edit.MinimumWidth = 30;
             Edit.Name = "Edit";
             Edit.Resizable = DataGridViewTriState.True;
             Edit.SortMode = DataGridViewColumnSortMode.Automatic;
-            Edit.Width = 98;
             // 
             // PayBill
             // 
-            PayBill.FillWeight = 45F;
+            PayBill.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            PayBill.FillWeight = 25F;
             PayBill.HeaderText = "Pay";
             PayBill.Image = (Image)resources.GetObject("PayBill.Image");
-            PayBill.MinimumWidth = 45;
+            PayBill.MinimumWidth = 25;
             PayBill.Name = "PayBill";
-            PayBill.Width = 60;
             // 
             // frmCustomerList
             // 
