@@ -15,19 +15,13 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_81EB7DCC469145B69152F587364993F7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_86B5F90FA888499FB1AED8D66FCA8B0C"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8BBCD871926B48868A1212F57E8A5B87"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C082E1387F864363BC79F5377225B4FD"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -128,29 +122,9 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8BBCD871926B48868A1212F57E8A5B87"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_81EB7DCC469145B69152F587364993F7"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\Downloads\\connected-with-internet.ico"
-            "TargetName" = "8:connected-with-internet.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_B4BBCDE4534B4AAE8D13823D0AE38AB4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C082E1387F864363BC79F5377225B4FD"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\Downloads\\wifi-router.ico"
+            "SourcePath" = "8:..\\ISPWinUI\\Assests\\wifi-router.ico"
             "TargetName" = "8:wifi-router.ico"
             "Tag" = "8:"
             "Folder" = "8:_B4BBCDE4534B4AAE8D13823D0AE38AB4"
@@ -242,7 +216,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:_8BBCD871926B48868A1212F57E8A5B87"
+        "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -345,7 +319,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4B7A6C5EEDA441C0ADD72A1E58CEADF2"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_55041B777C6746A5A27EDAA819489904"
             {
             "Name" = "8:ISP Manager"
             "Arguments" = "8:"
@@ -356,7 +330,7 @@
             "Target" = "8:_86B5F90FA888499FB1AED8D66FCA8B0C"
             "Folder" = "8:_4A0A440E7D5A42DF92CB3DF849CEC652"
             "WorkingFolder" = "8:_B4BBCDE4534B4AAE8D13823D0AE38AB4"
-            "Icon" = "8:_C082E1387F864363BC79F5377225B4FD"
+            "Icon" = "8:_81EB7DCC469145B69152F587364993F7"
             "Feature" = "8:"
             }
         }
