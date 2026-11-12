@@ -12,7 +12,7 @@ namespace Core.Entities
         [Key]
         public int CustomerID { get; set; }
         public string? CustomerName { get; set; }
-        public int? PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? City { get; set; }
         public string? Package { get; set; }
         public decimal? Amount { get; set; }

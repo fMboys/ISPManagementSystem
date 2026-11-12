@@ -43,5 +43,11 @@ namespace ISPWinUI
             WinUILoggerService.Info("=============== Application is closed ===============");
             this.Close();
         }
+
+        private void btnBusinessReport_Click(object sender, EventArgs e)
+        {
+            frmBusinessReport frmBusinessReport = new frmBusinessReport();
+            frmBusinessReport.ShowDialog();
+        }
     }
 }

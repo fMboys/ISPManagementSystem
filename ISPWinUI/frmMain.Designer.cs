@@ -35,18 +35,17 @@
             btnClose = new Button();
             pbWelcome = new PictureBox();
             lblWelcome = new Label();
-            pbImageWelcome = new PictureBox();
             pnlMainscreen = new Panel();
+            panel1 = new Panel();
             pnlMainLogo = new Panel();
             panel2 = new Panel();
-            panel1 = new Panel();
+            btnBusinessReport = new Button();
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbWelcome).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbImageWelcome).BeginInit();
             pnlMainscreen.SuspendLayout();
+            panel1.SuspendLayout();
             pnlMainLogo.SuspendLayout();
             panel2.SuspendLayout();
-            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // pnlMain
@@ -82,7 +81,7 @@
             btnCustomers.ImageAlign = ContentAlignment.MiddleLeft;
             btnCustomers.Location = new Point(12, 32);
             btnCustomers.Name = "btnCustomers";
-            btnCustomers.Size = new Size(694, 139);
+            btnCustomers.Size = new Size(694, 125);
             btnCustomers.TabIndex = 1;
             btnCustomers.Text = "     Manage Customers";
             btnCustomers.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -96,7 +95,7 @@
             btnClose.Cursor = Cursors.Hand;
             btnClose.FlatStyle = FlatStyle.Popup;
             btnClose.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnClose.Location = new Point(12, 293);
+            btnClose.Location = new Point(12, 382);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(694, 58);
             btnClose.TabIndex = 2;
@@ -126,17 +125,6 @@
             lblWelcome.TabIndex = 4;
             lblWelcome.Text = "- ABU BAKAR";
             // 
-            // pbImageWelcome
-            // 
-            pbImageWelcome.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            pbImageWelcome.Image = (Image)resources.GetObject("pbImageWelcome.Image");
-            pbImageWelcome.Location = new Point(555, 22);
-            pbImageWelcome.Name = "pbImageWelcome";
-            pbImageWelcome.Size = new Size(160, 138);
-            pbImageWelcome.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbImageWelcome.TabIndex = 5;
-            pbImageWelcome.TabStop = false;
-            // 
             // pnlMainscreen
             // 
             pnlMainscreen.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -144,13 +132,23 @@
             pnlMainscreen.Controls.Add(pnlMainLogo);
             pnlMainscreen.Location = new Point(0, 60);
             pnlMainscreen.Name = "pnlMainscreen";
-            pnlMainscreen.Size = new Size(718, 545);
+            pnlMainscreen.Size = new Size(718, 639);
             pnlMainscreen.TabIndex = 6;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(btnBusinessReport);
+            panel1.Controls.Add(btnCustomers);
+            panel1.Controls.Add(btnClose);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 187);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(718, 452);
+            panel1.TabIndex = 7;
             // 
             // pnlMainLogo
             // 
             pnlMainLogo.Controls.Add(pbWelcome);
-            pnlMainLogo.Controls.Add(pbImageWelcome);
             pnlMainLogo.Controls.Add(lblWelcome);
             pnlMainLogo.Dock = DockStyle.Top;
             pnlMainLogo.Location = new Point(0, 0);
@@ -167,15 +165,24 @@
             panel2.Size = new Size(718, 60);
             panel2.TabIndex = 7;
             // 
-            // panel1
+            // btnBusinessReport
             // 
-            panel1.Controls.Add(btnCustomers);
-            panel1.Controls.Add(btnClose);
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 182);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(718, 363);
-            panel1.TabIndex = 7;
+            btnBusinessReport.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnBusinessReport.BackColor = Color.SteelBlue;
+            btnBusinessReport.Cursor = Cursors.Hand;
+            btnBusinessReport.FlatStyle = FlatStyle.Popup;
+            btnBusinessReport.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBusinessReport.ForeColor = SystemColors.MenuText;
+            btnBusinessReport.Image = (Image)resources.GetObject("btnBusinessReport.Image");
+            btnBusinessReport.ImageAlign = ContentAlignment.MiddleLeft;
+            btnBusinessReport.Location = new Point(12, 163);
+            btnBusinessReport.Name = "btnBusinessReport";
+            btnBusinessReport.Size = new Size(694, 125);
+            btnBusinessReport.TabIndex = 3;
+            btnBusinessReport.Text = "     Business Report";
+            btnBusinessReport.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnBusinessReport.UseVisualStyleBackColor = false;
+            btnBusinessReport.Click += btnBusinessReport_Click;
             // 
             // frmMain
             // 
@@ -183,7 +190,7 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             AutoSize = true;
             BackColor = Color.White;
-            ClientSize = new Size(718, 605);
+            ClientSize = new Size(718, 699);
             ControlBox = false;
             Controls.Add(panel2);
             Controls.Add(pnlMainscreen);
@@ -194,12 +201,11 @@
             pnlMain.ResumeLayout(false);
             pnlMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbWelcome).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbImageWelcome).EndInit();
             pnlMainscreen.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             pnlMainLogo.ResumeLayout(false);
             pnlMainLogo.PerformLayout();
             panel2.ResumeLayout(false);
-            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -211,10 +217,10 @@
         private Button btnClose;
         private PictureBox pbWelcome;
         private Label lblWelcome;
-        private PictureBox pbImageWelcome;
         private Panel pnlMainscreen;
         private Panel panel2;
         private Panel pnlMainLogo;
         private Panel panel1;
+        private Button btnBusinessReport;
     }
 }
