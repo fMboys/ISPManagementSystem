@@ -13,14 +13,18 @@ namespace Core.Entities
         public int CustomerID { get; set; }
         public string? CustomerName { get; set; }
         public string? PhoneNumber { get; set; }
+        public string? Address { get; set; }
         public string? City { get; set; }
         public string? Package { get; set; }
         public decimal? Amount { get; set; }
+        public bool? IsActive { get; set; }
         public decimal? RemainingAmount { get; set; }
         public string? Status { get; set; }
+        public DateTime? ConnectionDate { get; set; }
         public DateTime? BillDate { get; set; }
         public DateTime? BillPaidDate { get; set; }
         public DateTime? DueBillDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string? ModifiedBy { get; set; }
     }
 }

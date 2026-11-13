@@ -37,9 +37,9 @@
             lblWelcome = new Label();
             pnlMainscreen = new Panel();
             panel1 = new Panel();
+            btnBusinessReport = new Button();
             pnlMainLogo = new Panel();
             panel2 = new Panel();
-            btnBusinessReport = new Button();
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbWelcome).BeginInit();
             pnlMainscreen.SuspendLayout();
@@ -146,6 +146,25 @@
             panel1.Size = new Size(718, 452);
             panel1.TabIndex = 7;
             // 
+            // btnBusinessReport
+            // 
+            btnBusinessReport.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnBusinessReport.BackColor = Color.LightSkyBlue;
+            btnBusinessReport.Cursor = Cursors.Hand;
+            btnBusinessReport.FlatStyle = FlatStyle.Popup;
+            btnBusinessReport.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBusinessReport.ForeColor = SystemColors.MenuText;
+            btnBusinessReport.Image = (Image)resources.GetObject("btnBusinessReport.Image");
+            btnBusinessReport.ImageAlign = ContentAlignment.MiddleLeft;
+            btnBusinessReport.Location = new Point(12, 163);
+            btnBusinessReport.Name = "btnBusinessReport";
+            btnBusinessReport.Size = new Size(694, 125);
+            btnBusinessReport.TabIndex = 3;
+            btnBusinessReport.Text = "     Business Report";
+            btnBusinessReport.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnBusinessReport.UseVisualStyleBackColor = false;
+            btnBusinessReport.Click += btnBusinessReport_Click;
+            // 
             // pnlMainLogo
             // 
             pnlMainLogo.Controls.Add(pbWelcome);
@@ -164,25 +183,6 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(718, 60);
             panel2.TabIndex = 7;
-            // 
-            // btnBusinessReport
-            // 
-            btnBusinessReport.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            btnBusinessReport.BackColor = Color.SteelBlue;
-            btnBusinessReport.Cursor = Cursors.Hand;
-            btnBusinessReport.FlatStyle = FlatStyle.Popup;
-            btnBusinessReport.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnBusinessReport.ForeColor = SystemColors.MenuText;
-            btnBusinessReport.Image = (Image)resources.GetObject("btnBusinessReport.Image");
-            btnBusinessReport.ImageAlign = ContentAlignment.MiddleLeft;
-            btnBusinessReport.Location = new Point(12, 163);
-            btnBusinessReport.Name = "btnBusinessReport";
-            btnBusinessReport.Size = new Size(694, 125);
-            btnBusinessReport.TabIndex = 3;
-            btnBusinessReport.Text = "     Business Report";
-            btnBusinessReport.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnBusinessReport.UseVisualStyleBackColor = false;
-            btnBusinessReport.Click += btnBusinessReport_Click;
             // 
             // frmMain
             // 
