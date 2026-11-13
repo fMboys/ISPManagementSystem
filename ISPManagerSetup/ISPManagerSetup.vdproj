@@ -198,15 +198,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ISPManager"
-        "ProductCode" = "8:{C1953859-CD52-431C-9838-A1742E118DD5}"
-        "PackageCode" = "8:{37D5295D-A93D-45F4-8EDC-B24734BD86E2}"
+        "ProductCode" = "8:{B8AEEA5D-FF46-4299-94C3-223AC4C83E24}"
+        "PackageCode" = "8:{FD57F9AE-9C2C-49ED-B050-C860677F4DA9}"
         "UpgradeCode" = "8:{59C74EEF-805A-41EE-BB46-331822BE50A1}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.1"
         "Manufacturer" = "8:fMboys Inc"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -734,7 +734,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_86B5F90FA888499FB1AED8D66FCA8B0C"
             {
-            "SourcePath" = "8:..\\ISPWinUI\\obj\\Release\\net10.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\ISPWinUI\\obj\\Debug\\net10.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4BBCDE4534B4AAE8D13823D0AE38AB4"

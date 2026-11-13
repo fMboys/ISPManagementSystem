@@ -47,8 +47,8 @@ namespace ISPWinUI
                     try
                     {
                         cmd.CommandText = @"
-                        INSERT INTO tblCustomers (CustomerName, PhoneNumber, Address, Package, Amount, ConnectionDate, ModifiedBy, CreatedDate)
-                        VALUES (@CustomerName, @PhoneNumber, @Address, @Package, @Amount, @ConnectionDate, @ModifiedBy, @CreatedDate);";
+                        INSERT INTO tblCustomers (CustomerName, PhoneNumber, Address, Package, Amount, ConnectionDate, IsActive, ModifiedBy, CreatedDate)
+                        VALUES (@CustomerName, @PhoneNumber, @Address, @Package, @Amount, @ConnectionDate, @IsActive, @ModifiedBy, @CreatedDate);";
                         //SELECT SCOPE_IDENTITY();"; // add it if want to add increamental id and return it in code.
 
                         cmd.Parameters.AddWithValue("@CustomerName", customerName);
@@ -57,6 +57,7 @@ namespace ISPWinUI
                         cmd.Parameters.AddWithValue("@Package", package);
                         cmd.Parameters.AddWithValue("@Amount", rate < 0 ? 0 : rate);
                         cmd.Parameters.AddWithValue("@ConnectionDate", string.IsNullOrEmpty(connectionDate.ToString()) ? (object)DBNull.Value : connectionDate);
+                        cmd.Parameters.AddWithValue("@IsActive", true);
                         cmd.Parameters.AddWithValue("@ModifiedBy", "Admin");
                         cmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
 
