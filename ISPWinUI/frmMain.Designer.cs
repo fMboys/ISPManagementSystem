@@ -37,6 +37,7 @@
             lblWelcome = new Label();
             pnlMainscreen = new Panel();
             panel1 = new Panel();
+            btnManageBills = new Button();
             btnBusinessReport = new Button();
             pnlMainLogo = new Panel();
             panel2 = new Panel();
@@ -79,9 +80,9 @@
             btnCustomers.ForeColor = SystemColors.MenuText;
             btnCustomers.Image = (Image)resources.GetObject("btnCustomers.Image");
             btnCustomers.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCustomers.Location = new Point(12, 32);
+            btnCustomers.Location = new Point(3, 3);
             btnCustomers.Name = "btnCustomers";
-            btnCustomers.Size = new Size(694, 125);
+            btnCustomers.Size = new Size(712, 125);
             btnCustomers.TabIndex = 1;
             btnCustomers.Text = "     Manage Customers";
             btnCustomers.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -95,7 +96,7 @@
             btnClose.Cursor = Cursors.Hand;
             btnClose.FlatStyle = FlatStyle.Popup;
             btnClose.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnClose.Location = new Point(12, 382);
+            btnClose.Location = new Point(12, 475);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(694, 58);
             btnClose.TabIndex = 2;
@@ -119,7 +120,7 @@
             lblWelcome.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblWelcome.AutoSize = true;
             lblWelcome.Font = new Font("Gadugi", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblWelcome.Location = new Point(231, 50);
+            lblWelcome.Location = new Point(312, 62);
             lblWelcome.Name = "lblWelcome";
             lblWelcome.Size = new Size(331, 57);
             lblWelcome.TabIndex = 4;
@@ -128,23 +129,44 @@
             // pnlMainscreen
             // 
             pnlMainscreen.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pnlMainscreen.BackColor = Color.GhostWhite;
             pnlMainscreen.Controls.Add(panel1);
             pnlMainscreen.Controls.Add(pnlMainLogo);
             pnlMainscreen.Location = new Point(0, 60);
             pnlMainscreen.Name = "pnlMainscreen";
-            pnlMainscreen.Size = new Size(718, 639);
+            pnlMainscreen.Size = new Size(718, 843);
             pnlMainscreen.TabIndex = 6;
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnManageBills);
             panel1.Controls.Add(btnBusinessReport);
             panel1.Controls.Add(btnCustomers);
             panel1.Controls.Add(btnClose);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 187);
+            panel1.Location = new Point(0, 298);
             panel1.Name = "panel1";
-            panel1.Size = new Size(718, 452);
+            panel1.Size = new Size(718, 545);
             panel1.TabIndex = 7;
+            // 
+            // btnManageBills
+            // 
+            btnManageBills.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnManageBills.BackColor = Color.DarkSeaGreen;
+            btnManageBills.Cursor = Cursors.Hand;
+            btnManageBills.FlatStyle = FlatStyle.Popup;
+            btnManageBills.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnManageBills.ForeColor = SystemColors.MenuText;
+            btnManageBills.Image = (Image)resources.GetObject("btnManageBills.Image");
+            btnManageBills.ImageAlign = ContentAlignment.MiddleLeft;
+            btnManageBills.Location = new Point(3, 134);
+            btnManageBills.Name = "btnManageBills";
+            btnManageBills.Size = new Size(712, 125);
+            btnManageBills.TabIndex = 4;
+            btnManageBills.Text = "     Manage Bills";
+            btnManageBills.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnManageBills.UseVisualStyleBackColor = false;
+            btnManageBills.Click += btnManageBills_Click;
             // 
             // btnBusinessReport
             // 
@@ -156,9 +178,9 @@
             btnBusinessReport.ForeColor = SystemColors.MenuText;
             btnBusinessReport.Image = (Image)resources.GetObject("btnBusinessReport.Image");
             btnBusinessReport.ImageAlign = ContentAlignment.MiddleLeft;
-            btnBusinessReport.Location = new Point(12, 163);
+            btnBusinessReport.Location = new Point(3, 264);
             btnBusinessReport.Name = "btnBusinessReport";
-            btnBusinessReport.Size = new Size(694, 125);
+            btnBusinessReport.Size = new Size(712, 117);
             btnBusinessReport.TabIndex = 3;
             btnBusinessReport.Text = "     Business Report";
             btnBusinessReport.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -190,7 +212,7 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             AutoSize = true;
             BackColor = Color.White;
-            ClientSize = new Size(718, 699);
+            ClientSize = new Size(718, 903);
             ControlBox = false;
             Controls.Add(panel2);
             Controls.Add(pnlMainscreen);
@@ -222,5 +244,6 @@
         private Panel pnlMainLogo;
         private Panel panel1;
         private Button btnBusinessReport;
+        private Button btnManageBills;
     }
 }

@@ -39,17 +39,15 @@
             panel2 = new Panel();
             CusNo = new DataGridViewTextBoxColumn();
             CustomerID = new DataGridViewTextBoxColumn();
-            connDate = new DataGridViewTextBoxColumn();
             CustomerName = new DataGridViewTextBoxColumn();
+            PhoneNumber = new DataGridViewTextBoxColumn();
             Address = new DataGridViewTextBoxColumn();
             Package = new DataGridViewTextBoxColumn();
-            Bill = new DataGridViewTextBoxColumn();
-            RemainingAmount = new DataGridViewTextBoxColumn();
-            BillDate = new DataGridViewTextBoxColumn();
-            DueDate = new DataGridViewTextBoxColumn();
-            Status = new DataGridViewTextBoxColumn();
+            Amount = new DataGridViewTextBoxColumn();
+            ConnectionDate = new DataGridViewTextBoxColumn();
+            IsActive = new DataGridViewTextBoxColumn();
+            View = new DataGridViewImageColumn();
             Edit = new DataGridViewImageColumn();
-            PayBill = new DataGridViewImageColumn();
             pnlCus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusListClose).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCustomers).BeginInit();
@@ -105,7 +103,7 @@
             dgvCustomers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCustomers.ColumnHeadersHeight = 50;
             dgvCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvCustomers.Columns.AddRange(new DataGridViewColumn[] { CusNo, CustomerID, connDate, CustomerName, Address, Package, Bill, RemainingAmount, BillDate, DueDate, Status, Edit, PayBill });
+            dgvCustomers.Columns.AddRange(new DataGridViewColumn[] { CusNo, CustomerID, CustomerName, PhoneNumber, Address, Package, Amount, ConnectionDate, IsActive, View, Edit });
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
@@ -145,6 +143,7 @@
             // CusNo
             // 
             CusNo.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            CusNo.Frozen = true;
             CusNo.HeaderText = "#";
             CusNo.MinimumWidth = 10;
             CusNo.Name = "CusNo";
@@ -160,112 +159,104 @@
             CustomerID.Visible = false;
             CustomerID.Width = 10;
             // 
-            // connDate
-            // 
-            connDate.HeaderText = "connectionDate";
-            connDate.MinimumWidth = 10;
-            connDate.Name = "connDate";
-            connDate.ReadOnly = true;
-            connDate.Visible = false;
-            connDate.Width = 10;
-            // 
             // CustomerName
             // 
-            CustomerName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            CustomerName.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             CustomerName.FillWeight = 75F;
+            CustomerName.Frozen = true;
             CustomerName.HeaderText = "Name";
             CustomerName.MinimumWidth = 75;
             CustomerName.Name = "CustomerName";
             CustomerName.ReadOnly = true;
             CustomerName.ToolTipText = "Customer Name";
+            CustomerName.Width = 215;
+            // 
+            // PhoneNumber
+            // 
+            PhoneNumber.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            PhoneNumber.FillWeight = 75F;
+            PhoneNumber.Frozen = true;
+            PhoneNumber.HeaderText = "Phone Number";
+            PhoneNumber.MinimumWidth = 75;
+            PhoneNumber.Name = "PhoneNumber";
+            PhoneNumber.ReadOnly = true;
+            PhoneNumber.ToolTipText = "Customer contact number";
+            PhoneNumber.Width = 215;
             // 
             // Address
             // 
-            Address.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Address.FillWeight = 75F;
+            Address.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            Address.FillWeight = 70F;
+            Address.Frozen = true;
             Address.HeaderText = "Address";
-            Address.MinimumWidth = 75;
+            Address.MinimumWidth = 70;
             Address.Name = "Address";
             Address.ReadOnly = true;
+            Address.Width = 250;
             // 
             // Package
             // 
-            Package.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Package.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             Package.FillWeight = 60F;
+            Package.Frozen = true;
             Package.HeaderText = "Package";
             Package.MinimumWidth = 60;
             Package.Name = "Package";
             Package.ReadOnly = true;
             Package.ToolTipText = "Internet Connection Bandwidth";
+            Package.Width = 174;
             // 
-            // Bill
+            // Amount
             // 
-            Bill.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Bill.FillWeight = 75F;
-            Bill.HeaderText = "Bill Amount";
-            Bill.MinimumWidth = 75;
-            Bill.Name = "Bill";
-            Bill.ReadOnly = true;
-            Bill.ToolTipText = "Package Charges";
+            Amount.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            Amount.FillWeight = 60F;
+            Amount.Frozen = true;
+            Amount.HeaderText = "Bill Amount";
+            Amount.MinimumWidth = 60;
+            Amount.Name = "Amount";
+            Amount.ReadOnly = true;
+            Amount.ToolTipText = "Package Charges";
+            Amount.Width = 150;
             // 
-            // RemainingAmount
+            // ConnectionDate
             // 
-            RemainingAmount.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            RemainingAmount.FillWeight = 75F;
-            RemainingAmount.HeaderText = "Due Amount";
-            RemainingAmount.MinimumWidth = 75;
-            RemainingAmount.Name = "RemainingAmount";
-            RemainingAmount.ReadOnly = true;
+            ConnectionDate.HeaderText = "Connection Date";
+            ConnectionDate.MinimumWidth = 10;
+            ConnectionDate.Name = "ConnectionDate";
+            ConnectionDate.ReadOnly = true;
+            ConnectionDate.ToolTipText = "Connection installation date";
+            ConnectionDate.Visible = false;
+            ConnectionDate.Width = 10;
             // 
-            // BillDate
+            // IsActive
             // 
-            BillDate.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            BillDate.HeaderText = "Bill Date";
-            BillDate.MinimumWidth = 10;
-            BillDate.Name = "BillDate";
-            BillDate.ReadOnly = true;
-            BillDate.ToolTipText = "Date of bill";
-            BillDate.Width = 148;
+            IsActive.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            IsActive.FillWeight = 50F;
+            IsActive.HeaderText = "Status";
+            IsActive.MinimumWidth = 50;
+            IsActive.Name = "IsActive";
+            IsActive.ReadOnly = true;
+            IsActive.ToolTipText = "Customer is active/inactive status";
             // 
-            // DueDate
+            // View
             // 
-            DueDate.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            DueDate.HeaderText = "Due Date";
-            DueDate.MinimumWidth = 10;
-            DueDate.Name = "DueDate";
-            DueDate.ReadOnly = true;
-            DueDate.ToolTipText = "Last date of bill";
-            DueDate.Width = 160;
-            // 
-            // Status
-            // 
-            Status.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Status.FillWeight = 60F;
-            Status.HeaderText = "Status";
-            Status.MinimumWidth = 60;
-            Status.Name = "Status";
-            Status.ReadOnly = true;
-            Status.ToolTipText = "Bill Status";
+            View.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            View.FillWeight = 25F;
+            View.HeaderText = "View";
+            View.Image = (Image)resources.GetObject("View.Image");
+            View.MinimumWidth = 25;
+            View.Name = "View";
+            View.Resizable = DataGridViewTriState.True;
+            View.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
             // Edit
             // 
             Edit.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Edit.FillWeight = 30F;
-            Edit.HeaderText = "View";
+            Edit.FillWeight = 25F;
+            Edit.HeaderText = "Edit";
             Edit.Image = (Image)resources.GetObject("Edit.Image");
-            Edit.MinimumWidth = 30;
+            Edit.MinimumWidth = 25;
             Edit.Name = "Edit";
-            Edit.Resizable = DataGridViewTriState.True;
-            Edit.SortMode = DataGridViewColumnSortMode.Automatic;
-            // 
-            // PayBill
-            // 
-            PayBill.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            PayBill.FillWeight = 25F;
-            PayBill.HeaderText = "Pay";
-            PayBill.Image = (Image)resources.GetObject("PayBill.Image");
-            PayBill.MinimumWidth = 25;
-            PayBill.Name = "PayBill";
             // 
             // frmCustomerList
             // 
@@ -297,16 +288,14 @@
         private Panel panel2;
         private DataGridViewTextBoxColumn CusNo;
         private DataGridViewTextBoxColumn CustomerID;
-        private DataGridViewTextBoxColumn connDate;
         private DataGridViewTextBoxColumn CustomerName;
+        private DataGridViewTextBoxColumn PhoneNumber;
         private DataGridViewTextBoxColumn Address;
         private DataGridViewTextBoxColumn Package;
-        private DataGridViewTextBoxColumn Bill;
-        private DataGridViewTextBoxColumn RemainingAmount;
-        private DataGridViewTextBoxColumn BillDate;
-        private DataGridViewTextBoxColumn DueDate;
-        private DataGridViewTextBoxColumn Status;
+        private DataGridViewTextBoxColumn Amount;
+        private DataGridViewTextBoxColumn ConnectionDate;
+        private DataGridViewTextBoxColumn IsActive;
+        private DataGridViewImageColumn View;
         private DataGridViewImageColumn Edit;
-        private DataGridViewImageColumn PayBill;
     }
 }

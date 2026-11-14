@@ -49,5 +49,11 @@ namespace ISPWinUI
             frmBusinessReport frmBusinessReport = new frmBusinessReport();
             frmBusinessReport.ShowDialog();
         }
+
+        private void btnManageBills_Click(object sender, EventArgs e)
+        {
+            frmManageBillings frmManageBillings = new frmManageBillings();
+            frmManageBillings.ShowDialog();
+        }
     }
 }

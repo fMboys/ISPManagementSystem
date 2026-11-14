@@ -20,7 +20,7 @@ namespace Core.Entities
         public bool? IsActive { get; set; }
         public decimal? RemainingAmount { get; set; }
         public string? Status { get; set; }
-        public DateTime? ConnectionDate { get; set; }
+        public DateTime ConnectionDate { get; set; }
         public DateTime? BillDate { get; set; }
         public DateTime? BillPaidDate { get; set; }
         public DateTime? DueBillDate { get; set; }

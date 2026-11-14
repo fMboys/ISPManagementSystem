@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,8 +34,8 @@ namespace ISPWinUI
         {
             try
             {
-                frmCustomerList frmCustomers = new frmCustomerList();
-                frmCustomers.ShowDialog();
+                frmManageBillings frmManageBillings = new frmManageBillings();
+                frmManageBillings.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -46,6 +47,20 @@ namespace ISPWinUI
         private void pbClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnUpdateCustomer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                frmCustomerList frmCustomerList = new frmCustomerList();
+                frmCustomerList.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                WinUILoggerService.Error(ex, ex.Message);
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

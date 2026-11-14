@@ -34,8 +34,8 @@ namespace ISPWinUI
 
             try
             {
-                DateTime trialPeriod = DateTime.Parse("01-10-2026");
-                trialPeriod = trialPeriod.AddDays(45);
+                DateTime trialPeriod = DateTime.Parse("15-11-2026");
+                trialPeriod = trialPeriod.AddDays(90);
 
                 if (DateTime.Now <= trialPeriod)
                 {
