@@ -17,6 +17,13 @@ namespace ISPWinUI
         public frmMain()
         {
             InitializeComponent();
+
+            timer1.Interval = 1000;          // 1 second
+            timer1.Tick += timer1_Tick;
+            timer1.Start();
+
+            UpdateClock();                   // show the time immediately, not after 1 second
+
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -54,6 +61,15 @@ namespace ISPWinUI
         {
             frmManageBillings frmManageBillings = new frmManageBillings();
             frmManageBillings.ShowDialog();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            UpdateClock();
+        }
+        private void UpdateClock()
+        {
+            lblClock.Text = DateTime.Now.ToString("hh:mm:ss tt");
         }
     }
 }

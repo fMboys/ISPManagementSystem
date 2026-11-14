@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             pnlMain = new Panel();
             lblName = new Label();
@@ -36,11 +37,13 @@
             pbWelcome = new PictureBox();
             lblWelcome = new Label();
             pnlMainscreen = new Panel();
+            lblClock = new Label();
             panel1 = new Panel();
             btnManageBills = new Button();
             btnBusinessReport = new Button();
             pnlMainLogo = new Panel();
             panel2 = new Panel();
+            timer1 = new System.Windows.Forms.Timer(components);
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbWelcome).BeginInit();
             pnlMainscreen.SuspendLayout();
@@ -130,12 +133,23 @@
             // 
             pnlMainscreen.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pnlMainscreen.BackColor = Color.GhostWhite;
+            pnlMainscreen.Controls.Add(lblClock);
             pnlMainscreen.Controls.Add(panel1);
             pnlMainscreen.Controls.Add(pnlMainLogo);
             pnlMainscreen.Location = new Point(0, 60);
             pnlMainscreen.Name = "pnlMainscreen";
-            pnlMainscreen.Size = new Size(718, 843);
+            pnlMainscreen.Size = new Size(718, 777);
             pnlMainscreen.TabIndex = 6;
+            // 
+            // lblClock
+            // 
+            lblClock.AutoSize = true;
+            lblClock.Font = new Font("Lucida Sans Unicode", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblClock.ForeColor = SystemColors.ActiveCaptionText;
+            lblClock.Location = new Point(482, 187);
+            lblClock.Name = "lblClock";
+            lblClock.Size = new Size(0, 39);
+            lblClock.TabIndex = 5;
             // 
             // panel1
             // 
@@ -144,7 +158,7 @@
             panel1.Controls.Add(btnCustomers);
             panel1.Controls.Add(btnClose);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 298);
+            panel1.Location = new Point(0, 232);
             panel1.Name = "panel1";
             panel1.Size = new Size(718, 545);
             panel1.TabIndex = 7;
@@ -206,13 +220,17 @@
             panel2.Size = new Size(718, 60);
             panel2.TabIndex = 7;
             // 
+            // timer1
+            // 
+            timer1.Tick += timer1_Tick;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(192F, 192F);
             AutoScaleMode = AutoScaleMode.Dpi;
             AutoSize = true;
             BackColor = Color.White;
-            ClientSize = new Size(718, 903);
+            ClientSize = new Size(718, 837);
             ControlBox = false;
             Controls.Add(panel2);
             Controls.Add(pnlMainscreen);
@@ -224,6 +242,7 @@
             pnlMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbWelcome).EndInit();
             pnlMainscreen.ResumeLayout(false);
+            pnlMainscreen.PerformLayout();
             panel1.ResumeLayout(false);
             pnlMainLogo.ResumeLayout(false);
             pnlMainLogo.PerformLayout();
@@ -245,5 +264,7 @@
         private Panel panel1;
         private Button btnBusinessReport;
         private Button btnManageBills;
+        private System.Windows.Forms.Timer timer1;
+        private Label lblClock;
     }
 }
