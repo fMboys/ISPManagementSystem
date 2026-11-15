@@ -1,12 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using Core.DTOs;
+using Core.Entities;
+using Infrastructure.Repository;
+using Microsoft.Data.SqlClient;
 
 namespace ISPWinUI
 {
@@ -17,10 +12,13 @@ namespace ISPWinUI
         DAL dbConnection = new DAL();
         SqlDataReader reader;
 
+        private readonly CustomerRepository _repoCustomer;
+
         public frmBillPayment()
         {
             InitializeComponent();
             sqlConnection = new SqlConnection(dbConnection.GetConnectionString());
+            _repoCustomer = new CustomerRepository(dbConnection.GetConnectionString());
         }
 
 
@@ -59,7 +57,8 @@ namespace ISPWinUI
                         {
                             cmd.CommandText = @"
                         INSERT INTO tblBillings (CustomerID, Amount, PaidAmount, RemainingAmount, Status, BillDate, BillPaidDate, DueBillDate, ModifiedBy)
-                        VALUES (@CustomerID, @Amount, @PaidAmount, @RemainingAmount, @Status, @BillDate, @BillPaidDate, @DueBillDate, @ModifiedBy);";
+                        VALUES (@CustomerID, @Amount, @PaidAmount, @RemainingAmount, @Status, @BillDate, @BillPaidDate, @DueBillDate, @ModifiedBy);
+                        SELECT CAST(SCOPE_IDENTITY() AS INT);";
                             //    SELECT SCOPE_IDENTITY();"; // add it if want to add increamental id and return it in code.
 
                             cmd.Parameters.AddWithValue("@CustomerID", customerId);
@@ -73,7 +72,7 @@ namespace ISPWinUI
                             cmd.Parameters.AddWithValue("@ModifiedBy", "Admin");
 
                             sqlConnection.Open();
-                            cmd.ExecuteNonQuery();
+                            int newBillId = (int)cmd.ExecuteScalar();
                             this.Close();
                             WinUILoggerService.Info($"Bill paid successfully for CustomerID: {customerId}.");
                             //var idObj = cmd.ExecuteScalar();
@@ -83,9 +82,26 @@ namespace ISPWinUI
                             //    // Optionally store the new customer's id, e.g. this.Tag = newId;
                             //}
 
-                            MessageBox.Show("Bill is Paid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Bill is Paid.", "Success" + newBillId, MessageBoxButtons.OK, MessageBoxIcon.Information);
                             // Close or reset form as appropriate:
                             this.DialogResult = DialogResult.OK;
+                            if (this.DialogResult == DialogResult.OK)
+                            {
+                                BillingsDto billingsDto = new BillingsDto
+                                {
+                                    BillID = newBillId,
+                                    CustomerID = customerId,
+                                    Amount = bill,
+                                    PaidAmount = paidBill,
+                                    RemainingAmount = remianingBill,
+                                    Status = status,
+                                    BillDate = nextBillDate,
+                                    BillPaidDate = lastBillPaidDate,
+                                    DueBillDate = dueDate,
+                                    ModifiedBy = "Admin"
+                                };
+                                GenerateBillAsync(billingsDto);
+                            }
                         }
                         catch (SqlException ex)
                         {
@@ -101,6 +117,22 @@ namespace ISPWinUI
             {
                 sqlConnection.Close();
                 MessageBox.Show("Bill payment failed: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task GenerateBillAsync(BillingsDto billingsDto)
+        {
+            try
+            {
+                Customer? customer = await _repoCustomer.GetCustomerByIdAsync(billingsDto.CustomerID);
+
+            }
+            catch (SqlException ex)
+            {
+
+                WinUILoggerService.Error(ex, ex.Message);
+
+                MessageBox.Show("Unable to load the customer.","Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

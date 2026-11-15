@@ -1,11 +1,6 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using Core.Entities;
+using Microsoft.Data.SqlClient;
+using Infrastructure.Services;
 
 namespace ISPWinUI
 {
@@ -70,6 +65,43 @@ namespace ISPWinUI
         private void UpdateClock()
         {
             lblClock.Text = DateTime.Now.ToString("hh:mm:ss tt");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Customer customer = new Customer
+                {
+                    CustomerID = 1,
+                    CustomerName = "John Doe",
+                    Address = "123 Main St, Cityville",
+                    PhoneNumber = "123-456-7890"
+                };
+                Billings bill = new Billings
+                {
+                    BillID = 1001,
+                    DueBillDate = DateTime.Now.AddDays(15),
+                    BillPaidDate = DateTime.Now,
+                    Status = "Paid",
+                    Amount = 150.00m,
+                    PaidAmount = 150.00m,
+                    RemainingAmount = 0.00m
+                };
+                string folder = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Bills");
+
+                Directory.CreateDirectory(folder); // does nothing if it already exists
+
+                string filePath = Path.Combine(folder, $"Bill-{bill.BillID}.pdf");
+                //PrintService.Generate(filePath, customer, bill);
+                PrintService.Generate(filePath, customer, bill);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
