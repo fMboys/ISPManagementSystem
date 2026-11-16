@@ -1,11 +1,12 @@
-﻿using Core.Entities;
+﻿using Core.DTOs;
+using Core.Entities;
+using Microsoft.Extensions.Configuration;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System.Globalization;
 using System.Configuration;
-using Microsoft.Extensions.Configuration;
-using Core.DTOs;
+using System.Data.SqlTypes;
+using System.Globalization;
 
 namespace Infrastructure.Services
 {
@@ -19,6 +20,8 @@ namespace Infrastructure.Services
 
         private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
         const string companyName = "AB Flash Fiber";
+
+        static string QRPath = Path.Combine(AppContext.BaseDirectory, "Assests", "QR.png");
         static PrintService()
         {
             QuestPDF.Settings.License = LicenseType.Community;
@@ -190,6 +193,9 @@ namespace Infrastructure.Services
                                 ? "Please pay your bill before the due date to avoid a late fee."
                                 : $"For bill payments and complaints, please call {companyPhone}. Pay before the due date to avoid a late fee.")
                             .Bold().FontSize(9.5f);
+
+                        // --- Advertisment Section ---
+                        col.Item().Background("#FFFFFF").Padding(4).AlignCenter().Text($"For advertise here, please contact {companyPhone}.").Bold().FontSize(6.5f);
                     });
 
                     // ================= FOOTER: PAYMENT SLIP =================
@@ -198,8 +204,56 @@ namespace Infrastructure.Services
                         f.Item().Background(Purple).Padding(4)
                             .Text("FOR PAYMENT USE").Bold().FontColor(Colors.White);
 
+                        // --- Pay online: QR code + account numbers ---
+
+                            f.Item().PaddingTop(8).Row(row =>
+                            {
+                                row.Spacing(16);
+
+
+                                row.ConstantItem(90).Column(c =>
+                                {
+                                    c.Item().Height(70).Image(Path.Combine(AppContext.BaseDirectory, "Assests", "QR.png")).FitArea();
+                                    c.Item().AlignCenter().Text("Scan to pay").FontSize(8).Bold();
+                                });
+
+                                //row.ConstantItem(70).Height(60).Image(QRPath).FitArea();
+                                //row.ConstantItem(10);
+
+                                row.RelativeItem().Column(c =>
+                                    {
+                                        c.Item().Text("Pay online / bank transfer").Bold();
+
+                                        c.Item().PaddingTop(4).Table(t =>
+                                        {
+                                            t.ColumnsDefinition(cd =>
+                                            {
+                                                cd.RelativeColumn(2);
+                                                cd.RelativeColumn(3);
+                                                cd.RelativeColumn(3);
+                                            });
+
+                                            t.Header(h =>
+                                            {
+                                                h.Cell().Background(PurpleLight).Padding(3).Text("Method").Bold().FontSize(9);
+                                                h.Cell().Background(PurpleLight).Padding(3).Text("Account Title").Bold().FontSize(9);
+                                                h.Cell().Background(PurpleLight).Padding(3).Text("Account No.").Bold().FontSize(9);
+                                            });
+
+                                            
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("Online").FontSize(9);
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("AB ISP").FontSize(9);
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("123456").FontSize(9).Bold();
+                                            
+                                        });
+                                    });
+                            
+                            });
+
                         f.Item().PaddingTop(8).Row(row =>
                         {
+                            row.Spacing(22);
+
                             row.RelativeItem(3).Column(c =>
                             {
                                 c.Item().Text($"Customer ID: {customer.CustomerID}");
@@ -219,8 +273,8 @@ namespace Infrastructure.Services
 
                             row.RelativeItem(2).Column(c =>
                             {
-                                c.Spacing(8);
-                                c.Item().Text("Cheque No.: __________");
+                                c.Spacing(1);
+                                c.Item().Text("Account No.: _________");
                                 c.Item().Text("Amount Paid: _________");
                                 c.Item().Text("Signature: ___________");
                             });
