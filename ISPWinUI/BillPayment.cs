@@ -12,13 +12,10 @@ namespace ISPWinUI
         DAL dbConnection = new DAL();
         SqlDataReader reader;
 
-        private readonly CustomerRepository _repoCustomer;
-
         public frmBillPayment()
         {
             InitializeComponent();
             sqlConnection = new SqlConnection(dbConnection.GetConnectionString());
-            _repoCustomer = new CustomerRepository(dbConnection.GetConnectionString());
         }
 
 
@@ -85,23 +82,7 @@ namespace ISPWinUI
                             MessageBox.Show("Bill is Paid.", "Success" + newBillId, MessageBoxButtons.OK, MessageBoxIcon.Information);
                             // Close or reset form as appropriate:
                             this.DialogResult = DialogResult.OK;
-                            if (this.DialogResult == DialogResult.OK)
-                            {
-                                BillingsDto billingsDto = new BillingsDto
-                                {
-                                    BillID = newBillId,
-                                    CustomerID = customerId,
-                                    Amount = bill,
-                                    PaidAmount = paidBill,
-                                    RemainingAmount = remianingBill,
-                                    Status = status,
-                                    BillDate = nextBillDate,
-                                    BillPaidDate = lastBillPaidDate,
-                                    DueBillDate = dueDate,
-                                    ModifiedBy = "Admin"
-                                };
-                                GenerateBillAsync(billingsDto);
-                            }
+                            
                         }
                         catch (SqlException ex)
                         {
@@ -117,22 +98,6 @@ namespace ISPWinUI
             {
                 sqlConnection.Close();
                 MessageBox.Show("Bill payment failed: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public async Task GenerateBillAsync(BillingsDto billingsDto)
-        {
-            try
-            {
-                Customer? customer = await _repoCustomer.GetCustomerByIdAsync(billingsDto.CustomerID);
-
-            }
-            catch (SqlException ex)
-            {
-
-                WinUILoggerService.Error(ex, ex.Message);
-
-                MessageBox.Show("Unable to load the customer.","Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -46,6 +46,7 @@
             txtAmount = new TextBox();
             label10 = new Label();
             panel2 = new Panel();
+            btnPrintBill = new Button();
             txtConnectionDate = new TextBox();
             label11 = new Label();
             txtBillPaidDate = new TextBox();
@@ -215,6 +216,7 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.InactiveBorder;
+            panel2.Controls.Add(btnPrintBill);
             panel2.Controls.Add(txtConnectionDate);
             panel2.Controls.Add(label11);
             panel2.Controls.Add(txtBillPaidDate);
@@ -240,8 +242,21 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 65);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1398, 371);
+            panel2.Size = new Size(1398, 435);
             panel2.TabIndex = 19;
+            // 
+            // btnPrintBill
+            // 
+            btnPrintBill.BackColor = Color.Gold;
+            btnPrintBill.FlatStyle = FlatStyle.Popup;
+            btnPrintBill.Font = new Font("Segoe UI Semibold", 10.125F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnPrintBill.Location = new Point(1121, 356);
+            btnPrintBill.Name = "btnPrintBill";
+            btnPrintBill.Size = new Size(243, 55);
+            btnPrintBill.TabIndex = 18;
+            btnPrintBill.Text = "Print Bill";
+            btnPrintBill.UseVisualStyleBackColor = false;
+            btnPrintBill.Click += btnPrintBill_Click;
             // 
             // txtConnectionDate
             // 
@@ -250,7 +265,6 @@
             txtConnectionDate.ReadOnly = true;
             txtConnectionDate.Size = new Size(159, 39);
             txtConnectionDate.TabIndex = 17;
-            txtConnectionDate.TextChanged += txtConnectionDate_TextChanged;
             // 
             // label11
             // 
@@ -342,7 +356,7 @@
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1398, 436);
+            ClientSize = new Size(1398, 500);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(label12);
@@ -387,5 +401,6 @@
         public TextBox txtDueDate;
         public TextBox txtConnectionDate;
         private Label label11;
+        public Button btnPrintBill;
     }
 }

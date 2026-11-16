@@ -7,6 +7,7 @@
         public decimal Amount { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal RemainingAmount { get; set; }
+        public decimal? TotalAmount { get; set; }
         public DateTime BillDate { get; set; }
         public DateTime DueBillDate { get; set; }
         public DateTime BillPaidDate { get; set; }

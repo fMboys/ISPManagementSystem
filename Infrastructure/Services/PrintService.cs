@@ -5,6 +5,7 @@ using QuestPDF.Infrastructure;
 using System.Globalization;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
+using Core.DTOs;
 
 namespace Infrastructure.Services
 {
@@ -28,8 +29,8 @@ namespace Infrastructure.Services
         /// <param name="lateFee">Extra charge if paid after the due date ("Amount After Due Date").</param>
         public static void Generate(
             string filePath,
-            Customer customer,
-            Billings bill,
+            CustomerDto customer,
+            BillingsDto bill,
             string companyName = companyName,
             string? companyPhone = null,
             string? logoPath = null,
@@ -42,8 +43,8 @@ namespace Infrastructure.Services
 
         /// <summary>Same as Generate, but returns the PDF as bytes (for email or API use).</summary>
         public static byte[] GenerateBytes(
-            Customer customer,
-            Billings bill,
+            CustomerDto customer,
+            BillingsDto bill,
             string companyName = companyName,
             string? companyPhone = null,
             string? logoPath = null,
@@ -55,13 +56,13 @@ namespace Infrastructure.Services
         }
 
         private static Document BuildDocument(
-            Customer customer, Billings bill, string companyName, string? companyPhone,
+            CustomerDto customer, BillingsDto bill, string companyName, string? companyPhone,
             string? logoPath, string? packageName, decimal lateFee)
         {
-            string invoiceNo = $"INV-{bill.BillID:D6}";
+            string invoiceNo = $"INV-{bill.CustomerID}-{bill.BillID:D6}";
             string billingMonth = bill.BillDate.ToString("MMM-yyyy", Inv);
             decimal amountAfterDue = bill.RemainingAmount + lateFee;
-            bool isPaid = bill.Status.Equals("Paid", StringComparison.OrdinalIgnoreCase) || bill.RemainingAmount <= 0;
+            bool isPaid = bill.Status.Equals("Paid", StringComparison.OrdinalIgnoreCase);
             string statusColor = isPaid ? Colors.Green.Darken2 : Colors.Red.Darken2;
             string package = string.IsNullOrWhiteSpace(packageName) ? "Internet Package" : packageName;
 
@@ -90,12 +91,12 @@ namespace Infrastructure.Services
                             {
                                 c.Item().Text(companyName).FontSize(14).Bold();
                                 if (!string.IsNullOrWhiteSpace(companyPhone))
-                                    c.Item().PaddingTop(2).Text($"Phone: {companyPhone}").FontSize(10);
+                                    c.Item().PaddingTop(2).Text($"Company Phone: {companyPhone}").FontSize(10);
                             });
 
                             row.ConstantItem(210).Column(c =>
                             {
-                                c.Item().AlignRight().Text("INVOICE").FontSize(26).Bold();
+                                c.Item().AlignRight().Text("BiLL INVOICE").FontSize(26).Bold();
                                 c.Item().Border(1.2f).BorderColor(Colors.Grey.Darken2)
                                     .Padding(4).AlignCenter().Text(invoiceNo).FontSize(16).Bold();
                                 c.Item().PaddingTop(6).Text($"Issue Date: {bill.BillDate:dd-MM-yyyy}");
@@ -118,6 +119,8 @@ namespace Infrastructure.Services
                                     c.Item().PaddingTop(8).Text(customer.Address);
                                 if (!string.IsNullOrWhiteSpace(customer.PhoneNumber))
                                     c.Item().PaddingTop(4).Text($"Phone: {customer.PhoneNumber}");
+                                if (!string.IsNullOrWhiteSpace(customer.PhoneNumber))
+                                    c.Item().PaddingTop(4).Text($"Customer CNIC: {customer.CNIC}");
                             });
 
                             row.ConstantItem(14);

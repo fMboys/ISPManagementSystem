@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Microsoft.Data.SqlClient;
 using Infrastructure.Services;
+using Core.DTOs;
 
 namespace ISPWinUI
 {
@@ -71,14 +72,14 @@ namespace ISPWinUI
         {
             try
             {
-                Customer customer = new Customer
+                CustomerDto customer = new CustomerDto
                 {
                     CustomerID = 1,
                     CustomerName = "John Doe",
                     Address = "123 Main St, Cityville",
                     PhoneNumber = "123-456-7890"
                 };
-                Billings bill = new Billings
+                BillingsDto bill = new BillingsDto
                 {
                     BillID = 1001,
                     DueBillDate = DateTime.Now.AddDays(15),
@@ -94,8 +95,9 @@ namespace ISPWinUI
                 Directory.CreateDirectory(folder); // does nothing if it already exists
 
                 string filePath = Path.Combine(folder, $"Bill-{bill.BillID}.pdf");
+                string logoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "Designer.png");
                 //PrintService.Generate(filePath, customer, bill);
-                PrintService.Generate(filePath, customer, bill);
+                PrintService.Generate(filePath, customer, bill,"AB ISP","000000000",logoPath, "Normal Package",0);
             }
             catch (Exception)
             {
