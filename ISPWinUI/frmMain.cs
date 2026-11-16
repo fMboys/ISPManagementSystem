@@ -1,7 +1,9 @@
-﻿using Core.Entities;
-using Microsoft.Data.SqlClient;
+﻿using Core.DTOs;
+using Core.Entities;
+using Infrastructure.Repository;
 using Infrastructure.Services;
-using Core.DTOs;
+using Microsoft.Data.SqlClient;
+using System.Configuration;
 
 namespace ISPWinUI
 {
@@ -9,17 +11,23 @@ namespace ISPWinUI
     {
         SqlConnection sqlConnection = new SqlConnection();
         SqlCommand sqlCommand = new SqlCommand();
-        //DAL dbConnection = new DAL();
+        DAL dbConnection = new DAL();
+
+        private readonly CustomerRepository _repoCustomer;
+        private readonly BillingsRepository _repoBillings;
+
         public frmMain()
         {
             InitializeComponent();
+            sqlConnection = new SqlConnection(dbConnection.GetConnectionString());
+            _repoCustomer = new CustomerRepository(dbConnection.GetConnectionString());
+            _repoBillings = new BillingsRepository(dbConnection.GetConnectionString());
 
             timer1.Interval = 1000;          // 1 second
             timer1.Tick += timer1_Tick;
             timer1.Start();
-
             UpdateClock();                   // show the time immediately, not after 1 second
-
+            GenerateBillPDFAsync();
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -100,6 +108,77 @@ namespace ISPWinUI
                 PrintService.Generate(filePath, customer, bill,"AB ISP","000000000",logoPath, "Normal Package",0);
             }
             catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private async Task GenerateBillPDFAsync()
+        {
+
+            try
+            {
+                try
+                {
+                    string companyName = ConfigurationManager.AppSettings["CompanyName"];
+                    string complaintNumber = ConfigurationManager.AppSettings["ComplaintNumber"];
+                    string packageName = ConfigurationManager.AppSettings["PackageName"];
+                    decimal lateFee = Convert.ToDecimal(ConfigurationManager.AppSettings["LateFee"]);
+
+                    string folder = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Bills");
+                    string logoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
+
+                    Directory.CreateDirectory(folder); // does nothing if it already exists
+
+                    List<Customer> customers = await _repoCustomer.GetÀllCustomerAsync();
+
+                    foreach(Customer customer in customers)
+                    {
+                        Billings billings = await _repoBillings.GetLatestBillingsByCustomerIDAsync(customer.CustomerID);
+                    }
+
+                    //Customer? customer = await _repoCustomer.GetCustomerByIdAsync(5);
+                    //CustomerDto customerDto = new CustomerDto
+                    //{
+                    //    CustomerID = Convert.ToInt32(lblCustomerID.Text),
+                    //    CustomerName = txtCustomerName.Text,
+                    //    PhoneNumber = txtPhoneNumber.Text,
+                    //    Address = txtAddress.Text,
+                    //    Package = txtPackage.Text
+                    //};
+
+                    //BillingsDto billingsDto = new BillingsDto
+                    //{
+                    //    BillID = Convert.ToInt32(lblBillID.Text),
+                    //    Amount = decimal.Parse(txtAmount.Text),
+                    //    RemainingAmount = decimal.Parse(txtDueAmount.Text),
+                    //    //PaidAmount = txtStatus.Text == "Paid" ? decimal.Parse(txt.Text) : 0.00,
+                    //    TotalAmount = decimal.Parse(txtAmount.Text) + decimal.Parse(txtDueAmount.Text),
+                    //    Status = txtStatus.Text,
+                    //    BillDate = DateTime.Parse(txtBillDate.Text),
+                    //    BillPaidDate = DateTime.Parse(txtBillPaidDate.Text),
+                    //    DueBillDate = DateTime.Parse(txtDueDate.Text)
+                    //};
+
+                    //string fileName = $"Bill-{customerDto.CustomerName.Trim()}-{billingsDto.BillID}-{DateTime.Now:yyyyMMddHHmmss}.pdf";
+
+                    //string filePath = Path.Combine(folder, fileName);
+
+                    //PrintService.Generate(filePath, customerDto, billingsDto, companyName, complaintNumber, logoPath, packageName, lateFee);
+
+                    //PrintService.Generate(filePath, customerDto, billingsDto);
+                    MessageBox.Show("Bill invoice created successfully!", "Success", MessageBoxButtons.OK);
+
+                }
+                catch (SqlException ex)
+                {
+                    WinUILoggerService.Error(ex, ex.Message);
+                    MessageBox.Show("Unable to load the customer.", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
             {
 
                 throw;

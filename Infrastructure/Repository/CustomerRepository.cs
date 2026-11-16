@@ -41,5 +41,15 @@ namespace Infrastructure.Repository
 
             return await connection.QuerySingleOrDefaultAsync<Customer>(sql, new { CustomerID = customerId });
         }
+
+        public async Task<List<Customer>> GetÀllCustomerAsync()
+        {
+            const string sql = "SELECT * FROM tblCustomers";
+
+            await using var connection = sqlConnection;
+            var customers = await connection.QueryAsync<Customer>(sql);
+
+            return customers.ToList();
+        }
     }
 }

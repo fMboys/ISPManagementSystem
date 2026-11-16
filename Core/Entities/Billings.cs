@@ -17,6 +17,7 @@ namespace Core.Entities
         public DateTime DueBillDate { get; set; }
         public DateTime BillPaidDate { get; set; }
         public string? Status { get; set; }
+        public string? IsPrint { get; set; }
         public string? ModifiedBy { get; set; }
         public DateTime CreatedDate { get; set; }
     }

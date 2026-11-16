@@ -91,10 +91,10 @@ namespace Infrastructure.Services
                             {
                                 c.Item().Text(companyName).FontSize(14).Bold();
                                 c.Item().Text("Flash Fiber Fast Internet Service").FontSize(9);
-                                c.Item().Text("");
-                                c.Item().Text("");
-                                if (!string.IsNullOrWhiteSpace(complaintNumber))
-                                    c.Item().PaddingTop(2).Text($"Complaint Number: {complaintNumber}").FontSize(8);
+                                //c.Item().Text("");
+                                //c.Item().Text("");
+                                //if (!string.IsNullOrWhiteSpace(complaintNumber))
+                                //    c.Item().PaddingTop(2).Text($"Complaint Number: {complaintNumber}").FontSize(8);
                             });
 
                             row.ConstantItem(210).Column(c =>
@@ -102,7 +102,7 @@ namespace Infrastructure.Services
                                 c.Item().AlignRight().Text("BILL INVOICE").FontSize(18).Bold();
                                 c.Item().Border(1.2f).BorderColor(Colors.Grey.Darken2)
                                     .Padding(4).AlignCenter().Text(invoiceNo).FontSize(16).Bold();
-                                c.Item().PaddingTop(6).Text($"Issue Date: {bill.BillDate:dd-MM-yyyy}");
+                                c.Item().PaddingTop(6).Text($"Issue Date: {DateTime.Now:dd-MM-yyyy}");
                             });
                         });
                     });
