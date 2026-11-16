@@ -62,9 +62,9 @@ namespace ISPWinUI
                 try
                 {
                     string companyName = ConfigurationManager.AppSettings["CompanyName"];
-                    string companyNumber = ConfigurationManager.AppSettings["CompanyNumber"];
-                    string lateFee = ConfigurationManager.AppSettings["LateFee"];
+                    string complaintNumber = ConfigurationManager.AppSettings["ComplaintNumber"];
                     string packageName = ConfigurationManager.AppSettings["PackageName"];
+                    decimal lateFee = Convert.ToDecimal(ConfigurationManager.AppSettings["LateFee"]);
 
                     string folder = Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Bills");
@@ -74,6 +74,7 @@ namespace ISPWinUI
                     //Customer? customer = await _repoCustomer.GetCustomerByIdAsync(5);
                     CustomerDto customerDto = new CustomerDto
                     {
+                        CustomerID = Convert.ToInt32(lblCustomerID.Text),
                         CustomerName = txtCustomerName.Text,
                         PhoneNumber = txtPhoneNumber.Text,
                         Address = txtAddress.Text,
@@ -82,8 +83,10 @@ namespace ISPWinUI
 
                     BillingsDto billingsDto = new BillingsDto
                     {
+                        BillID = Convert.ToInt32(lblBillID.Text),
                         Amount = decimal.Parse(txtAmount.Text),
                         RemainingAmount = decimal.Parse(txtDueAmount.Text),
+                        //PaidAmount = txtStatus.Text == "Paid" ? decimal.Parse(txt.Text) : 0.00,
                         TotalAmount = decimal.Parse(txtAmount.Text) + decimal.Parse(txtDueAmount.Text),
                         Status = txtStatus.Text,
                         BillDate = DateTime.Parse(txtBillDate.Text),
@@ -91,19 +94,19 @@ namespace ISPWinUI
                         DueBillDate = DateTime.Parse(txtDueDate.Text)
                     };
 
-                    string filePath = Path.Combine(folder, $"Bill-{customerDto.CustomerName}.pdf");
-                    string logoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "logo.png");
-                    //PrintService.Generate(filePath, customer, bill);
-                    PrintService.Generate(filePath, customerDto, billingsDto, companyName, companyNumber, logoPath, "Normal Package", 0);
+                    string fileName = $"Bill-{customerDto.CustomerName.Trim()}-{billingsDto.BillID}-{DateTime.Now:yyyyMMddHHmmss}.pdf";
+                    string filePath = Path.Combine(folder, fileName);
+                    string logoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
+
+                    PrintService.Generate(filePath, customerDto, billingsDto, companyName, complaintNumber, logoPath, packageName, lateFee);
 
                     //PrintService.Generate(filePath, customerDto, billingsDto);
+                    MessageBox.Show("Bill invoice created successfully!", "Success", MessageBoxButtons.OK);
 
                 }
                 catch (SqlException ex)
                 {
-
                     WinUILoggerService.Error(ex, ex.Message);
-
                     MessageBox.Show("Unable to load the customer.", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }

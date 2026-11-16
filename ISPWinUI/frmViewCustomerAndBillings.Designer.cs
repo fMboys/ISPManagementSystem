@@ -46,6 +46,7 @@
             txtAmount = new TextBox();
             label10 = new Label();
             panel2 = new Panel();
+            lblCustomerID = new Label();
             btnPrintBill = new Button();
             txtConnectionDate = new TextBox();
             label11 = new Label();
@@ -57,6 +58,7 @@
             btnCusClose = new PictureBox();
             lblName = new Label();
             label12 = new Label();
+            lblBillID = new Label();
             panel2.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusClose).BeginInit();
@@ -216,6 +218,8 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.InactiveBorder;
+            panel2.Controls.Add(lblBillID);
+            panel2.Controls.Add(lblCustomerID);
             panel2.Controls.Add(btnPrintBill);
             panel2.Controls.Add(txtConnectionDate);
             panel2.Controls.Add(label11);
@@ -244,6 +248,15 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(1398, 435);
             panel2.TabIndex = 19;
+            // 
+            // lblCustomerID
+            // 
+            lblCustomerID.AutoSize = true;
+            lblCustomerID.Location = new Point(63, 362);
+            lblCustomerID.Name = "lblCustomerID";
+            lblCustomerID.Size = new Size(0, 32);
+            lblCustomerID.TabIndex = 19;
+            lblCustomerID.Visible = false;
             // 
             // btnPrintBill
             // 
@@ -352,6 +365,15 @@
             label12.Size = new Size(0, 32);
             label12.TabIndex = 17;
             // 
+            // lblBillID
+            // 
+            lblBillID.AutoSize = true;
+            lblBillID.Location = new Point(207, 371);
+            lblBillID.Name = "lblBillID";
+            lblBillID.Size = new Size(0, 32);
+            lblBillID.TabIndex = 20;
+            lblBillID.Visible = false;
+            // 
             // frmViewCustomerAndBillings
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
@@ -402,5 +424,7 @@
         public TextBox txtConnectionDate;
         private Label label11;
         public Button btnPrintBill;
+        public Label lblCustomerID;
+        public Label lblBillID;
     }
 }

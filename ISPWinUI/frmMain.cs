@@ -95,7 +95,7 @@ namespace ISPWinUI
                 Directory.CreateDirectory(folder); // does nothing if it already exists
 
                 string filePath = Path.Combine(folder, $"Bill-{bill.BillID}.pdf");
-                string logoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "Designer.png");
+                string logoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
                 //PrintService.Generate(filePath, customer, bill);
                 PrintService.Generate(filePath, customer, bill,"AB ISP","000000000",logoPath, "Normal Package",0);
             }

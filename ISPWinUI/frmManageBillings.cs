@@ -98,23 +98,25 @@ namespace ISPWinUI
                     else
                         MessageBox.Show("Customer has already Paid the bill!", "Bill Paid", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else if (colName == "Edit")
+                else if (colName == "View")
                 {
                     frmViewCustomerAndBillings frmViewCustomer = new frmViewCustomerAndBillings();
                     int customerId = Convert.ToInt32(dgvCustomerBillings.Rows[e.RowIndex].Cells["CustomerID"].Value);
+                    frmViewCustomer.lblCustomerID.Text = customerId.ToString();
 
                     if (customerId >= 0)
                     {
                         try
                         {
                             sqlConnection.Open();
-                            sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, Address, Package, Amount, ConnectionDate, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.Address, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID WHERE c.CustomerID = @CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
+                            sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, Address, Package, Amount, ConnectionDate, BillID, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.Address, c.Package, c.Amount, c.ConnectionDate, b.BillID, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID WHERE c.CustomerID = @CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
                             sqlCommand.Parameters.AddWithValue("@CustomerID", customerId);
                             reader = sqlCommand.ExecuteReader();
                             if (reader.Read())
                             {
                                 DateTime billDate = reader["BillDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["BillDate"]);
-
+                                
+                                frmViewCustomer.lblBillID.Text = reader["BillID"].ToString();
                                 frmViewCustomer.txtCustomerName.Text = reader["CustomerName"].ToString();
                                 frmViewCustomer.txtPhoneNumber.Text = reader["PhoneNumber"].ToString();
                                 frmViewCustomer.txtAddress.Text = reader["Address"].ToString();

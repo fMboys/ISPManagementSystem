@@ -1,11 +1,7 @@
 ﻿using Core.DTOs;
-using Core.Entities;
-using Microsoft.Extensions.Configuration;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System.Configuration;
-using System.Data.SqlTypes;
 using System.Globalization;
 
 namespace Infrastructure.Services
@@ -19,9 +15,9 @@ namespace Infrastructure.Services
         private const string LineGrey = "#BFBFBF";
 
         private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
-        const string companyName = "AB Flash Fiber";
 
         static string QRPath = Path.Combine(AppContext.BaseDirectory, "Assests", "QR.png");
+        static string ABlogoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
         static PrintService()
         {
             QuestPDF.Settings.License = LicenseType.Community;
@@ -34,7 +30,7 @@ namespace Infrastructure.Services
             string filePath,
             CustomerDto customer,
             BillingsDto bill,
-            string companyName = companyName,
+            string companyName = "",
             string? companyPhone = null,
             string? logoPath = null,
             string? packageName = null,
@@ -48,26 +44,26 @@ namespace Infrastructure.Services
         public static byte[] GenerateBytes(
             CustomerDto customer,
             BillingsDto bill,
-            string companyName = companyName,
-            string? companyPhone = null,
+            string companyName = null,
+            string? complaintNumber = null,
             string? logoPath = null,
             string? packageName = null,
             decimal lateFee = 0)
         {
-            return BuildDocument(customer, bill, companyName, companyPhone, logoPath, packageName, lateFee)
+            return BuildDocument(customer, bill, companyName, complaintNumber, logoPath, packageName, lateFee)
                 .GeneratePdf();
         }
 
         private static Document BuildDocument(
-            CustomerDto customer, BillingsDto bill, string companyName, string? companyPhone,
+            CustomerDto customer, BillingsDto bill, string companyName, string? complaintNumber,
             string? logoPath, string? packageName, decimal lateFee)
         {
-            string invoiceNo = $"INV-{bill.CustomerID}-{bill.BillID:D6}";
+            string invoiceNo = $"INV-{customer.CustomerID}-{bill.BillID:D6}";
             string billingMonth = bill.BillDate.ToString("MMM-yyyy", Inv);
             decimal amountAfterDue = bill.RemainingAmount + lateFee;
             bool isPaid = bill.Status.Equals("Paid", StringComparison.OrdinalIgnoreCase);
             string statusColor = isPaid ? Colors.Green.Darken2 : Colors.Red.Darken2;
-            string package = string.IsNullOrWhiteSpace(packageName) ? "Internet Package" : packageName;
+            string package = string.IsNullOrWhiteSpace(packageName) ? "Package Name" : packageName;
 
             return Document.Create(container =>
             {
@@ -84,6 +80,7 @@ namespace Infrastructure.Services
 
                         h.Item().PaddingTop(10).Row(row =>
                         {
+                            logoPath = string.IsNullOrWhiteSpace(logoPath) ? ABlogoPath : logoPath;
                             if (!string.IsNullOrWhiteSpace(logoPath) && File.Exists(logoPath))
                             {
                                 row.ConstantItem(70).Height(60).Image(logoPath).FitArea();
@@ -93,13 +90,16 @@ namespace Infrastructure.Services
                             row.RelativeItem().Column(c =>
                             {
                                 c.Item().Text(companyName).FontSize(14).Bold();
-                                if (!string.IsNullOrWhiteSpace(companyPhone))
-                                    c.Item().PaddingTop(2).Text($"Company Phone: {companyPhone}").FontSize(10);
+                                c.Item().Text("Flash Fiber Fast Internet Service").FontSize(9);
+                                c.Item().Text("");
+                                c.Item().Text("");
+                                if (!string.IsNullOrWhiteSpace(complaintNumber))
+                                    c.Item().PaddingTop(2).Text($"Complaint Number: {complaintNumber}").FontSize(8);
                             });
 
                             row.ConstantItem(210).Column(c =>
                             {
-                                c.Item().AlignRight().Text("BiLL INVOICE").FontSize(26).Bold();
+                                c.Item().AlignRight().Text("BILL INVOICE").FontSize(18).Bold();
                                 c.Item().Border(1.2f).BorderColor(Colors.Grey.Darken2)
                                     .Padding(4).AlignCenter().Text(invoiceNo).FontSize(16).Bold();
                                 c.Item().PaddingTop(6).Text($"Issue Date: {bill.BillDate:dd-MM-yyyy}");
@@ -134,7 +134,7 @@ namespace Infrastructure.Services
 
                                 InfoRow(t, "Account ID", customer.CustomerID.ToString());
                                 InfoRow(t, "Billing Month", billingMonth);
-                                InfoRow(t, "Amount Due", Money(bill.RemainingAmount), strong: true);
+                                InfoRow(t, "Amount Due", Money(bill.TotalAmount), strong: true);
                                 InfoRow(t, "Due Date", FormatDate(bill.DueBillDate), strong: true);
                                 if (lateFee > 0)
                                     InfoRow(t, "Amount After Due Date", Money(amountAfterDue));
@@ -151,12 +151,13 @@ namespace Infrastructure.Services
                                 c.Item().Element(x => SectionHeader(x, "SERVICES DETAIL"));
 
                                 c.Item().Background(PurpleMid).Padding(4)
-                                    .Text("INTERNET").Bold().FontColor(Colors.White);
+                                    .Text("INTERNET BUNDLE").Bold().FontColor(Colors.White);
 
                                 c.Item().Table(t =>
                                 {
                                     t.ColumnsDefinition(cd => { cd.RelativeColumn(2); cd.RelativeColumn(1); });
-                                    SummaryRow(t, package, Money(bill.Amount));
+                                    SummaryRow(t, package, customer.Package);
+                                    SummaryRow(t, "Charges", Money(bill.Amount));
                                 });
 
                                 c.Item().PaddingTop(4).Text($"Billing period starts {bill.BillDate:dd-MM-yyyy}")
@@ -167,6 +168,7 @@ namespace Infrastructure.Services
                                     r.RelativeItem().Text("Total:").Bold();
                                     r.ConstantItem(110).AlignRight().Text(Money(bill.Amount)).Bold();
                                 });
+
                             });
 
                             row.ConstantItem(14);
@@ -180,22 +182,23 @@ namespace Infrastructure.Services
                                 {
                                     t.ColumnsDefinition(cd => { cd.RelativeColumn(2); cd.RelativeColumn(1); });
                                     SummaryRow(t, "Monthly Charges", Money(bill.Amount));
+                                    SummaryRow(t, "Pending Charges", Money(bill.RemainingAmount));
                                     SummaryRow(t, "Paid Amount", Money(bill.PaidAmount));
                                     SummaryRow(t, "Paid On", FormatDate(bill.BillPaidDate), rightIsMoney: false);
-                                    SummaryRow(t, "Grand Total (Amount Due)", Money(bill.RemainingAmount), bold: true);
+                                    SummaryRow(t, "Grand Total (Amount Due)", Money(bill.TotalAmount), bold: true);
                                 });
                             });
                         });
 
                         // --- Notice banner ---
                         col.Item().Background("#F2F2F2").Padding(8).AlignCenter().Text(
-                            string.IsNullOrWhiteSpace(companyPhone)
+                            string.IsNullOrWhiteSpace(complaintNumber)
                                 ? "Please pay your bill before the due date to avoid a late fee."
-                                : $"For bill payments and complaints, please call {companyPhone}. Pay before the due date to avoid a late fee.")
+                                : $"For bill payments and complaints, please call {complaintNumber}. Pay before the due date to avoid a late fee.")
                             .Bold().FontSize(9.5f);
 
                         // --- Advertisment Section ---
-                        col.Item().Background("#FFFFFF").Padding(4).AlignCenter().Text($"For advertise here, please contact {companyPhone}.").Bold().FontSize(6.5f);
+                        col.Item().Background("#FFFFFF").Padding(4).AlignCenter().Text($"For advertise here, please contact {complaintNumber}.").Bold().FontSize(6.5f);
                     });
 
                     // ================= FOOTER: PAYMENT SLIP =================
@@ -209,16 +212,6 @@ namespace Infrastructure.Services
                             f.Item().PaddingTop(8).Row(row =>
                             {
                                 row.Spacing(16);
-
-
-                                row.ConstantItem(90).Column(c =>
-                                {
-                                    c.Item().Height(70).Image(Path.Combine(AppContext.BaseDirectory, "Assests", "QR.png")).FitArea();
-                                    c.Item().AlignCenter().Text("Scan to pay").FontSize(8).Bold();
-                                });
-
-                                //row.ConstantItem(70).Height(60).Image(QRPath).FitArea();
-                                //row.ConstantItem(10);
 
                                 row.RelativeItem().Column(c =>
                                     {
@@ -239,15 +232,28 @@ namespace Infrastructure.Services
                                                 h.Cell().Background(PurpleLight).Padding(3).Text("Account Title").Bold().FontSize(9);
                                                 h.Cell().Background(PurpleLight).Padding(3).Text("Account No.").Bold().FontSize(9);
                                             });
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("EasyPaisa").FontSize(9);
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("Abubakar Bin Mujahid").FontSize(9);
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("03007708041").FontSize(9).Bold();
+                                            
+                                            t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("JazzCash").FontSize(9);
+                                            t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("Abubakar Bin Mujahid").FontSize(9);
+                                            t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("03007708041").FontSize(9).Bold();
 
-                                            
-                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("Online").FontSize(9);
-                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("AB ISP").FontSize(9);
-                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("123456").FontSize(9).Bold();
-                                            
                                         });
-                                    });
-                            
+                                });
+
+
+                                row.ConstantItem(90).Column(c =>
+                                {
+                                    c.Item().Height(80).Image(Path.Combine(AppContext.BaseDirectory, "Assests", "ABAlfaQR.png")).FitArea();
+                                    c.Item().AlignCenter().Text("Scan To Pay").FontSize(5).Bold();
+                                });
+
+                                //row.ConstantItem(70).Height(60).Image(QRPath).FitArea();
+                                //row.ConstantItem(10);
+
+
                             });
 
                         f.Item().PaddingTop(8).Row(row =>
@@ -267,8 +273,8 @@ namespace Infrastructure.Services
                                 t.ColumnsDefinition(cd => { cd.RelativeColumn(); cd.RelativeColumn(); });
                                 SlipRow(t, "Billing Month:", billingMonth);
                                 SlipRow(t, "Due Date:", FormatDate(bill.DueBillDate), bold: true);
-                                SlipRow(t, "Total Amount Due:", Money(bill.RemainingAmount), bold: true);
-                                SlipRow(t, "Payable After Due:", Money(amountAfterDue));
+                                SlipRow(t, "Total Amount Due:", Money(bill.TotalAmount), bold: true);
+                                SlipRow(t, "Payable After Due:", Money(bill.TotalAmount + lateFee));
                             });
 
                             row.RelativeItem(2).Column(c =>
@@ -278,6 +284,11 @@ namespace Infrastructure.Services
                                 c.Item().Text("Amount Paid: _________");
                                 c.Item().Text("Signature: ___________");
                             });
+
+                        });
+                        f.Item().PaddingTop(4).Row(row =>
+                        {
+                            row.RelativeItem(2).Column(c => c.Item().BorderTop(0.5f).BorderColor(LineGrey).Padding(3).Text("Software Created by Fahad Mughal").FontSize(5).Bold());
                         });
                     });
                 });
@@ -334,10 +345,10 @@ namespace Infrastructure.Services
     //        Customer customer,
     //        Billings bill,
     //        string companyName = "Your Company Name",
-    //        string? companyPhone = null,
+    //        string? complaintNumber = null,
     //        string? logoPath = null)
     //    {
-    //        BuildDocument(customer, bill, companyName, companyPhone, logoPath).GeneratePdf(filePath);
+    //        BuildDocument(customer, bill, companyName, complaintNumber, logoPath).GeneratePdf(filePath);
     //    }
 
     //    /// <summary>Creates the bill PDF and returns it as bytes (handy for APIs or email attachments).</summary>
@@ -345,14 +356,14 @@ namespace Infrastructure.Services
     //        Customer customer,
     //        Billings bill,
     //        string companyName = "Your Company Name",
-    //        string? companyPhone = null,
+    //        string? complaintNumber = null,
     //        string? logoPath = null)
     //    {
-    //        return BuildDocument(customer, bill, companyName, companyPhone, logoPath).GeneratePdf();
+    //        return BuildDocument(customer, bill, companyName, complaintNumber, logoPath).GeneratePdf();
     //    }
 
     //    private static Document BuildDocument(
-    //        Customer customer, Billings bill, string companyName, string? companyPhone, string? logoPath)
+    //        Customer customer, Billings bill, string companyName, string? complaintNumber, string? logoPath)
     //    {
     //        string statusColor = bill.Status.Equals("Paid", StringComparison.OrdinalIgnoreCase)
     //            ? Colors.Green.Darken2
@@ -378,8 +389,8 @@ namespace Infrastructure.Services
     //                    row.RelativeItem().Column(col =>
     //                    {
     //                        col.Item().Text(companyName).FontSize(20).Bold().FontColor(Colors.Blue.Darken3);
-    //                        if (!string.IsNullOrWhiteSpace(companyPhone))
-    //                            col.Item().Text(companyPhone).FontSize(10).FontColor(Colors.Grey.Darken1);
+    //                        if (!string.IsNullOrWhiteSpace(complaintNumber))
+    //                            col.Item().Text(complaintNumber).FontSize(10).FontColor(Colors.Grey.Darken1);
     //                    });
 
     //                    row.ConstantItem(170).Column(col =>
