@@ -44,7 +44,7 @@ namespace Infrastructure.Repository
 
         public async Task<List<Customer>> GetÀllCustomerAsync()
         {
-            const string sql = "SELECT * FROM tblCustomers";
+            const string sql = "SELECT * FROM tblCustomers WHERE IsActive = 1";
 
             await using var connection = sqlConnection;
             var customers = await connection.QueryAsync<Customer>(sql);

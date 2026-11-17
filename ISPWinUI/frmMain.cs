@@ -27,7 +27,7 @@ namespace ISPWinUI
             timer1.Tick += timer1_Tick;
             timer1.Start();
             UpdateClock();                   // show the time immediately, not after 1 second
-            GenerateBillPDFAsync();
+            LoadInvoicePDFDataAsync();
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -114,7 +114,7 @@ namespace ISPWinUI
             }
         }
 
-        private async Task GenerateBillPDFAsync()
+        private async Task LoadInvoicePDFDataAsync()
         {
 
             try
@@ -132,12 +132,18 @@ namespace ISPWinUI
 
                     Directory.CreateDirectory(folder); // does nothing if it already exists
 
-                    List<Customer> customers = await _repoCustomer.GetÀllCustomerAsync();
+                    //List<Billings> billings = new List<Billings>();
+                    //List<Customer> customers = await _repoCustomer.GetÀllCustomerAsync();
 
-                    foreach(Customer customer in customers)
-                    {
-                        Billings billings = await _repoBillings.GetLatestBillingsByCustomerIDAsync(customer.CustomerID);
-                    }
+                    //foreach (Customer customer in customers)
+                    //{
+                    //    Billings billing = await _repoBillings.GetLatestBillingsByCustomerIDAsync(customer.CustomerID);
+                    //    billings.Add(billing);
+                    //}
+
+                    List<InvoicePDFDto> invoicePDFData = await _repoBillings.GetLatestBillingsByCustomerAsync();
+
+                    //GenerateInvoicePDFAsync(customers, billings);
 
                     //Customer? customer = await _repoCustomer.GetCustomerByIdAsync(5);
                     //CustomerDto customerDto = new CustomerDto
@@ -182,6 +188,20 @@ namespace ISPWinUI
             {
 
                 throw;
+            }
+        }
+
+        private async Task GenerateInvoicePDFAsync(List<Customer> customers, List<Billings> billings)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                WinUILoggerService.Error(ex, ex.Message);
+
+                MessageBox.Show("Unable to generate PDF.", "PDF Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

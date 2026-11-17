@@ -26,7 +26,7 @@ namespace Infrastructure.Services
         /// <summary>Creates the invoice PDF and saves it to filePath.</summary>
         /// <param name="packageName">e.g. "30 Mbps" (shown under Services Detail).</param>
         /// <param name="lateFee">Extra charge if paid after the due date ("Amount After Due Date").</param>
-        public static void Generate(
+        public async static Task Generate(
             string filePath,
             CustomerDto customer,
             BillingsDto bill,
