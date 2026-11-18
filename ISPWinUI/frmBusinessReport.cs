@@ -32,6 +32,8 @@ namespace ISPWinUI
             try
             {
                 int totalCustomers = 0;
+                decimal? monthlyRevenue = 0;
+                decimal? totalRemainingAmount = 0;
                 decimal? totalMonthlyRevenue = 0;
                 decimal collectedAmount = 0;
                 decimal? pendingAmount = 0;
@@ -65,7 +67,9 @@ namespace ISPWinUI
                 }
 
                 
-                totalMonthlyRevenue = customers.Where(x => x.IsActive == true).Sum(c => c.Amount);
+                monthlyRevenue = customers.Where(x => x.IsActive == true).Sum(c => c.Amount);
+                totalRemainingAmount = billings.Sum(b => b.RemainingAmount);
+                totalMonthlyRevenue = monthlyRevenue + totalRemainingAmount;
                 collectedAmount = billings.Sum(b => b.PaidAmount);
                 pendingAmount = totalMonthlyRevenue - collectedAmount;
 
