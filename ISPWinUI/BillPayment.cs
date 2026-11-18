@@ -82,7 +82,7 @@ namespace ISPWinUI
                             //}
 
                             
-                            DialogResult result = MessageBox.Show("Bill is Paid, Invoice Created!!!", "Success" + newBillId, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            DialogResult result = MessageBox.Show("Bill is Paid!", "Success" + newBillId, MessageBoxButtons.OK, MessageBoxIcon.Information);
                             if (result == DialogResult.OK)
                                 //GenerateBillPDFAsync();
                             // Close or reset form as appropriate:

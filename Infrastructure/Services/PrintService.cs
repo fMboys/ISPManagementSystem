@@ -215,7 +215,7 @@ namespace Infrastructure.Services
                             col.Item().Background("#F2F2F2").Padding(8).AlignCenter().Text(
                                 string.IsNullOrWhiteSpace(invoicePDFDto.ComplaintNumber)
                                     ? "Please pay your bill before the due date to avoid a late fee."
-                                    : $"For bill payments and complaints, please call {invoicePDFDto.ComplaintNumber}. Pay before the due date to avoid a late fee.")
+                                    : $"For complaints, please call {invoicePDFDto.ComplaintNumber}. Pay before the due date to avoid a late fee.")
                                 .Bold().FontSize(9.5f);
 
                             // --- Advertisment Section ---

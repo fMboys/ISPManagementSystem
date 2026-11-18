@@ -29,7 +29,7 @@ namespace ISPWinUI
             timer1.Tick += timer1_Tick;
             timer1.Start();
             UpdateClock();                   // show the time immediately, not after 1 second
-            //LoadInvoicePDFDataAsync();
+            LoadInvoicePDFDataAsync();
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -213,11 +213,13 @@ namespace ISPWinUI
                 string jazzCashTitle = ConfigurationManager.AppSettings["JazzCashTitle"];
                 string jazzCashNumber = ConfigurationManager.AppSettings["JazzCashNumber"];
 
+                frmManageBillings frmManageBillings = new frmManageBillings();
+
                 foreach (InvoicePDFDto invoicePDFDto in invoicePDFDtos)
                 {
                     invoicePDFDto.Status = (DateTime.Now >= invoicePDFDto.BillDate && invoicePDFDto.Status?.ToString() == "Paid") ? "Not Paid" : invoicePDFDto.Status;
 
-                    if (invoicePDFDto.Status != "Paid" && invoicePDFDto.IsPrint != "Yes")
+                    if (invoicePDFDto.Status != "Paid")
                     {
                         string fileName = $"Bill-{invoicePDFDto?.CustomerName?.Replace(" ","")}-{invoicePDFDto?.BillID}-{DateTime.Now:yyyyMMdd}.pdf";
                         string pathFile = Path.Combine(folder, fileName);
@@ -233,6 +235,8 @@ namespace ISPWinUI
                         invoicePDFDto.EasyPaisaNumber = easyPaisaNumber;
                         invoicePDFDto.JazzCashTitle = jazzCashTitle;
                         invoicePDFDto.JazzCashNumber = jazzCashNumber;
+
+                        invoicePDFDto.TotalAmount = frmManageBillings.CalculateTotalPayable(invoicePDFDto.Amount, invoicePDFDto.BillDate, DateTime.Now);
 
                         await PrintService.Generate(invoicePDFDto);
                         // TODO: Update the IsPrint status in the database after generating the PDF

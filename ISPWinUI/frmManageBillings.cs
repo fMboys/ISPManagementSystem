@@ -44,6 +44,9 @@ namespace ISPWinUI
                     
                     totalPayable = CalculateTotalPayable(billAmount ,billDate, DateTime.Now);
 
+                    //TODO: If goes to InActive for months then reactivate again after months
+                    // Handle the payment calculation for that scenario.
+
                     dgvCustomerBillings.Rows.Add(i, reader["CustomerID"].ToString(), reader["ConnectionDate"].ToString(), reader["CustomerName"].ToString(), reader["Address"].ToString(), reader["Package"].ToString(),
                     totalPayable, reader["RemainingAmount"].ToString(),
                     string.IsNullOrEmpty((reader["BillDate"]).ToString()) ? "" : ((DateTime)reader["BillDate"]).ToString("dd-MM-yyyy"),
@@ -210,7 +213,7 @@ namespace ISPWinUI
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        private decimal CalculateTotalPayable(decimal amount, DateTime startDate, DateTime endDate)
+        public decimal CalculateTotalPayable(decimal amount, DateTime startDate, DateTime endDate)
         {
             try
             {
