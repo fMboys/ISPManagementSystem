@@ -27,6 +27,8 @@ namespace ISPWinUI
             try
             {
                 int i = 0;
+                decimal totalPayable = 0;
+                decimal billAmount = 0;
                 dgvCustomerBillings.Rows.Clear();
                 //CheckBillStatus();
                 sqlConnection.Open();
@@ -38,9 +40,12 @@ namespace ISPWinUI
                 {
                     i += 1;
                     DateTime billDate = reader["BillDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["BillDate"]);
+                    billAmount = reader["Amount"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["Amount"]);
+                    
+                    totalPayable = CalculateTotalPayable(billAmount ,billDate, DateTime.Now);
 
                     dgvCustomerBillings.Rows.Add(i, reader["CustomerID"].ToString(), reader["ConnectionDate"].ToString(), reader["CustomerName"].ToString(), reader["Address"].ToString(), reader["Package"].ToString(),
-                    reader["Amount"].ToString(), reader["RemainingAmount"].ToString(),
+                    totalPayable, reader["RemainingAmount"].ToString(),
                     string.IsNullOrEmpty((reader["BillDate"]).ToString()) ? "" : ((DateTime)reader["BillDate"]).ToString("dd-MM-yyyy"),
                     string.IsNullOrEmpty((reader["DueBillDate"]).ToString()) ? "" : ((DateTime)reader["DueBillDate"]).ToString("dd-MM-yyyy"),
                     (DateTime.Now >= billDate && reader["Status"].ToString() == "Paid") ? "Not Paid" : reader["Status"].ToString());
@@ -195,6 +200,52 @@ namespace ISPWinUI
             {
                 WinUILoggerService.Error(ex, ex.Message);
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Calculate the total payable amount based on the number of months between the start and end dates.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        private decimal CalculateTotalPayable(decimal amount, DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                decimal totalPayable = 0;
+
+                int pendingMonths = ((endDate.Year - startDate.Year) * 12) + (endDate.Month - startDate.Month);
+
+                if (endDate.Day < startDate.Day)
+                {
+                    pendingMonths--;
+                }
+
+                if (pendingMonths > 0)
+                {
+                    int count = 1;
+
+                    while (count <= pendingMonths)
+                    {
+                        totalPayable += amount;
+                        count++;
+                    }
+                }
+                else
+                {
+                    totalPayable = amount;
+                    return totalPayable;
+                }
+
+                return totalPayable;
+
+            }
+            catch (Exception ex)
+            {
+                WinUILoggerService.Error(ex, ex.Message);
+                return 0;
             }
         }
 

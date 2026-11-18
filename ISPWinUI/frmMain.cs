@@ -29,7 +29,7 @@ namespace ISPWinUI
             timer1.Tick += timer1_Tick;
             timer1.Start();
             UpdateClock();                   // show the time immediately, not after 1 second
-            LoadInvoicePDFDataAsync();
+            //LoadInvoicePDFDataAsync();
         }
 
         private void frmMain_Load(object sender, EventArgs e)
