@@ -48,6 +48,8 @@
             dtpConnectionDate = new DateTimePicker();
             pnlNCusHeader = new Panel();
             pnlNCusfrm = new Panel();
+            lblCnic = new Label();
+            txtCnic = new TextBox();
             pnlCus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusClose).BeginInit();
             pnlNCusHeader.SuspendLayout();
@@ -93,7 +95,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 23);
+            label1.Location = new Point(12, 45);
             label1.Name = "label1";
             label1.Size = new Size(201, 32);
             label1.TabIndex = 4;
@@ -101,7 +103,7 @@
             // 
             // txtCustomerName
             // 
-            txtCustomerName.Location = new Point(221, 21);
+            txtCustomerName.Location = new Point(221, 43);
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.Size = new Size(215, 39);
             txtCustomerName.TabIndex = 1;
@@ -109,7 +111,7 @@
             // txtPhoneNumber
             // 
             txtPhoneNumber.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtPhoneNumber.Location = new Point(722, 23);
+            txtPhoneNumber.Location = new Point(722, 45);
             txtPhoneNumber.MaxLength = 11;
             txtPhoneNumber.Name = "txtPhoneNumber";
             txtPhoneNumber.Size = new Size(215, 39);
@@ -119,7 +121,7 @@
             // 
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new Point(513, 25);
+            label2.Location = new Point(513, 47);
             label2.Name = "label2";
             label2.Size = new Size(179, 32);
             label2.TabIndex = 6;
@@ -128,17 +130,17 @@
             // txtAddress
             // 
             txtAddress.Anchor = AnchorStyles.Left;
-            txtAddress.Location = new Point(221, 170);
+            txtAddress.Location = new Point(221, 318);
             txtAddress.Multiline = true;
             txtAddress.Name = "txtAddress";
-            txtAddress.Size = new Size(215, 71);
+            txtAddress.Size = new Size(502, 71);
             txtAddress.TabIndex = 5;
             // 
             // label3
             // 
             label3.Anchor = AnchorStyles.Left;
             label3.AutoSize = true;
-            label3.Location = new Point(12, 165);
+            label3.Location = new Point(12, 313);
             label3.Name = "label3";
             label3.Size = new Size(100, 32);
             label3.TabIndex = 8;
@@ -147,7 +149,7 @@
             // txtPackage
             // 
             txtPackage.Anchor = AnchorStyles.Left;
-            txtPackage.Location = new Point(221, 97);
+            txtPackage.Location = new Point(221, 128);
             txtPackage.Name = "txtPackage";
             txtPackage.Size = new Size(215, 39);
             txtPackage.TabIndex = 3;
@@ -156,7 +158,7 @@
             // 
             label4.Anchor = AnchorStyles.Left;
             label4.AutoSize = true;
-            label4.Location = new Point(12, 91);
+            label4.Location = new Point(12, 128);
             label4.Name = "label4";
             label4.Size = new Size(104, 32);
             label4.TabIndex = 10;
@@ -165,7 +167,7 @@
             // txtRate
             // 
             txtRate.Anchor = AnchorStyles.Right;
-            txtRate.Location = new Point(722, 97);
+            txtRate.Location = new Point(221, 216);
             txtRate.Name = "txtRate";
             txtRate.Size = new Size(215, 39);
             txtRate.TabIndex = 4;
@@ -174,17 +176,17 @@
             // 
             label5.Anchor = AnchorStyles.Right;
             label5.AutoSize = true;
-            label5.Location = new Point(513, 100);
+            label5.Location = new Point(12, 219);
             label5.Name = "label5";
-            label5.Size = new Size(64, 32);
+            label5.Size = new Size(161, 32);
             label5.TabIndex = 12;
-            label5.Text = "Rate";
+            label5.Text = "Package Rate";
             // 
             // label6
             // 
             label6.Anchor = AnchorStyles.Right;
             label6.AutoSize = true;
-            label6.Location = new Point(513, 174);
+            label6.Location = new Point(513, 219);
             label6.Name = "label6";
             label6.Size = new Size(197, 32);
             label6.TabIndex = 14;
@@ -197,7 +199,7 @@
             btnSave.Cursor = Cursors.Hand;
             btnSave.FlatStyle = FlatStyle.Popup;
             btnSave.ForeColor = SystemColors.ControlText;
-            btnSave.Location = new Point(762, 272);
+            btnSave.Location = new Point(762, 427);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(175, 55);
             btnSave.TabIndex = 7;
@@ -211,7 +213,7 @@
             btnClear.BackColor = Color.FromArgb(255, 193, 7);
             btnClear.Cursor = Cursors.Hand;
             btnClear.FlatStyle = FlatStyle.Popup;
-            btnClear.Location = new Point(578, 272);
+            btnClear.Location = new Point(578, 427);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(175, 55);
             btnClear.TabIndex = 8;
@@ -223,7 +225,7 @@
             // 
             dtpConnectionDate.Anchor = AnchorStyles.Right;
             dtpConnectionDate.Format = DateTimePickerFormat.Short;
-            dtpConnectionDate.Location = new Point(722, 170);
+            dtpConnectionDate.Location = new Point(722, 219);
             dtpConnectionDate.Name = "dtpConnectionDate";
             dtpConnectionDate.Size = new Size(215, 39);
             dtpConnectionDate.TabIndex = 6;
@@ -239,6 +241,8 @@
             // 
             // pnlNCusfrm
             // 
+            pnlNCusfrm.Controls.Add(lblCnic);
+            pnlNCusfrm.Controls.Add(txtCnic);
             pnlNCusfrm.Controls.Add(txtCustomerName);
             pnlNCusfrm.Controls.Add(label1);
             pnlNCusfrm.Controls.Add(dtpConnectionDate);
@@ -256,15 +260,34 @@
             pnlNCusfrm.Dock = DockStyle.Fill;
             pnlNCusfrm.Location = new Point(0, 65);
             pnlNCusfrm.Name = "pnlNCusfrm";
-            pnlNCusfrm.Size = new Size(962, 352);
+            pnlNCusfrm.Size = new Size(962, 507);
             pnlNCusfrm.TabIndex = 16;
+            // 
+            // lblCnic
+            // 
+            lblCnic.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblCnic.AutoSize = true;
+            lblCnic.Location = new Point(513, 128);
+            lblCnic.Name = "lblCnic";
+            lblCnic.Size = new Size(165, 32);
+            lblCnic.TabIndex = 16;
+            lblCnic.Text = "CNIC Number";
+            // 
+            // txtCnic
+            // 
+            txtCnic.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtCnic.Location = new Point(722, 126);
+            txtCnic.MaxLength = 13;
+            txtCnic.Name = "txtCnic";
+            txtCnic.Size = new Size(215, 39);
+            txtCnic.TabIndex = 15;
             // 
             // frmNewCustomer
             // 
             AutoScaleDimensions = new SizeF(14F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(962, 417);
+            ClientSize = new Size(962, 572);
             ControlBox = false;
             Controls.Add(pnlNCusfrm);
             Controls.Add(pnlNCusHeader);
@@ -302,5 +325,7 @@
         private DateTimePicker dtpConnectionDate;
         private Panel pnlNCusHeader;
         private Panel pnlNCusfrm;
+        private Label lblCnic;
+        private TextBox txtCnic;
     }
 }

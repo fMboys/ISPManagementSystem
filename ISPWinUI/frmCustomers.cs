@@ -111,6 +111,7 @@ namespace ISPWinUI
                             {
                                 frmEditCustomer.lblCustomerID.Text = customerId.ToString();
                                 frmEditCustomer.txtCustomerName.Text = reader["CustomerName"].ToString();
+                                frmEditCustomer.txtCNIC.Text = reader["CNIC"].ToString();
                                 frmEditCustomer.txtPhoneNumber.Text = reader["PhoneNumber"].ToString();
                                 frmEditCustomer.txtAddress.Text = reader["Address"].ToString();
                                 frmEditCustomer.txtPackage.Text = reader["Package"].ToString();
@@ -158,6 +159,7 @@ namespace ISPWinUI
                             if (reader.Read())
                             {
                                 frmViewCustomer.txtCustomerName.Text = reader["CustomerName"].ToString();
+                                frmViewCustomer.txtCNIC.Text = reader["CNIC"].ToString();
                                 frmViewCustomer.txtPhoneNumber.Text = reader["PhoneNumber"].ToString();
                                 frmViewCustomer.txtAddress.Text = reader["Address"].ToString();
                                 frmViewCustomer.txtPackage.Text = reader["Package"].ToString();

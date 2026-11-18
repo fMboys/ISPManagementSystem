@@ -23,6 +23,7 @@ namespace ISPWinUI
                 // Read values from form controls
                 string customerName = txtCustomerName?.Text?.Trim() ?? string.Empty;
                 string phone = txtPhoneNumber?.Text?.Trim() ?? string.Empty;
+                string cnic = txtCnic.Text;
                 string address = txtAddress?.Text?.Trim() ?? string.Empty;
                 string package = !string.IsNullOrEmpty(txtPackage?.Text?.Trim()) ? txtPackage.Text + " Mbps" : string.Empty;
                 decimal rate = decimal.TryParse(txtRate?.Text, out var r) ? r : 0m;
@@ -34,24 +35,17 @@ namespace ISPWinUI
                     return;
                 }
 
-                //var connStr = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"]?.ConnectionString;
-                //if (string.IsNullOrWhiteSpace(connStr))
-                //{
-                //    System.Windows.Forms.MessageBox.Show("Database connection string 'DefaultConnection' not found. Please add it to app.config.", "Configuration", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                //    return;
-                //}
-
-                //using (var conn = new System.Data.SqlClient.SqlConnection(connStr))
                 using (var cmd = sqlConnection.CreateCommand())
                 {
                     try
                     {
                         cmd.CommandText = @"
-                        INSERT INTO tblCustomers (CustomerName, PhoneNumber, Address, Package, Amount, ConnectionDate, IsActive, ModifiedBy, CreatedDate)
-                        VALUES (@CustomerName, @PhoneNumber, @Address, @Package, @Amount, @ConnectionDate, @IsActive, @ModifiedBy, @CreatedDate);";
+                        INSERT INTO tblCustomers (CustomerName, CNIC, PhoneNumber, Address, Package, Amount, ConnectionDate, IsActive, ModifiedBy, CreatedDate)
+                        VALUES (@CustomerName, @CNIC, @PhoneNumber, @Address, @Package, @Amount, @ConnectionDate, @IsActive, @ModifiedBy, @CreatedDate);";
                         //SELECT SCOPE_IDENTITY();"; // add it if want to add increamental id and return it in code.
 
                         cmd.Parameters.AddWithValue("@CustomerName", customerName);
+                        cmd.Parameters.AddWithValue("@CNIC", cnic);
                         cmd.Parameters.AddWithValue("@PhoneNumber", phone);
                         cmd.Parameters.AddWithValue("@Address", address);
                         cmd.Parameters.AddWithValue("@Package", package);

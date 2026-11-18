@@ -49,6 +49,8 @@
             btnCusClose = new PictureBox();
             lblName = new Label();
             label12 = new Label();
+            lblCNIC = new Label();
+            txtCNIC = new TextBox();
             panel2.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusClose).BeginInit();
@@ -69,7 +71,7 @@
             cbStatus.Enabled = false;
             cbStatus.FormattingEnabled = true;
             cbStatus.Items.AddRange(new object[] { "Active", "Not Active" });
-            cbStatus.Location = new Point(1193, 164);
+            cbStatus.Location = new Point(1193, 138);
             cbStatus.Name = "cbStatus";
             cbStatus.Size = new Size(188, 40);
             cbStatus.TabIndex = 12;
@@ -86,11 +88,11 @@
             // 
             // txtAddress
             // 
-            txtAddress.Location = new Point(1005, 49);
+            txtAddress.Location = new Point(126, 233);
             txtAddress.Multiline = true;
             txtAddress.Name = "txtAddress";
             txtAddress.ReadOnly = true;
-            txtAddress.Size = new Size(376, 73);
+            txtAddress.Size = new Size(475, 73);
             txtAddress.TabIndex = 3;
             // 
             // label2
@@ -115,7 +117,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label3.Location = new Point(901, 52);
+            label3.Location = new Point(22, 236);
             label3.Name = "label3";
             label3.Size = new Size(100, 32);
             label3.TabIndex = 5;
@@ -134,7 +136,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label4.Location = new Point(20, 169);
+            label4.Location = new Point(20, 143);
             label4.Name = "label4";
             label4.Size = new Size(104, 32);
             label4.TabIndex = 6;
@@ -144,7 +146,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label5.Location = new Point(340, 169);
+            label5.Location = new Point(340, 143);
             label5.Name = "label5";
             label5.Size = new Size(102, 32);
             label5.TabIndex = 7;
@@ -154,7 +156,7 @@
             // 
             dtpConnectionDate.Enabled = false;
             dtpConnectionDate.Format = DateTimePickerFormat.Short;
-            dtpConnectionDate.Location = new Point(845, 166);
+            dtpConnectionDate.Location = new Point(845, 140);
             dtpConnectionDate.Name = "dtpConnectionDate";
             dtpConnectionDate.Size = new Size(233, 39);
             dtpConnectionDate.TabIndex = 9;
@@ -163,7 +165,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label6.Location = new Point(645, 168);
+            label6.Location = new Point(645, 142);
             label6.Name = "label6";
             label6.Size = new Size(197, 32);
             label6.TabIndex = 8;
@@ -174,7 +176,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label7.Location = new Point(1106, 168);
+            label7.Location = new Point(1106, 142);
             label7.Name = "label7";
             label7.Size = new Size(81, 32);
             label7.TabIndex = 9;
@@ -183,6 +185,8 @@
             // panel2
             // 
             panel2.BorderStyle = BorderStyle.Fixed3D;
+            panel2.Controls.Add(lblCNIC);
+            panel2.Controls.Add(txtCNIC);
             panel2.Controls.Add(lblCustomerID);
             panel2.Controls.Add(cbStatus);
             panel2.Controls.Add(label1);
@@ -201,12 +205,12 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 65);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1411, 243);
+            panel2.Size = new Size(1411, 348);
             panel2.TabIndex = 19;
             // 
             // txtAmount
             // 
-            txtAmount.Location = new Point(446, 165);
+            txtAmount.Location = new Point(446, 139);
             txtAmount.Name = "txtAmount";
             txtAmount.ReadOnly = true;
             txtAmount.Size = new Size(150, 39);
@@ -214,7 +218,7 @@
             // 
             // txtPackage
             // 
-            txtPackage.Location = new Point(126, 165);
+            txtPackage.Location = new Point(126, 139);
             txtPackage.Name = "txtPackage";
             txtPackage.ReadOnly = true;
             txtPackage.Size = new Size(150, 39);
@@ -264,11 +268,30 @@
             label12.Size = new Size(0, 32);
             label12.TabIndex = 17;
             // 
+            // lblCNIC
+            // 
+            lblCNIC.AutoSize = true;
+            lblCNIC.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            lblCNIC.Location = new Point(955, 48);
+            lblCNIC.Name = "lblCNIC";
+            lblCNIC.Size = new Size(165, 32);
+            lblCNIC.TabIndex = 15;
+            lblCNIC.Text = "CNIC Number";
+            // 
+            // txtCNIC
+            // 
+            txtCNIC.Location = new Point(1138, 45);
+            txtCNIC.MaxLength = 13;
+            txtCNIC.Name = "txtCNIC";
+            txtCNIC.ReadOnly = true;
+            txtCNIC.Size = new Size(243, 39);
+            txtCNIC.TabIndex = 14;
+            // 
             // frmViewCustomer
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1411, 308);
+            ClientSize = new Size(1411, 413);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(label12);
@@ -306,5 +329,7 @@
         private PictureBox btnCusClose;
         private Label lblName;
         private Label label12;
+        private Label lblCNIC;
+        public TextBox txtCNIC;
     }
 }

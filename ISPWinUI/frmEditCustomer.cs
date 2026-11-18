@@ -40,6 +40,7 @@ namespace ISPWinUI
             {
                 // Read values from form controls
                 string customerName = txtCustomerName?.Text?.Trim() ?? string.Empty;
+                string cnic = txtCNIC?.Text?.Trim() ?? string.Empty;
                 string phone = txtPhoneNumber?.Text?.Trim() ?? string.Empty;
                 string address = txtAddress?.Text?.Trim() ?? string.Empty;
                 string package = !string.IsNullOrEmpty(txtPackage?.Text?.Trim()) ? txtPackage.Text : string.Empty;
@@ -63,6 +64,7 @@ namespace ISPWinUI
                         {
                             CustomerID = Convert.ToInt32(lblCustomerID.Text),
                             CustomerName = customerName,
+                            CNIC = cnic,
                             PhoneNumber = phone,
                             Address = address,
                             Package = package,
@@ -75,6 +77,7 @@ namespace ISPWinUI
 
                         const string updateQuery = @"UPDATE tblCustomers
                                                      SET CustomerName = @CustomerName,
+                                                         CNIC = @CNIC,
                                                          PhoneNumber = @PhoneNumber,
                                                          Address = @Address,
                                                          Package = @Package,
