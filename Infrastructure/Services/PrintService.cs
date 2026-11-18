@@ -18,6 +18,7 @@ namespace Infrastructure.Services
 
         static string QRPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABAlfaQR.png");
         static string ABlogoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
+        static string bannerMAS = Path.Combine(AppContext.BaseDirectory, "Assests", "MASCardc.png");
         static PrintService()
         {
             QuestPDF.Settings.License = LicenseType.Community;
@@ -220,7 +221,13 @@ namespace Infrastructure.Services
 
                             // --- Advertisment Section ---
                             col.Item().Background("#FFFFFF").Padding(4).AlignCenter().Text($"For advertise here, please contact {invoicePDFDto.ComplaintNumber}.").Bold().FontSize(6.5f);
+
+                            col.Item().AlignCenter().Width(213).Height(100).Image(bannerMAS).FitArea();
+                    
+                            col.Item().Background("#FFFFFF").Padding(4).AlignCenter().Text($"Tiktok @.miniapplestore          WhatsApp# 03237775924").Bold().FontSize(6.5f);
+
                         });
+
 
                         // ================= FOOTER: PAYMENT SLIP =================
                         page.Footer().Column(f =>
@@ -231,7 +238,7 @@ namespace Infrastructure.Services
                             // --- Pay online: QR code + account numbers ---
 
                             f.Item().PaddingTop(8).Row(row =>
-                        {
+                            {
                                     row.Spacing(16);
 
                                     row.RelativeItem().Column(c =>

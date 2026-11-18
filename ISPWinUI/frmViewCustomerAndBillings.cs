@@ -130,7 +130,7 @@ namespace ISPWinUI
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show("Unable to generate invoice.", "Invoice Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
         }
