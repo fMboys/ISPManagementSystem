@@ -198,11 +198,6 @@ namespace ISPWinUI
             }
         }
 
-        private void frmBillPayment_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnCusClose_Click(object sender, EventArgs e)
         {
             this.Close();

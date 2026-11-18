@@ -1,9 +1,4 @@
-﻿using Core.Entities;
-using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic;
-using System.Data;
-using System.IO.Packaging;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using Microsoft.Data.SqlClient;
 
 namespace ISPWinUI
 {
@@ -29,7 +24,6 @@ namespace ISPWinUI
                 dgvCustomers.Rows.Clear();
                 //CheckBillStatus();
                 sqlConnection.Open();
-                //sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, Address, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.Address, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
                 sqlCommand = new SqlCommand("SELECT * FROM tblCustomers WHERE CustomerName LIKE '%" + txtSearch.Text + "%'", sqlConnection);
                 reader = sqlCommand.ExecuteReader();
 

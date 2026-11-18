@@ -13,12 +13,14 @@ namespace ISPWinUI
         SqlCommand sqlCommand = new SqlCommand();
         DAL dbConnection = new DAL();
         private readonly CustomerRepository _repoCustomer;
+        private readonly BillingsRepository _repoBillings;
 
         public frmViewCustomerAndBillings()
         {
             InitializeComponent();
             sqlConnection = new SqlConnection(dbConnection.GetConnectionString());
             _repoCustomer = new CustomerRepository(dbConnection.GetConnectionString());
+            _repoBillings = new BillingsRepository(dbConnection.GetConnectionString());
         }
 
         public void ViewCustomerDetails()
@@ -54,7 +56,7 @@ namespace ISPWinUI
             }
         }
 
-        private void GenerateBillPDFAsync()
+        private async Task GenerateBillPDFAsync()
         {
             
             try
@@ -64,39 +66,55 @@ namespace ISPWinUI
                     string companyName = ConfigurationManager.AppSettings["CompanyName"];
                     string complaintNumber = ConfigurationManager.AppSettings["ComplaintNumber"];
                     string packageName = ConfigurationManager.AppSettings["PackageName"];
+                    string nameQRCode = ConfigurationManager.AppSettings["NameQR"];
                     decimal lateFee = Convert.ToDecimal(ConfigurationManager.AppSettings["LateFee"]);
-
-                    string folder = Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Bills");
-
+                    string folderName = $"BillsGenerated-{DateTime.Now:yyyy}";
+                    string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), folderName);
                     Directory.CreateDirectory(folder); // does nothing if it already exists
+                    string pathLogo = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
+                    string pathQR = Path.Combine(AppContext.BaseDirectory, "Assests", nameQRCode);
 
-                    //Customer? customer = await _repoCustomer.GetCustomerByIdAsync(5);
-                    CustomerDto customerDto = new CustomerDto
+                    string easyPaisaTitle = ConfigurationManager.AppSettings["EasyPaisaTitle"];
+                    string easyPaisaNumber = ConfigurationManager.AppSettings["EasyPaisaNumber"];
+                    string jazzCashTitle = ConfigurationManager.AppSettings["JazzCashTitle"];
+                    string jazzCashNumber = ConfigurationManager.AppSettings["JazzCashNumber"];
+
+                    string fileName = $"Bill-{txtCustomerName.Text?.Replace(" ", "")}-{lblBillID.Text}-{DateTime.Now:yyyyMMdd}.pdf";
+                    string pathFile = Path.Combine(folder, fileName);
+
+                    frmManageBillings frmManageBillings = new frmManageBillings();
+
+                    InvoicePDFDto invoicePDFDto = new InvoicePDFDto
                     {
                         CustomerID = Convert.ToInt32(lblCustomerID.Text),
+                        BillID = Convert.ToInt32(lblBillID.Text),
                         CustomerName = txtCustomerName.Text,
                         PhoneNumber = txtPhoneNumber.Text,
                         Address = txtAddress.Text,
-                        Package = txtPackage.Text
-                    };
-
-                    BillingsDto billingsDto = new BillingsDto
-                    {
-                        BillID = Convert.ToInt32(lblBillID.Text),
+                        Package = txtPackage.Text,
                         Amount = decimal.Parse(txtAmount.Text),
                         RemainingAmount = decimal.Parse(txtDueAmount.Text),
-                        //PaidAmount = txtStatus.Text == "Paid" ? decimal.Parse(txt.Text) : 0.00,
-                        TotalAmount = decimal.Parse(txtAmount.Text) + decimal.Parse(txtDueAmount.Text),
-                        Status = txtStatus.Text,
+                        ConnectionDate = DateTime.Parse(txtConnectionDate.Text),
                         BillDate = DateTime.Parse(txtBillDate.Text),
+                        DueBillDate = DateTime.Parse(txtDueDate.Text),
                         BillPaidDate = DateTime.Parse(txtBillPaidDate.Text),
-                        DueBillDate = DateTime.Parse(txtDueDate.Text)
+                        Status = txtStatus.Text,
+                        CompanyName = companyName,
+                        ComplaintNumber = complaintNumber,
+                        PackageName = packageName,
+                        LateFee = lateFee,
+                        PathFile = pathFile,
+                        PathLogo = pathLogo,
+                        PathQR = pathQR,
+                        EasyPaisaTitle = easyPaisaTitle,
+                        EasyPaisaNumber = easyPaisaNumber,
+                        JazzCashTitle = jazzCashTitle,
+                        JazzCashNumber = jazzCashNumber,
+                        TotalAmount = frmManageBillings.CalculateTotalPayable(decimal.Parse(txtAmount.Text), DateTime.Parse(txtBillDate.Text), DateTime.Now)
                     };
 
-                    string fileName = $"Bill-{customerDto.CustomerName.Trim()}-{billingsDto.BillID}-{DateTime.Now:yyyyMMddHHmmss}.pdf";
-                    string filePath = Path.Combine(folder, fileName);
-                    string logoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
+                    await PrintService.Generate(invoicePDFDto);
+
 
                     //PrintService.Generate(filePath, customerDto, billingsDto, companyName, complaintNumber, logoPath, packageName, lateFee);
 

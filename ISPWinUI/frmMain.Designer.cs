@@ -44,7 +44,6 @@
             pnlMainLogo = new Panel();
             panel2 = new Panel();
             timer1 = new System.Windows.Forms.Timer(components);
-            button1 = new Button();
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbWelcome).BeginInit();
             pnlMainscreen.SuspendLayout();
@@ -155,7 +154,6 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(button1);
             panel1.Controls.Add(btnManageBills);
             panel1.Controls.Add(btnBusinessReport);
             panel1.Controls.Add(btnCustomers);
@@ -227,16 +225,6 @@
             // 
             timer1.Tick += timer1_Tick;
             // 
-            // button1
-            // 
-            button1.Location = new Point(239, 402);
-            button1.Name = "button1";
-            button1.Size = new Size(150, 46);
-            button1.TabIndex = 5;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(192F, 192F);
@@ -279,6 +267,5 @@
         private Button btnManageBills;
         private System.Windows.Forms.Timer timer1;
         private Label lblClock;
-        private Button button1;
     }
 }
