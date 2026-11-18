@@ -98,7 +98,7 @@ namespace ISPWinUI
                     string filePath = Path.Combine(folder, fileName);
                     string logoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
 
-                    PrintService.Generate(filePath, customerDto, billingsDto, companyName, complaintNumber, logoPath, packageName, lateFee);
+                    //PrintService.Generate(filePath, customerDto, billingsDto, companyName, complaintNumber, logoPath, packageName, lateFee);
 
                     //PrintService.Generate(filePath, customerDto, billingsDto);
                     MessageBox.Show("Bill invoice created successfully!", "Success", MessageBoxButtons.OK);

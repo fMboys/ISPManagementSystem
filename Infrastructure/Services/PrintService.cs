@@ -14,9 +14,9 @@ namespace Infrastructure.Services
         private const string PurpleLight = "#F1E6F5";
         private const string LineGrey = "#BFBFBF";
 
-        private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
+        private static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
 
-        static string QRPath = Path.Combine(AppContext.BaseDirectory, "Assests", "QR.png");
+        static string QRPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABAlfaQR.png");
         static string ABlogoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
         static PrintService()
         {
@@ -26,19 +26,32 @@ namespace Infrastructure.Services
         /// <summary>Creates the invoice PDF and saves it to filePath.</summary>
         /// <param name="packageName">e.g. "30 Mbps" (shown under Services Detail).</param>
         /// <param name="lateFee">Extra charge if paid after the due date ("Amount After Due Date").</param>
-        public async static Task Generate(
-            string filePath,
-            CustomerDto customer,
-            BillingsDto bill,
-            string companyName = "",
-            string? companyPhone = null,
-            string? logoPath = null,
-            string? packageName = null,
-            decimal lateFee = 0)
+        public async static Task Generate(InvoicePDFDto invoicePDFDto)
         {
-            BuildDocument(customer, bill, companyName, companyPhone, logoPath, packageName, lateFee)
-                .GeneratePdf(filePath);
+            try
+            {
+                BuildDocument(invoicePDFDto).GeneratePdf(invoicePDFDto.PathFile);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
+
+        //public async static Task Generate(
+        //    string filePath,
+        //    CustomerDto customer,
+        //    BillingsDto bill,
+        //    string companyName = "",
+        //    string? companyPhone = null,
+        //    string? logoPath = null,
+        //    string? packageName = null,
+        //    decimal lateFee = 0)
+        //{
+        //    BuildDocument(customer, bill, companyName, companyPhone, logoPath, packageName, lateFee)
+        //        .GeneratePdf(filePath);
+        //}
 
         /// <summary>Same as Generate, but returns the PDF as bytes (for email or API use).</summary>
         public static byte[] GenerateBytes(
@@ -50,249 +63,265 @@ namespace Infrastructure.Services
             string? packageName = null,
             decimal lateFee = 0)
         {
-            return BuildDocument(customer, bill, companyName, complaintNumber, logoPath, packageName, lateFee)
+            // TODO: Fix this method to use InvoicePDFDto instead of separate parameters for customer and bill.
+            
+            InvoicePDFDto invoicePDFDto = new InvoicePDFDto(); 
+            return BuildDocument(invoicePDFDto)
                 .GeneratePdf();
         }
 
-        private static Document BuildDocument(
-            CustomerDto customer, BillingsDto bill, string companyName, string? complaintNumber,
-            string? logoPath, string? packageName, decimal lateFee)
+        //private static Document BuildDocument(
+        //    CustomerDto customer, BillingsDto bill, string companyName, string? complaintNumber,
+        //    string? logoPath, string? packageName, decimal lateFee)
+        private static Document BuildDocument(InvoicePDFDto invoicePDFDto)
         {
-            string invoiceNo = $"INV-{customer.CustomerID}-{bill.BillID:D6}";
-            string billingMonth = bill.BillDate.ToString("MMM-yyyy", Inv);
-            decimal amountAfterDue = bill.RemainingAmount + lateFee;
-            bool isPaid = bill.Status.Equals("Paid", StringComparison.OrdinalIgnoreCase);
-            string statusColor = isPaid ? Colors.Green.Darken2 : Colors.Red.Darken2;
-            string package = string.IsNullOrWhiteSpace(packageName) ? "Package Name" : packageName;
-
-            return Document.Create(container =>
+            try
             {
-                container.Page(page =>
+                string invoiceNo = $"INV-{invoicePDFDto.CustomerID}-{invoicePDFDto.BillID:D6}";
+                //string billingMonth = invoicePDFDto.BillDate.ToString("MMM-yyyy", invariantCulture);
+                string billingMonth = DateTime.Now.ToString("MMM-yyyy", invariantCulture);
+                decimal amountAfterDue = invoicePDFDto.RemainingAmount + invoicePDFDto.LateFee;
+                //bool isPaid = invoicePDFDto.Status!.Equals("Paid", StringComparison.OrdinalIgnoreCase) ? true: false;
+                bool isPaid = invoicePDFDto.Status != "Paid" ? true : false;
+                string statusColor = isPaid ? Colors.Red.Darken2 : Colors.Green.Darken2;
+                string package = string.IsNullOrWhiteSpace(invoicePDFDto.PackageName) ? "Package Name" : invoicePDFDto.PackageName;
+
+                return Document.Create(container =>
                 {
-                    page.Size(PageSizes.A4);
-                    page.Margin(28);
-                    page.DefaultTextStyle(x => x.FontSize(10));
-
-                    // ================= HEADER =================
-                    page.Header().Column(h =>
+                    container.Page(page =>
                     {
-                        h.Item().Height(8).Background(Purple);
+                        page.Size(PageSizes.A4);
+                        page.Margin(28);
+                        page.DefaultTextStyle(x => x.FontSize(10));
 
-                        h.Item().PaddingTop(10).Row(row =>
+                        // ================= HEADER =================
+                        page.Header().Column(h =>
                         {
-                            logoPath = string.IsNullOrWhiteSpace(logoPath) ? ABlogoPath : logoPath;
-                            if (!string.IsNullOrWhiteSpace(logoPath) && File.Exists(logoPath))
+                            h.Item().Height(8).Background(Purple);
+
+                            h.Item().PaddingTop(10).Row(row =>
                             {
-                                row.ConstantItem(70).Height(60).Image(logoPath).FitArea();
-                                row.ConstantItem(10);
-                            }
-
-                            row.RelativeItem().Column(c =>
-                            {
-                                c.Item().Text(companyName).FontSize(14).Bold();
-                                c.Item().Text("Flash Fiber Fast Internet Service").FontSize(9);
-                                //c.Item().Text("");
-                                //c.Item().Text("");
-                                //if (!string.IsNullOrWhiteSpace(complaintNumber))
-                                //    c.Item().PaddingTop(2).Text($"Complaint Number: {complaintNumber}").FontSize(8);
-                            });
-
-                            row.ConstantItem(210).Column(c =>
-                            {
-                                c.Item().AlignRight().Text("BILL INVOICE").FontSize(18).Bold();
-                                c.Item().Border(1.2f).BorderColor(Colors.Grey.Darken2)
-                                    .Padding(4).AlignCenter().Text(invoiceNo).FontSize(16).Bold();
-                                c.Item().PaddingTop(6).Text($"Issue Date: {DateTime.Now:dd-MM-yyyy}");
-                            });
-                        });
-                    });
-
-                    // ================= CONTENT =================
-                    page.Content().PaddingTop(14).Column(col =>
-                    {
-                        col.Spacing(14);
-
-                        // --- Customer box + account info ---
-                        col.Item().Row(row =>
-                        {
-                            row.RelativeItem().MinHeight(95).Border(1).BorderColor(Purple).Padding(10).Column(c =>
-                            {
-                                c.Item().Text(customer.CustomerName.ToUpperInvariant()).Bold().FontSize(11);
-                                if (!string.IsNullOrWhiteSpace(customer.Address))
-                                    c.Item().PaddingTop(8).Text(customer.Address);
-                                if (!string.IsNullOrWhiteSpace(customer.PhoneNumber))
-                                    c.Item().PaddingTop(4).Text($"Phone: {customer.PhoneNumber}");
-                                if (!string.IsNullOrWhiteSpace(customer.PhoneNumber))
-                                    c.Item().PaddingTop(4).Text($"Customer CNIC: {customer.CNIC}");
-                            });
-
-                            row.ConstantItem(14);
-
-                            row.ConstantItem(260).Table(t =>
-                            {
-                                t.ColumnsDefinition(cd => { cd.RelativeColumn(); cd.RelativeColumn(); });
-
-                                InfoRow(t, "Account ID", customer.CustomerID.ToString());
-                                InfoRow(t, "Billing Month", billingMonth);
-                                InfoRow(t, "Amount Due", Money(bill.TotalAmount), strong: true);
-                                InfoRow(t, "Due Date", FormatDate(bill.DueBillDate), strong: true);
-                                if (lateFee > 0)
-                                    InfoRow(t, "Amount After Due Date", Money(amountAfterDue));
-                                InfoRow(t, "Status", bill.Status, strong: true, valueColor: statusColor);
-                            });
-                        });
-
-                        // --- Services detail + bill summary ---
-                        col.Item().Row(row =>
-                        {
-                            // Left: services detail
-                            row.RelativeItem().Column(c =>
-                            {
-                                c.Item().Element(x => SectionHeader(x, "SERVICES DETAIL"));
-
-                                c.Item().Background(PurpleMid).Padding(4)
-                                    .Text("INTERNET BUNDLE").Bold().FontColor(Colors.White);
-
-                                c.Item().Table(t =>
+                                invoicePDFDto.PathLogo = string.IsNullOrWhiteSpace(invoicePDFDto.PathLogo) ? ABlogoPath : invoicePDFDto.PathLogo;
+                                if (!string.IsNullOrWhiteSpace(invoicePDFDto.PathLogo) && File.Exists(invoicePDFDto.PathLogo))
                                 {
-                                    t.ColumnsDefinition(cd => { cd.RelativeColumn(2); cd.RelativeColumn(1); });
-                                    SummaryRow(t, package, customer.Package);
-                                    SummaryRow(t, "Charges", Money(bill.Amount));
+                                    row.ConstantItem(70).Height(60).Image(invoicePDFDto.PathLogo).FitArea();
+                                    row.ConstantItem(10);
+                                }
+
+                                row.RelativeItem().Column(c =>
+                                {
+                                    c.Item().Text(invoicePDFDto.CompanyName).FontSize(14).Bold();
+                                    c.Item().Text("Flash Fiber Fast Internet Service").FontSize(9);
+                                    //c.Item().Text("");
+                                    //c.Item().Text("");
+                                    //if (!string.IsNullOrWhiteSpace(complaintNumber))
+                                    //    c.Item().PaddingTop(2).Text($"Complaint Number: {complaintNumber}").FontSize(8);
                                 });
 
-                                c.Item().PaddingTop(4).Text($"Billing period starts {bill.BillDate:dd-MM-yyyy}")
-                                    .FontSize(9).FontColor(Colors.Grey.Darken1);
-
-                                c.Item().PaddingTop(40).BorderTop(1).BorderColor(Colors.Black).PaddingTop(3).Row(r =>
+                                row.ConstantItem(210).Column(c =>
                                 {
-                                    r.RelativeItem().Text("Total:").Bold();
-                                    r.ConstantItem(110).AlignRight().Text(Money(bill.Amount)).Bold();
-                                });
-
-                            });
-
-                            row.ConstantItem(14);
-
-                            // Right: bill summary
-                            row.RelativeItem().Column(c =>
-                            {
-                                c.Item().Element(x => SectionHeader(x, "BILL SUMMARY"));
-
-                                c.Item().Table(t =>
-                                {
-                                    t.ColumnsDefinition(cd => { cd.RelativeColumn(2); cd.RelativeColumn(1); });
-                                    SummaryRow(t, "Monthly Charges", Money(bill.Amount));
-                                    SummaryRow(t, "Pending Charges", Money(bill.RemainingAmount));
-                                    SummaryRow(t, "Paid Amount", Money(bill.PaidAmount));
-                                    SummaryRow(t, "Paid On", FormatDate(bill.BillPaidDate), rightIsMoney: false);
-                                    SummaryRow(t, "Grand Total (Amount Due)", Money(bill.TotalAmount), bold: true);
+                                    c.Item().AlignRight().Text("BILL INVOICE").FontSize(18).Bold();
+                                    c.Item().Border(1.2f).BorderColor(Colors.Grey.Darken2)
+                                        .Padding(4).AlignCenter().Text(invoiceNo).FontSize(16).Bold();
+                                    c.Item().PaddingTop(6).Text($"Issue Date: {DateTime.Now:dd-MM-yyyy}");
                                 });
                             });
                         });
 
-                        // --- Notice banner ---
-                        col.Item().Background("#F2F2F2").Padding(8).AlignCenter().Text(
-                            string.IsNullOrWhiteSpace(complaintNumber)
-                                ? "Please pay your bill before the due date to avoid a late fee."
-                                : $"For bill payments and complaints, please call {complaintNumber}. Pay before the due date to avoid a late fee.")
-                            .Bold().FontSize(9.5f);
+                        // ================= CONTENT =================
+                        page.Content().PaddingTop(14).Column(col =>
+                        {
+                            col.Spacing(14);
 
-                        // --- Advertisment Section ---
-                        col.Item().Background("#FFFFFF").Padding(4).AlignCenter().Text($"For advertise here, please contact {complaintNumber}.").Bold().FontSize(6.5f);
-                    });
+                            // --- Customer box + account info ---
+                            col.Item().Row(row =>
+                            {
+                                row.RelativeItem().MinHeight(95).Border(1).BorderColor(Purple).Padding(10).Column(c =>
+                                {
+                                    c.Item().Text(invoicePDFDto.CustomerName.ToUpperInvariant()).Bold().FontSize(11);
+                                    if (!string.IsNullOrWhiteSpace(invoicePDFDto.Address))
+                                        c.Item().PaddingTop(8).Text(invoicePDFDto.Address);
+                                    if (!string.IsNullOrWhiteSpace(invoicePDFDto.PhoneNumber))
+                                        c.Item().PaddingTop(4).Text($"Phone: {invoicePDFDto.PhoneNumber}");
+                                    if (!string.IsNullOrWhiteSpace(invoicePDFDto.PhoneNumber))
+                                        c.Item().PaddingTop(4).Text($"CNIC: {invoicePDFDto.CNIC}");
+                                });
 
-                    // ================= FOOTER: PAYMENT SLIP =================
-                    page.Footer().Column(f =>
-                    {
-                        f.Item().Background(Purple).Padding(4)
-                            .Text("FOR PAYMENT USE").Bold().FontColor(Colors.White);
+                                row.ConstantItem(14);
 
-                        // --- Pay online: QR code + account numbers ---
+                                row.ConstantItem(260).Table(t =>
+                                {
+                                    t.ColumnsDefinition(cd => { cd.RelativeColumn(); cd.RelativeColumn(); });
+
+                                    InfoRow(t, "Account ID", invoicePDFDto.CustomerID.ToString() + invoicePDFDto.PhoneNumber);
+                                    InfoRow(t, "Billing Month", billingMonth);
+                                    InfoRow(t, "Amount Due", Money(invoicePDFDto.TotalAmount), strong: true);
+                                    InfoRow(t, "Due Date", FormatDate(invoicePDFDto.DueBillDate), strong: true);
+                                    if (invoicePDFDto.LateFee > 0)
+                                        InfoRow(t, "Amount After Due Date", Money(amountAfterDue));
+                                    InfoRow(t, "Status", invoicePDFDto.Status, strong: true, valueColor: statusColor);
+                                });
+                            });
+
+                            // --- Services detail + bill summary ---
+                            col.Item().Row(row =>
+                            {
+                                // Left: services detail
+                                row.RelativeItem().Column(c =>
+                                {
+                                    c.Item().Element(x => SectionHeader(x, "SERVICES DETAIL"));
+
+                                    c.Item().Background(PurpleMid).Padding(4)
+                                        .Text("INTERNET BUNDLE").Bold().FontColor(Colors.White);
+
+                                    c.Item().Table(t =>
+                                    {
+                                        t.ColumnsDefinition(cd => { cd.RelativeColumn(2); cd.RelativeColumn(1); });
+                                        SummaryRow(t, package, invoicePDFDto.Package);
+                                        SummaryRow(t, "Charges", Money(invoicePDFDto.Amount));
+                                    });
+
+                                    c.Item().PaddingTop(4).Text($"Billing period starts {invoicePDFDto.BillDate:dd-MM-yyyy}")
+                                        .FontSize(9).FontColor(Colors.Grey.Darken1);
+
+                                    c.Item().PaddingTop(40).BorderTop(1).BorderColor(Colors.Black).PaddingTop(3).Row(r =>
+                                    {
+                                        r.RelativeItem().Text("Total:").Bold();
+                                        r.ConstantItem(110).AlignRight().Text(Money(invoicePDFDto.Amount)).Bold();
+                                    });
+
+                                });
+
+                                row.ConstantItem(14);
+
+                                // Right: bill summary
+                                row.RelativeItem().Column(c =>
+                                {
+                                    c.Item().Element(x => SectionHeader(x, "BILL SUMMARY"));
+
+                                    c.Item().Table(t =>
+                                    {
+                                        t.ColumnsDefinition(cd => { cd.RelativeColumn(2); cd.RelativeColumn(1); });
+                                        SummaryRow(t, "Monthly Charges", Money(invoicePDFDto.Amount));
+                                        SummaryRow(t, "Pending Charges", Money(invoicePDFDto.RemainingAmount));
+                                        SummaryRow(t, "Paid Amount", Money(invoicePDFDto.PaidAmount));
+                                        SummaryRow(t, "Paid On", FormatDate(invoicePDFDto.BillPaidDate), rightIsMoney: false);
+                                        SummaryRow(t, "Grand Total (Amount Due)", Money(invoicePDFDto.TotalAmount), bold: true);
+                                    });
+                                });
+                            });
+
+                            // --- Notice banner ---
+                            col.Item().Background("#F2F2F2").Padding(8).AlignCenter().Text(
+                                string.IsNullOrWhiteSpace(invoicePDFDto.ComplaintNumber)
+                                    ? "Please pay your bill before the due date to avoid a late fee."
+                                    : $"For bill payments and complaints, please call {invoicePDFDto.ComplaintNumber}. Pay before the due date to avoid a late fee.")
+                                .Bold().FontSize(9.5f);
+
+                            // --- Advertisment Section ---
+                            col.Item().Background("#FFFFFF").Padding(4).AlignCenter().Text($"For advertise here, please contact {invoicePDFDto.ComplaintNumber}.").Bold().FontSize(6.5f);
+                        });
+
+                        // ================= FOOTER: PAYMENT SLIP =================
+                        page.Footer().Column(f =>
+                        {
+                            f.Item().Background(Purple).Padding(4)
+                                .Text("FOR PAYMENT USE").Bold().FontColor(Colors.White);
+
+                            // --- Pay online: QR code + account numbers ---
+
+                            f.Item().PaddingTop(8).Row(row =>
+                        {
+                                    row.Spacing(16);
+
+                                    row.RelativeItem().Column(c =>
+                                        {
+                                            c.Item().Text("Pay online / bank transfer").Bold();
+
+                                            c.Item().PaddingTop(4).Table(t =>
+                                            {
+                                                t.ColumnsDefinition(cd =>
+                                                {
+                                                    cd.RelativeColumn(2);
+                                                    cd.RelativeColumn(3);
+                                                    cd.RelativeColumn(3);
+                                                });
+
+                                                t.Header(h =>
+                                                {
+                                                    h.Cell().Background(PurpleLight).Padding(3).Text("Method").Bold().FontSize(9);
+                                                    h.Cell().Background(PurpleLight).Padding(3).Text("Account Title").Bold().FontSize(9);
+                                                    h.Cell().Background(PurpleLight).Padding(3).Text("Account No.").Bold().FontSize(9);
+                                                });
+
+                                                // improve this section to handle multiple accounts if needed
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("EasyPaisa").FontSize(9);
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text(invoicePDFDto.EasyPaisaTitle).FontSize(9);
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text(invoicePDFDto.EasyPaisaNumber).FontSize(9).Bold();
+
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("JazzCash").FontSize(9);
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text(invoicePDFDto.JazzCashTitle).FontSize(9);
+                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text(invoicePDFDto.JazzCashNumber).FontSize(9).Bold();
+
+                                            });
+                                        });
+
+
+                                    row.ConstantItem(90).Column(c =>
+                                    {
+                                        c.Item().Height(80).Image(Path.Combine(AppContext.BaseDirectory, "Assests", "ABAlfaQR.png")).FitArea();
+                                        c.Item().AlignCenter().Text("Scan To Pay").FontSize(5).Bold();
+                                    });
+
+                            //row.ConstantItem(70).Height(60).Image(QRPath).FitArea();
+                            //row.ConstantItem(10);
+
+
+                                });
 
                             f.Item().PaddingTop(8).Row(row =>
                             {
-                                row.Spacing(16);
+                                row.Spacing(22);
 
-                                row.RelativeItem().Column(c =>
-                                    {
-                                        c.Item().Text("Pay online / bank transfer").Bold();
-
-                                        c.Item().PaddingTop(4).Table(t =>
-                                        {
-                                            t.ColumnsDefinition(cd =>
-                                            {
-                                                cd.RelativeColumn(2);
-                                                cd.RelativeColumn(3);
-                                                cd.RelativeColumn(3);
-                                            });
-
-                                            t.Header(h =>
-                                            {
-                                                h.Cell().Background(PurpleLight).Padding(3).Text("Method").Bold().FontSize(9);
-                                                h.Cell().Background(PurpleLight).Padding(3).Text("Account Title").Bold().FontSize(9);
-                                                h.Cell().Background(PurpleLight).Padding(3).Text("Account No.").Bold().FontSize(9);
-                                            });
-                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("EasyPaisa").FontSize(9);
-                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("Abubakar Bin Mujahid").FontSize(9);
-                                                t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("03007708041").FontSize(9).Bold();
-                                            
-                                            t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("JazzCash").FontSize(9);
-                                            t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("Abubakar Bin Mujahid").FontSize(9);
-                                            t.Cell().BorderBottom(0.5f).BorderColor(LineGrey).Padding(3).Text("03007708041").FontSize(9).Bold();
-
-                                        });
-                                });
-
-
-                                row.ConstantItem(90).Column(c =>
+                                row.RelativeItem(3).Column(c =>
                                 {
-                                    c.Item().Height(80).Image(Path.Combine(AppContext.BaseDirectory, "Assests", "ABAlfaQR.png")).FitArea();
-                                    c.Item().AlignCenter().Text("Scan To Pay").FontSize(5).Bold();
+                                    c.Item().Text($"Customer ID: {invoicePDFDto.CustomerID}");
+                                    c.Item().Text($"Invoice #: {invoiceNo}");
+                                    if (!string.IsNullOrWhiteSpace(invoicePDFDto.PhoneNumber))
+                                        c.Item().Text($"Phone No: {invoicePDFDto.PhoneNumber}");
                                 });
 
-                                //row.ConstantItem(70).Height(60).Image(QRPath).FitArea();
-                                //row.ConstantItem(10);
+                                row.RelativeItem(3).Table(t =>
+                                {
+                                    t.ColumnsDefinition(cd => { cd.RelativeColumn(); cd.RelativeColumn(); });
+                                    SlipRow(t, "Billing Month:", billingMonth);
+                                    SlipRow(t, "Due Date:", FormatDate(invoicePDFDto.DueBillDate), bold: true);
+                                    SlipRow(t, "Total Amount Due:", Money(invoicePDFDto.TotalAmount), bold: true);
+                                    SlipRow(t, "Payable After Due:", Money(invoicePDFDto.TotalAmount + invoicePDFDto.LateFee));
+                                });
 
+                                row.RelativeItem(2).Column(c =>
+                                {
+                                    c.Spacing(1);
+                                    c.Item().Text("Account No.: _________");
+                                    c.Item().Text("Amount Paid: _________");
+                                    c.Item().Text("Signature: ___________");
+                                });
 
                             });
-
-                        f.Item().PaddingTop(8).Row(row =>
-                        {
-                            row.Spacing(22);
-
-                            row.RelativeItem(3).Column(c =>
+                            f.Item().PaddingTop(4).Row(row =>
                             {
-                                c.Item().Text($"Customer ID: {customer.CustomerID}");
-                                c.Item().Text($"Invoice #: {invoiceNo}");
-                                if (!string.IsNullOrWhiteSpace(customer.PhoneNumber))
-                                    c.Item().Text($"Phone No: {customer.PhoneNumber}");
+                                row.RelativeItem(2).Column(c => c.Item().BorderTop(0.5f).BorderColor(LineGrey).Padding(3).Text("Software Created by Fahad Mughal").FontSize(5).Bold());
                             });
-
-                            row.RelativeItem(3).Table(t =>
-                            {
-                                t.ColumnsDefinition(cd => { cd.RelativeColumn(); cd.RelativeColumn(); });
-                                SlipRow(t, "Billing Month:", billingMonth);
-                                SlipRow(t, "Due Date:", FormatDate(bill.DueBillDate), bold: true);
-                                SlipRow(t, "Total Amount Due:", Money(bill.TotalAmount), bold: true);
-                                SlipRow(t, "Payable After Due:", Money(bill.TotalAmount + lateFee));
-                            });
-
-                            row.RelativeItem(2).Column(c =>
-                            {
-                                c.Spacing(1);
-                                c.Item().Text("Account No.: _________");
-                                c.Item().Text("Amount Paid: _________");
-                                c.Item().Text("Signature: ___________");
-                            });
-
-                        });
-                        f.Item().PaddingTop(4).Row(row =>
-                        {
-                            row.RelativeItem(2).Column(c => c.Item().BorderTop(0.5f).BorderColor(LineGrey).Padding(3).Text("Software Created by Fahad Mughal").FontSize(5).Bold());
                         });
                     });
                 });
-            });
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
 
         // ================= HELPERS =================

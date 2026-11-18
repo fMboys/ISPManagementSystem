@@ -4,6 +4,7 @@ using Infrastructure.Repository;
 using Infrastructure.Services;
 using Microsoft.Data.SqlClient;
 using System.Configuration;
+using System.Globalization;
 
 namespace ISPWinUI
 {
@@ -15,6 +16,7 @@ namespace ISPWinUI
 
         private readonly CustomerRepository _repoCustomer;
         private readonly BillingsRepository _repoBillings;
+        private readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
 
         public frmMain()
         {
@@ -104,8 +106,8 @@ namespace ISPWinUI
 
                 string filePath = Path.Combine(folder, $"Bill-{bill.BillID}.pdf");
                 string logoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
-                //PrintService.Generate(filePath, customer, bill);
-                PrintService.Generate(filePath, customer, bill,"AB ISP","000000000",logoPath, "Normal Package",0);
+                //PrintService.Generate(pathFile, customer, bill);
+                //PrintService.Generate(filePath, customer, bill,"AB ISP","000000000",logoPath, "Normal Package",0);
             }
             catch (Exception)
             {
@@ -141,9 +143,9 @@ namespace ISPWinUI
                     //    billings.Add(billing);
                     //}
 
-                    List<InvoicePDFDto> invoicePDFData = await _repoBillings.GetLatestBillingsByCustomerAsync();
+                    List<InvoicePDFDto> invoicePDFDtos = await _repoBillings.GetLatestBillingsByCustomerAsync();
 
-                    //GenerateInvoicePDFAsync(customers, billings);
+                    await GenerateInvoicePDFAsync(invoicePDFDtos);
 
                     //Customer? customer = await _repoCustomer.GetCustomerByIdAsync(5);
                     //CustomerDto customerDto = new CustomerDto
@@ -170,12 +172,12 @@ namespace ISPWinUI
 
                     //string fileName = $"Bill-{customerDto.CustomerName.Trim()}-{billingsDto.BillID}-{DateTime.Now:yyyyMMddHHmmss}.pdf";
 
-                    //string filePath = Path.Combine(folder, fileName);
+                    //string pathFile = Path.Combine(folder, fileName);
 
-                    //PrintService.Generate(filePath, customerDto, billingsDto, companyName, complaintNumber, logoPath, packageName, lateFee);
+                    //PrintService.Generate(pathFile, customerDto, billingsDto, companyName, complaintNumber, logoPath, packageName, lateFee);
 
-                    //PrintService.Generate(filePath, customerDto, billingsDto);
-                    MessageBox.Show("Bill invoice created successfully!", "Success", MessageBoxButtons.OK);
+                    //PrintService.Generate(pathFile, customerDto, billingsDto);
+                    //MessageBox.Show("Bill invoice created successfully!", "Success", MessageBoxButtons.OK);
 
                 }
                 catch (SqlException ex)
@@ -186,16 +188,56 @@ namespace ISPWinUI
             }
             catch (Exception ex)
             {
-
+                WinUILoggerService.Error(ex, ex.Message);
                 throw;
             }
         }
 
-        private async Task GenerateInvoicePDFAsync(List<Customer> customers, List<Billings> billings)
+        private async Task GenerateInvoicePDFAsync(List<InvoicePDFDto> invoicePDFDtos)
         {
             try
             {
+                string companyName = ConfigurationManager.AppSettings["CompanyName"];
+                string complaintNumber = ConfigurationManager.AppSettings["ComplaintNumber"];
+                string packageName = ConfigurationManager.AppSettings["PackageName"];
+                string nameQRCode = ConfigurationManager.AppSettings["NameQR"];
+                decimal lateFee = Convert.ToDecimal(ConfigurationManager.AppSettings["LateFee"]);
+                string folderName = $"Bills-{DateTime.Now:MMMyyyy}";
+                string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), folderName);
+                Directory.CreateDirectory(folder); // does nothing if it already exists
+                string pathLogo = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
+                string pathQR = Path.Combine(AppContext.BaseDirectory, "Assests", nameQRCode);
 
+                string easyPaisaTitle = ConfigurationManager.AppSettings["EasyPaisaTitle"];
+                string easyPaisaNumber = ConfigurationManager.AppSettings["EasyPaisaNumber"];
+                string jazzCashTitle = ConfigurationManager.AppSettings["JazzCashTitle"];
+                string jazzCashNumber = ConfigurationManager.AppSettings["JazzCashNumber"];
+
+                foreach (InvoicePDFDto invoicePDFDto in invoicePDFDtos)
+                {
+                    invoicePDFDto.Status = (DateTime.Now >= invoicePDFDto.BillDate && invoicePDFDto.Status?.ToString() == "Paid") ? "Not Paid" : invoicePDFDto.Status;
+
+                    if (invoicePDFDto.Status != "Paid" && invoicePDFDto.IsPrint != "Yes")
+                    {
+                        string fileName = $"Bill-{invoicePDFDto?.CustomerName?.Replace(" ","")}-{invoicePDFDto?.BillID}-{DateTime.Now:yyyyMMdd}.pdf";
+                        string pathFile = Path.Combine(folder, fileName);
+
+                        invoicePDFDto.CompanyName = companyName;
+                        invoicePDFDto.ComplaintNumber = complaintNumber;
+                        invoicePDFDto.PackageName = packageName;
+                        invoicePDFDto.LateFee = lateFee;
+                        invoicePDFDto.PathFile = pathFile;
+                        invoicePDFDto.PathLogo = pathLogo;
+                        invoicePDFDto.PathQR = pathQR;
+                        invoicePDFDto.EasyPaisaTitle = easyPaisaTitle;
+                        invoicePDFDto.EasyPaisaNumber = easyPaisaNumber;
+                        invoicePDFDto.JazzCashTitle = jazzCashTitle;
+                        invoicePDFDto.JazzCashNumber = jazzCashNumber;
+
+                        await PrintService.Generate(invoicePDFDto);
+                        // TODO: Update the IsPrint status in the database after generating the PDF
+                    }
+                }
             }
             catch (Exception ex)
             {
