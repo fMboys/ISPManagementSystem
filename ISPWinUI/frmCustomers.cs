@@ -18,10 +18,10 @@ namespace ISPWinUI
             InitializeComponent();
             sqlConnection = new SqlConnection(dbConnection.GetConnectionString());
 
-            GetCustomers();
+            LoadCustomers();
         }
 
-        public void GetCustomers()
+        public void LoadCustomers()
         {
             try
             {
@@ -30,7 +30,7 @@ namespace ISPWinUI
                 //CheckBillStatus();
                 sqlConnection.Open();
                 //sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, Address, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.Address, c.Package, c.Amount, c.ConnectionDate, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID) cb WHERE rn = 1 ORDER BY BillDate DESC;", sqlConnection);
-                sqlCommand = new SqlCommand("SELECT * FROM tblCustomers", sqlConnection);
+                sqlCommand = new SqlCommand("SELECT * FROM tblCustomers WHERE CustomerName LIKE '%" + txtSearch.Text + "%'", sqlConnection);
                 reader = sqlCommand.ExecuteReader();
 
                 while (reader.Read())
@@ -38,7 +38,7 @@ namespace ISPWinUI
                     i += 1;
                     dgvCustomers.Rows.Add(i, reader["CustomerID"].ToString(), reader["CustomerName"].ToString(), reader["PhoneNumber"].ToString(),
                     reader["Address"].ToString(), reader["Package"].ToString(),
-                    reader["Amount"].ToString(), reader["ConnectionDate"].ToString(), reader["IsActive"].ToString() == "True" ? "Active": "Not Active");
+                    reader["Amount"].ToString(), reader["ConnectionDate"].ToString(), reader["IsActive"].ToString() == "True" ? "Active" : "Not Active");
 
 
                     //if (reader["IsActive"].ToString() == "True")
@@ -88,7 +88,7 @@ namespace ISPWinUI
                     if (value != "Paid")
                     {
                         BillPayment();
-                        GetCustomers();
+                        LoadCustomers();
                     }
                     else
                         MessageBox.Show("Customer has already Paid the bill!", "Bill Paid", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -97,7 +97,7 @@ namespace ISPWinUI
                 {
                     frmEditCustomer frmEditCustomer = new frmEditCustomer(this);
                     int customerId = Convert.ToInt32(dgvCustomers.Rows[e.RowIndex].Cells["CustomerID"].Value);
-                    
+
                     if (customerId >= 0)
                     {
                         try
@@ -145,7 +145,7 @@ namespace ISPWinUI
                 }
                 else if (colName == "View")
                 {
-                    frmViewCustomer frmViewCustomer = new frmViewCustomer(); 
+                    frmViewCustomer frmViewCustomer = new frmViewCustomer();
                     int customerId = Convert.ToInt32(dgvCustomers.Rows[e.RowIndex].Cells["CustomerID"].Value);
 
                     if (customerId > 0)
@@ -186,7 +186,7 @@ namespace ISPWinUI
                         {
                             WinUILoggerService.Error(ex, ex.Message);
                             MessageBox.Show(ex.Message);
-                        } 
+                        }
                     }
                     frmViewCustomer.ShowDialog();
                 }
@@ -205,7 +205,8 @@ namespace ISPWinUI
                 frmBillPayment billPayment = new frmBillPayment();
                 int customerId = Convert.ToInt32(dgvCustomers.CurrentRow.Cells["CustomerID"].Value);
                 var connDateValue = dgvCustomers.CurrentRow.Cells["connDate"]?.Value;
-                if (connDateValue != null && connDateValue.ToString().Trim() != "") {
+                if (connDateValue != null && connDateValue.ToString().Trim() != "")
+                {
                     billPayment.lblConnectionDate.Text = connDateValue.ToString();
                 }
                 else
@@ -213,10 +214,10 @@ namespace ISPWinUI
                     billPayment.lblConnectionDate.Text = new DateTime(1900, 1, 1).ToString("dd-MM-yyyy");
                 }
                 billPayment.lblCustomerID.Text = customerId.ToString();
-                
+
                 decimal currentBill = Convert.ToDecimal(string.IsNullOrEmpty(dgvCustomers.CurrentRow.Cells["Bill"].Value.ToString()) ? "0" : dgvCustomers.CurrentRow.Cells["Bill"].Value);
                 decimal remainingBill = Convert.ToDecimal(string.IsNullOrEmpty(dgvCustomers.CurrentRow.Cells["RemainingAmount"].Value.ToString()) ? "0" : dgvCustomers.CurrentRow.Cells["RemainingAmount"].Value);
-                
+
                 billPayment.txtCustomer.Text = dgvCustomers.CurrentRow.Cells["CustomerName"].Value.ToString();
                 billPayment.txtBill.Text = currentBill.ToString();
                 billPayment.txtRemainingBill.Text = remainingBill.ToString();
@@ -242,7 +243,7 @@ namespace ISPWinUI
                 sqlConnection.Open();
                 sqlCommand = new SqlCommand("WITH UniqueCustomerBills AS (SELECT BillID, CustomerID, Amount, Status, BillDate,\r\n        ROW_NUMBER() OVER (PARTITION BY CustomerID ORDER BY BillID DESC) as RowNum\r\n    FROM tblBillings WHERE Status = 'Paid' and BillDate <= getdate())\r\nSELECT BillID, CustomerID, Amount, Status, BillDate FROM UniqueCustomerBills WHERE RowNum = 1;", sqlConnection);
                 reader = sqlCommand.ExecuteReader();
-                
+
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -254,7 +255,7 @@ namespace ISPWinUI
                         }
                     }
                 }
-                
+
                 reader.Close();
                 sqlConnection.Close();
 
@@ -282,6 +283,11 @@ namespace ISPWinUI
         private void btnClose(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadCustomers();
         }
     }
 }

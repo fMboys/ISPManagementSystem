@@ -33,7 +33,7 @@ namespace ISPWinUI
                 //CheckBillStatus();
                 sqlConnection.Open();
                 // Get list of active customers
-                sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, Address, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.Address, c.Package, c.Amount, c.ConnectionDate, c.IsActive, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID AND c.IsActive = 1) cb WHERE rn = 1 AND IsActive = 1 ORDER BY BillDate DESC;", sqlConnection);
+                sqlCommand = new SqlCommand("SELECT CustomerID, ConnectionDate, CustomerName, PhoneNumber, Address, Package, Amount, RemainingAmount, BillDate, DueBillDate, BillPaidDate, Status FROM ( SELECT c.CustomerID, c.CustomerName, c.PhoneNumber, c.Address, c.Package, c.Amount, c.ConnectionDate, c.IsActive, b.RemainingAmount, b.BillDate, b.DueBillDate, b.BillPaidDate, b.Status, ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY b.BillDate DESC, b.BillID DESC) AS rn FROM tblCustomers c LEFT JOIN tblBillings b ON c.CustomerID = b.CustomerID AND c.IsActive = 1) cb WHERE rn = 1 AND IsActive = 1 AND CustomerName LIKE '%"+ txtSearch.Text +"%' ORDER BY BillDate DESC;", sqlConnection);
                 reader = sqlCommand.ExecuteReader();
 
                 while (reader.Read())
@@ -41,8 +41,8 @@ namespace ISPWinUI
                     i += 1;
                     DateTime billDate = reader["BillDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["BillDate"]);
                     billAmount = reader["Amount"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["Amount"]);
-                    
-                    totalPayable = CalculateTotalPayable(billAmount ,billDate, DateTime.Now);
+
+                    totalPayable = CalculateTotalPayable(billAmount, billDate, DateTime.Now);
 
                     //TODO: If goes to InActive for months then reactivate again after months
                     // Handle the payment calculation for that scenario.
@@ -123,7 +123,7 @@ namespace ISPWinUI
                             if (reader.Read())
                             {
                                 DateTime billDate = reader["BillDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["BillDate"]);
-                                
+
                                 frmViewCustomer.lblBillID.Text = reader["BillID"].ToString();
                                 frmViewCustomer.txtCustomerName.Text = reader["CustomerName"].ToString();
                                 frmViewCustomer.txtPhoneNumber.Text = reader["PhoneNumber"].ToString();
@@ -132,7 +132,7 @@ namespace ISPWinUI
                                 frmViewCustomer.txtAmount.Text = reader["Amount"].ToString();
                                 frmViewCustomer.txtDueAmount.Text = string.IsNullOrEmpty(reader["RemainingAmount"].ToString()) ? "0" : reader["RemainingAmount"].ToString();
                                 frmViewCustomer.txtStatus.Text = (DateTime.Now >= billDate && reader["Status"].ToString() == "Paid") ? "Not Paid" : reader["Status"].ToString();
-                                    //string.IsNullOrEmpty(reader["Status"].ToString()) ? "Not Paid" : reader["Status"].ToString();
+                                //string.IsNullOrEmpty(reader["Status"].ToString()) ? "Not Paid" : reader["Status"].ToString();
 
                                 if (frmViewCustomer.txtStatus.Text == "Paid")
                                 {
@@ -255,6 +255,11 @@ namespace ISPWinUI
         private void btnCusBillingsClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadBillingDetails();
         }
     }
 }

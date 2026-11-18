@@ -32,11 +32,11 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pnlCus = new Panel();
+            pbSearch = new PictureBox();
+            txtSearch = new TextBox();
             btnCusListClose = new PictureBox();
             lblName = new Label();
             dgvCustomers = new DataGridView();
-            panel1 = new Panel();
-            panel2 = new Panel();
             CusNo = new DataGridViewTextBoxColumn();
             CustomerID = new DataGridViewTextBoxColumn();
             CustomerName = new DataGridViewTextBoxColumn();
@@ -48,7 +48,10 @@
             IsActive = new DataGridViewTextBoxColumn();
             View = new DataGridViewImageColumn();
             Edit = new DataGridViewImageColumn();
+            panel1 = new Panel();
+            panel2 = new Panel();
             pnlCus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbSearch).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnCusListClose).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCustomers).BeginInit();
             panel1.SuspendLayout();
@@ -58,6 +61,8 @@
             // pnlCus
             // 
             pnlCus.BackColor = Color.FromArgb(26, 26, 26);
+            pnlCus.Controls.Add(pbSearch);
+            pnlCus.Controls.Add(txtSearch);
             pnlCus.Controls.Add(btnCusListClose);
             pnlCus.Controls.Add(lblName);
             pnlCus.Dock = DockStyle.Fill;
@@ -66,6 +71,25 @@
             pnlCus.Name = "pnlCus";
             pnlCus.Size = new Size(1455, 67);
             pnlCus.TabIndex = 1;
+            // 
+            // pbSearch
+            // 
+            pbSearch.BackColor = Color.White;
+            pbSearch.Image = (Image)resources.GetObject("pbSearch.Image");
+            pbSearch.Location = new Point(773, 15);
+            pbSearch.Name = "pbSearch";
+            pbSearch.Size = new Size(43, 39);
+            pbSearch.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbSearch.TabIndex = 3;
+            pbSearch.TabStop = false;
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(822, 15);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(446, 39);
+            txtSearch.TabIndex = 2;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // btnCusListClose
             // 
@@ -84,7 +108,7 @@
             lblName.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblName.Location = new Point(605, 9);
+            lblName.Location = new Point(12, 9);
             lblName.Name = "lblName";
             lblName.Size = new Size(201, 50);
             lblName.TabIndex = 0;
@@ -121,24 +145,6 @@
             dgvCustomers.Size = new Size(1455, 792);
             dgvCustomers.TabIndex = 2;
             dgvCustomers.CellContentClick += dgvCustomers_CellContentClick;
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(pnlCus);
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1455, 67);
-            panel1.TabIndex = 3;
-            // 
-            // panel2
-            // 
-            panel2.Controls.Add(dgvCustomers);
-            panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 67);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1455, 792);
-            panel2.TabIndex = 4;
             // 
             // CusNo
             // 
@@ -258,6 +264,24 @@
             Edit.MinimumWidth = 25;
             Edit.Name = "Edit";
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(pnlCus);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1455, 67);
+            panel1.TabIndex = 3;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(dgvCustomers);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 67);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1455, 792);
+            panel2.TabIndex = 4;
+            // 
             // frmCustomerList
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
@@ -271,6 +295,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             pnlCus.ResumeLayout(false);
             pnlCus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbSearch).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnCusListClose).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCustomers).EndInit();
             panel1.ResumeLayout(false);
@@ -297,5 +322,7 @@
         private DataGridViewTextBoxColumn IsActive;
         private DataGridViewImageColumn View;
         private DataGridViewImageColumn Edit;
+        private PictureBox pbSearch;
+        private TextBox txtSearch;
     }
 }

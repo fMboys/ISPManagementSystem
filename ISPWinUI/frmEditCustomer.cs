@@ -92,7 +92,7 @@ namespace ISPWinUI
 
                         if (rowsAffected > 0)
                         {
-                            _frmCustomerList.GetCustomers(); // Refresh the customer list in the parent form
+                            _frmCustomerList.LoadCustomers(); // Refresh the customer list in the parent form
                             WinUILoggerService.Info($"Customer ({customerName}) updated successfully.");
                             MessageBox.Show("Customer updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             // Close or reset form as appropriate:

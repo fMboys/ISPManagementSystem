@@ -28,15 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmManageBillings));
             panel2 = new Panel();
             dgvCustomerBillings = new DataGridView();
-            panel1 = new Panel();
-            pnlCus = new Panel();
-            btnCusBillingsClose = new PictureBox();
-            lblName = new Label();
             CusNo = new DataGridViewTextBoxColumn();
             CustomerID = new DataGridViewTextBoxColumn();
             connDate = new DataGridViewTextBoxColumn();
@@ -50,11 +46,18 @@
             Status = new DataGridViewTextBoxColumn();
             View = new DataGridViewImageColumn();
             PayBill = new DataGridViewImageColumn();
+            panel1 = new Panel();
+            pnlCus = new Panel();
+            btnCusBillingsClose = new PictureBox();
+            lblName = new Label();
+            pbSearch = new PictureBox();
+            txtSearch = new TextBox();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCustomerBillings).BeginInit();
             panel1.SuspendLayout();
             pnlCus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusBillingsClose).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbSearch).BeginInit();
             SuspendLayout();
             // 
             // panel2
@@ -69,25 +72,25 @@
             // dgvCustomerBillings
             // 
             dgvCustomerBillings.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvCustomerBillings.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvCustomerBillings.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvCustomerBillings.ColumnHeadersHeight = 50;
             dgvCustomerBillings.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvCustomerBillings.Columns.AddRange(new DataGridViewColumn[] { CusNo, CustomerID, connDate, CustomerName, Address, Package, Bill, RemainingAmount, BillDate, DueDate, Status, View, PayBill });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.LemonChiffon;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.InfoText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvCustomerBillings.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.LemonChiffon;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.InfoText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvCustomerBillings.DefaultCellStyle = dataGridViewCellStyle4;
             dgvCustomerBillings.Dock = DockStyle.Fill;
             dgvCustomerBillings.Location = new Point(0, 0);
             dgvCustomerBillings.Name = "dgvCustomerBillings";
@@ -97,50 +100,6 @@
             dgvCustomerBillings.Size = new Size(1471, 820);
             dgvCustomerBillings.TabIndex = 2;
             dgvCustomerBillings.CellContentClick += dgvCustomerBillings_CellContentClick;
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(pnlCus);
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1471, 67);
-            panel1.TabIndex = 5;
-            // 
-            // pnlCus
-            // 
-            pnlCus.BackColor = Color.FromArgb(26, 26, 26);
-            pnlCus.Controls.Add(btnCusBillingsClose);
-            pnlCus.Controls.Add(lblName);
-            pnlCus.Dock = DockStyle.Fill;
-            pnlCus.ForeColor = Color.White;
-            pnlCus.Location = new Point(0, 0);
-            pnlCus.Name = "pnlCus";
-            pnlCus.Size = new Size(1471, 67);
-            pnlCus.TabIndex = 1;
-            // 
-            // btnCusBillingsClose
-            // 
-            btnCusBillingsClose.Dock = DockStyle.Right;
-            btnCusBillingsClose.Image = (Image)resources.GetObject("btnCusBillingsClose.Image");
-            btnCusBillingsClose.Location = new Point(1421, 0);
-            btnCusBillingsClose.Name = "btnCusBillingsClose";
-            btnCusBillingsClose.Size = new Size(50, 67);
-            btnCusBillingsClose.SizeMode = PictureBoxSizeMode.Zoom;
-            btnCusBillingsClose.TabIndex = 1;
-            btnCusBillingsClose.TabStop = false;
-            btnCusBillingsClose.Click += btnCusBillingsClose_Click;
-            // 
-            // lblName
-            // 
-            lblName.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lblName.AutoSize = true;
-            lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblName.Location = new Point(605, 9);
-            lblName.Name = "lblName";
-            lblName.Size = new Size(333, 50);
-            lblName.TabIndex = 0;
-            lblName.Text = "Customers Billings";
             // 
             // CusNo
             // 
@@ -268,6 +227,71 @@
             PayBill.MinimumWidth = 25;
             PayBill.Name = "PayBill";
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(pnlCus);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1471, 67);
+            panel1.TabIndex = 5;
+            // 
+            // pnlCus
+            // 
+            pnlCus.BackColor = Color.FromArgb(26, 26, 26);
+            pnlCus.Controls.Add(pbSearch);
+            pnlCus.Controls.Add(txtSearch);
+            pnlCus.Controls.Add(btnCusBillingsClose);
+            pnlCus.Controls.Add(lblName);
+            pnlCus.Dock = DockStyle.Fill;
+            pnlCus.ForeColor = Color.White;
+            pnlCus.Location = new Point(0, 0);
+            pnlCus.Name = "pnlCus";
+            pnlCus.Size = new Size(1471, 67);
+            pnlCus.TabIndex = 1;
+            // 
+            // btnCusBillingsClose
+            // 
+            btnCusBillingsClose.Dock = DockStyle.Right;
+            btnCusBillingsClose.Image = (Image)resources.GetObject("btnCusBillingsClose.Image");
+            btnCusBillingsClose.Location = new Point(1421, 0);
+            btnCusBillingsClose.Name = "btnCusBillingsClose";
+            btnCusBillingsClose.Size = new Size(50, 67);
+            btnCusBillingsClose.SizeMode = PictureBoxSizeMode.Zoom;
+            btnCusBillingsClose.TabIndex = 1;
+            btnCusBillingsClose.TabStop = false;
+            btnCusBillingsClose.Click += btnCusBillingsClose_Click;
+            // 
+            // lblName
+            // 
+            lblName.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lblName.AutoSize = true;
+            lblName.Font = new Font("Segoe UI Semibold", 13.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblName.Location = new Point(12, 9);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(333, 50);
+            lblName.TabIndex = 0;
+            lblName.Text = "Customers Billings";
+            // 
+            // pbSearch
+            // 
+            pbSearch.BackColor = Color.White;
+            pbSearch.Image = (Image)resources.GetObject("pbSearch.Image");
+            pbSearch.Location = new Point(850, 15);
+            pbSearch.Name = "pbSearch";
+            pbSearch.Size = new Size(43, 39);
+            pbSearch.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbSearch.TabIndex = 5;
+            pbSearch.TabStop = false;
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(899, 15);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(446, 39);
+            txtSearch.TabIndex = 4;
+            txtSearch.TextChanged += txtSearch_TextChanged;
+            // 
             // frmManageBillings
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
@@ -284,6 +308,7 @@
             pnlCus.ResumeLayout(false);
             pnlCus.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)btnCusBillingsClose).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbSearch).EndInit();
             ResumeLayout(false);
         }
 
@@ -308,5 +333,7 @@
         private DataGridViewTextBoxColumn Status;
         private DataGridViewImageColumn View;
         private DataGridViewImageColumn PayBill;
+        private PictureBox pbSearch;
+        private TextBox txtSearch;
     }
 }
