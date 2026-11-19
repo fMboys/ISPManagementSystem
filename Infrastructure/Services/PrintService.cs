@@ -18,7 +18,8 @@ namespace Infrastructure.Services
 
         static string QRPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABAlfaQR.png");
         static string ABlogoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
-        static string bannerMAS = Path.Combine(AppContext.BaseDirectory, "Assests", "MASCardc.png");
+        static string logoMAS = Path.Combine(AppContext.BaseDirectory, "Assests", "MASLogoI.png");
+        static string bannerMAS = Path.Combine(AppContext.BaseDirectory, "Assests", "MASName.png");
         static PrintService()
         {
             QuestPDF.Settings.License = LicenseType.Community;
@@ -207,24 +208,48 @@ namespace Infrastructure.Services
                                         SummaryRow(t, "Pending Charges", Money(invoicePDFDto.RemainingAmount));
                                         SummaryRow(t, "Paid Amount", Money(invoicePDFDto.PaidAmount));
                                         SummaryRow(t, "Paid On", FormatDate(invoicePDFDto.BillPaidDate), rightIsMoney: false);
-                                        SummaryRow(t, "Grand Total (Amount Due)", Money(invoicePDFDto.TotalAmount), bold: true);
+                                        SummaryRow(t, "Grand Total (Amount Due)", Money(invoicePDFDto.TotalAmount + invoicePDFDto.RemainingAmount), bold: true);
                                     });
                                 });
                             });
+                            col.Item().PaddingTop(2).Row(row =>
+                            {
+                                row.RelativeItem(2).Column(c => c.Item().BorderTop(0.5f).BorderColor(LineGrey));
+                            });
+                            // --- Advertisment Section ---
+                            col.Item().Background("#FFFFFF").AlignCenter().Text($"For advertise here, please contact {invoicePDFDto.ComplaintNumber}.").Bold().FontSize(6.5f);
+
+                            if (invoicePDFDto.IsAdvertised)
+                            {
+                                col.Item().PaddingTop(5).Row(row =>
+                                                    {
+                                                        row.Spacing(20);
+
+                                                        row.RelativeItem();
+
+                                                        row.ConstantItem(90).Height(90).Image(logoMAS).FitArea();
+                                                        row.ConstantItem(250).Height(75).Image(bannerMAS).FitArea();
+
+                                                        row.RelativeItem();
+
+                                                    });
+
+                                col.Item().Background("#FFFFFF").Padding(2).AlignCenter().Text($"We sell 100% original iPhones, not open/repair or boosted. " +
+                                    $"No.1 place to buy genuine iPhones & accessories. Main bazar Sankhatra.").Bold().FontSize(9f).FontColor(Colors.Blue.Darken2);
+
+                                col.Item().Row(row =>
+                                {
+                                    row.RelativeItem().Text($"Tiktok @.miniapplestore").Bold().FontSize(8.5f).FontColor(Colors.Red.Darken2);
+                                    row.RelativeItem().AlignRight().Text($"WhatsApp# 03237775924").Bold().FontSize(8.5f).FontColor(Colors.Green.Darken2);
+                                }); 
+                            }
 
                             // --- Notice banner ---
-                            col.Item().Background("#F2F2F2").Padding(8).AlignCenter().Text(
+                            col.Item().Background("#F2F2F2").Padding(2).AlignCenter().Text(
                                 string.IsNullOrWhiteSpace(invoicePDFDto.ComplaintNumber)
                                     ? "Please pay your bill before the due date to avoid a late fee."
                                     : $"For complaints, please call {invoicePDFDto.ComplaintNumber}. Pay before the due date to avoid a late fee.")
                                 .Bold().FontSize(9.5f);
-
-                            // --- Advertisment Section ---
-                            col.Item().Background("#FFFFFF").Padding(4).AlignCenter().Text($"For advertise here, please contact {invoicePDFDto.ComplaintNumber}.").Bold().FontSize(6.5f);
-
-                            col.Item().AlignCenter().Width(213).Height(100).Image(bannerMAS).FitArea();
-                    
-                            col.Item().Background("#FFFFFF").Padding(4).AlignCenter().Text($"Tiktok @.miniapplestore          WhatsApp# 03237775924").Bold().FontSize(6.5f);
 
                         });
 
@@ -303,8 +328,8 @@ namespace Infrastructure.Services
                                     t.ColumnsDefinition(cd => { cd.RelativeColumn(); cd.RelativeColumn(); });
                                     SlipRow(t, "Billing Month:", billingMonth);
                                     SlipRow(t, "Due Date:", FormatDate(invoicePDFDto.DueBillDate), bold: true);
-                                    SlipRow(t, "Total Amount Due:", Money(invoicePDFDto.TotalAmount), bold: true);
-                                    SlipRow(t, "Payable After Due:", Money(invoicePDFDto.TotalAmount + invoicePDFDto.LateFee));
+                                    SlipRow(t, "Total Amount Due:", Money(invoicePDFDto.TotalAmount + invoicePDFDto.RemainingAmount), bold: true);
+                                    SlipRow(t, "Payable After Due:", Money(invoicePDFDto.TotalAmount + invoicePDFDto.RemainingAmount + invoicePDFDto.LateFee));
                                 });
 
                                 row.RelativeItem(2).Column(c =>

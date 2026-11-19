@@ -68,6 +68,8 @@ namespace ISPWinUI
                     string packageName = ConfigurationManager.AppSettings["PackageName"];
                     string nameQRCode = ConfigurationManager.AppSettings["NameQR"];
                     decimal lateFee = Convert.ToDecimal(ConfigurationManager.AppSettings["LateFee"]);
+                    bool isAdvertised = Convert.ToBoolean(ConfigurationManager.AppSettings["IsAdvertised"]);
+
                     string folderName = $"BillsGenerated-{DateTime.Now:yyyy}";
                     string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), folderName);
                     Directory.CreateDirectory(folder); // does nothing if it already exists
@@ -106,6 +108,7 @@ namespace ISPWinUI
                         PathFile = pathFile,
                         PathLogo = pathLogo,
                         PathQR = pathQR,
+                        IsAdvertised = isAdvertised,
                         EasyPaisaTitle = easyPaisaTitle,
                         EasyPaisaNumber = easyPaisaNumber,
                         JazzCashTitle = jazzCashTitle,

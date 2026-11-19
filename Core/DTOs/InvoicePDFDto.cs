@@ -28,6 +28,7 @@
         public DateTime BillPaidDate { get; set; }
         public string? Status { get; set; }
         public string? IsPrint { get; set; }
+        public bool IsAdvertised { get; set; }
         public string? ModifiedBy { get; set; }
         public DateTime CreatedDate { get; set; }
 
@@ -41,5 +42,6 @@
         public string? EasyPaisaNumber { get; set; }
         public string? JazzCashTitle { get; set; }
         public string? JazzCashNumber { get; set; }
+
     }
 }
