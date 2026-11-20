@@ -18,7 +18,7 @@ namespace Infrastructure.Services
 
         static string QRPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABAlfaQR.png");
         static string ABlogoPath = Path.Combine(AppContext.BaseDirectory, "Assests", "ABlogo.png");
-        static string logoMAS = Path.Combine(AppContext.BaseDirectory, "Assests", "MASLogoI.png");
+        static string imgIphones = Path.Combine(AppContext.BaseDirectory, "Assests", "iphones.png");
         static string bannerMAS = Path.Combine(AppContext.BaseDirectory, "Assests", "MASName.png");
         static PrintService()
         {
@@ -227,7 +227,7 @@ namespace Infrastructure.Services
 
                                                         row.RelativeItem();
 
-                                                        row.ConstantItem(90).Height(90).Image(logoMAS).FitArea();
+                                                        row.ConstantItem(130).Height(90).Image(imgIphones).FitArea();
                                                         row.ConstantItem(250).Height(75).Image(bannerMAS).FitArea();
 
                                                         row.RelativeItem();
@@ -235,7 +235,7 @@ namespace Infrastructure.Services
                                                     });
 
                                 col.Item().Background("#FFFFFF").Padding(2).AlignCenter().Text($"We sell 100% original iPhones, not open/repair or boosted. " +
-                                    $"No.1 place to buy genuine iPhones & accessories. Main bazar Sankhatra.").Bold().FontSize(9f).FontColor(Colors.Blue.Darken2);
+                                    $"No.1 place to buy genuine iPhones & accessories, main bazar Sankhatra.").Bold().FontSize(9f).FontColor(Colors.Blue.Darken2);
 
                                 col.Item().Row(row =>
                                 {
@@ -302,7 +302,7 @@ namespace Infrastructure.Services
                                     row.ConstantItem(90).Column(c =>
                                     {
                                         c.Item().Height(80).Image(Path.Combine(AppContext.BaseDirectory, "Assests", "ABAlfaQR.png")).FitArea();
-                                        c.Item().AlignCenter().Text("Scan To Pay").FontSize(5).Bold();
+                                        c.Item().AlignLeft().Text("     Scan To Pay").FontSize(6).Bold();
                                     });
 
                             //row.ConstantItem(70).Height(60).Image(QRPath).FitArea();

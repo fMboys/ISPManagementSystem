@@ -68,7 +68,7 @@ namespace ISPWinUI
 
                 
                 monthlyRevenue = customers.Where(x => x.IsActive == true).Sum(c => c.Amount);
-                totalRemainingAmount = billings.Sum(b => b.RemainingAmount);
+                //totalRemainingAmount = billings.Sum(b => b.RemainingAmount); // this is the total of all time pending amount
                 totalMonthlyRevenue = monthlyRevenue + totalRemainingAmount;
                 collectedAmount = billings.Sum(b => b.PaidAmount);
                 pendingAmount = totalMonthlyRevenue - collectedAmount;
